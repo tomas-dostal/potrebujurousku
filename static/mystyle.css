@@ -1,0 +1,32 @@
+body
+{
+    padding:0px;
+    background-color: #e9ecef;
+}
+html,
+body {
+  height: 100%;
+}
+.cut-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+
+   /* full-width, dropdown-menu, btn-group-vertical{
+        width:100%;
+    }*/
+}
+
+#sticky-footer {
+  flex-shrink: none;
+}
+
+
+#dropdown-menu
+{
+    padding: 0 !important;
+}
