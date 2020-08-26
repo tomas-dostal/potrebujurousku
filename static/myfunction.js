@@ -4,7 +4,7 @@ function myFunction(my_element, result_element) {
 
 
     if(searched_text.length > 1) {
-        fetch("http://127.0.0.1:8000/api/search?misto=" + searched_text)
+        fetch("/api/search?misto=" + searched_text)
             .then(function (response) {
             //$('#dropdown-menu').fadeOut(50);
 
@@ -72,6 +72,6 @@ function myFunction(my_element, result_element) {
 
 function redirect(parameters) {
 
-    window.location.href = "http://127.0.0.1:8000/opatreni/" + parameters;
+    window.location.href = "/opatreni/" + parameters;
 
 }
