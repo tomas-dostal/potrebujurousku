@@ -1,60 +1,46 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
-
-
-
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"  crossorigin="anonymous"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
-    {% load static %}
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <link rel="icon" href="../../favicon.ico">
+      <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
+      <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js"  crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+      {% load static %}
       <script src="{% static 'myfunction.js' %}"></script>
-    <link rel="stylesheet"  href="{% static 'mystyle.css' %}">
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-
-  </head>
-
+      <link rel="stylesheet"  href="{% static 'mystyle.css' %}">
+      <!-- Bootstrap core JavaScript
+         ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+   </head>
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="/">Potřebujuroušku.cz</a>
-    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
-        <a class="nav-link enabled" href="/o-projektu/">O projektu</a>
-      </li>
-
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
-      <!--<button class="btn btn-secondary" type="submit">Search</button>-->
-    </form>
-  </div>
-
-</nav>
-<nav class="navbar navbar-light  float-right" style="background-color: transparent;">
-    <div id="search_results"  class="btn-group-vertical float-right"></div>
-</nav>
-
-
-
-
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+         <a class="navbar-brand" href="/">Potřebujuroušku.cz</a>
+         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+               <a class="nav-link enabled" href="/o-projektu/">O projektu</a>
+            </li>
+         </ul>
+         <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
+            <!--<button class="btn btn-secondary" type="submit">Search</button>-->
+         </form>
+      </div>
+   </nav>
+   <div class="row-fluid bg-dark" >
+      <div  class="container-fluid btn-group-vertical" id="search_results">
+      </div>
+   </div>

@@ -1,97 +1,95 @@
 {%block header %}
 {% include 'base.html' %}
 {% endblock %}
-
 {% block content %}
 {% load mytag %}
-
 <div class="jumbotron">
-      <div class="container">
+   <div class="container">
       <div class="row-fluid">
-
-        {%block opatreni %}
-        {% include 'varovani.html' %}
-        {% endblock %}
-
-        <h1>Aktivní opatření - {% for i in location %}{{  i.MISTO }} {{  i.KRAJ }}{% endfor %}</h1>
-
-        {% for kategorie in query_results %}
-               <!-- 'ID_KATEGORIE', 'NAZEV_KAT', --->
-                <br>
-                <br>
-                <h3 >{{  kategorie.kategorie }}</h3>
-                <hr>
-
-
-            <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
+         {%block opatreni %}
+         {% include 'varovani.html' %}
+         {% endblock %}
+         <h1>Aktivní opatření - {% for i in location %}{{  i.MISTO }} {{  i.KRAJ }}{% endfor %}</h1>
+         {% for kategorie in query_results %}
+         <!-- 'ID_KATEGORIE', 'NAZEV_KAT', --->
+         <br>
+         <br>
+         <h3 >{{  kategorie.kategorie }}</h3>
+         <hr>
+         <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
             --->
-            {% for q in kategorie.narizeni %}
-
-
-
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}">
-                {% for queue in q %}
-                   {{  queue.NAZEV }}
-                {% endfor %}
-                </button>
-
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">{% for queue in q %}{{  queue.NAZEV }}{% endfor %}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="X">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-
-                        <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ',
-                        'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
-            --->
-                          <div class="modal-body">
-                          <bold>{% for queue in q %}{{  queue.NAZEV_ZKR }}{% endfor %}</bold>
-                          <hr>
-
-                           {% for queue in q %}
-                                {% if  queue.TYP == "narizeni" %}
-                                    <span class="badge badge-danger">Nařízení</span>
-                               {% endif %}
-                               {% if  queue.TYP == "doporuceni" %}
-                                    <span class="badge badge-warning">Doporučení</span>
-                                {% endif %}
-
-                            {% endfor %}
-
-                                <span class="badge badge-primary">{% for queue in q %}{{  queue.NAZEV_KAT }}{% endfor %}</span>
-                                <span class="badge badge-success">od {% for queue in q %}{{  queue.PLATNOST_OD }}{% endfor %}</span>
-
-                              <hr>
-                              <p>{% for queue in q %}{{  queue.KOMENTAR }}{% endfor %}</p>
-
-                              <p>Zdroj: </p> <a href="{% for queue in q %}{{  queue.ZDROJ }}{% endfor %}">{% for queue in q %}{{  queue.NAZEV_OPATRENI }}{% endfor %}</a>
-
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-            {% endfor %}
-
-        {% endfor %}
-
-        </div>
+         {% for q in kategorie.narizeni %}
+         {% for queue in q %}
+         {% if  queue.TYP == "narizeni" %}
+         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}">
+         {% endif %}
+         {% if  queue.TYP == "doporuceni" %}
+         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}">
+         {% endif %}
+         {% endfor %}
+         {% for queue in q %}
+         {{  queue.NAZEV }}
+         {% endfor %}
+         </button>
+         <!-- Modal -->
+         <div class="modal fade" id="popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLongTitle">{% for queue in q %}{{  queue.NAZEV }}{% endfor %}</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="X">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ',
+                     'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
+                     --->
+                  <div class="modal-body">
+                     <bold>{% for queue in q %}{{  queue.NAZEV_ZKR }}{% endfor %}</bold>
+                     <hr>
+                     {% for queue in q %}
+                     {% if  queue.TYP == "narizeni" %}
+                     <span class="badge badge-danger">Nařízení</span>
+                     {% endif %}
+                     {% if  queue.TYP == "doporuceni" %}
+                     <span class="badge badge-warning">Doporučení</span>
+                     {% endif %}
+                     {% endfor %}
+                     <span class="badge badge-primary">{% for queue in q %}{{  queue.NAZEV_KAT }}{% endfor %}</span>
+                     <span class="badge badge-success">od {% for queue in q %}{{  queue.PLATNOST_OD }}{% endfor %}</span>
+                     <hr>
+                     <p>{% for queue in q %}{{  queue.KOMENTAR }}{% endfor %}</p>
+                     <p>Zdroj: </p>
+                     <a href="{% for queue in q %}{{  queue.ZDROJ }}{% endfor %}">{% for queue in q %}{{  queue.NAZEV_OPATRENI }}{% endfor %}</a>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+         {% endfor %}
+         <br>
+         <br>
+         <br>
+         <br>
+         <br>
+         <div class="navbar fixed-bottom bg-light navbar-nav mr-auto mt-2 mt-lg-0 text-center">
+            <div class="btn-group-horizontal">
+               Legenda:
+               <button type="button" class="btn btn-danger"  >Nařízení</button>
+               <button type="button" class="btn btn-warning" >Doporučení</button>
+               <button type="button" class="btn btn-secondary">Nadcházející</button>
+               <br>
+            </div>
+            Tomáš Dostál, 2020 |
+            Poslední aktualizace databáze: {% for i in last_update %}{{  i }}{%  endfor%}
+         </div>
       </div>
-      </div>
-
+   </div>
+</div>
 {% endblock %}
-
-
 {%block foot %}
 {% include 'footer.html' %}
 {% endblock %}

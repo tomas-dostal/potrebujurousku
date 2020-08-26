@@ -17,7 +17,6 @@ def home(request):
     print("home")
     return render(request, 'hello_world.html')
 
-
 def opatreni(request):
     #?obecmesto_id=replace"
     #"?nuts3_id=replace"'.
@@ -27,8 +26,15 @@ def opatreni(request):
     obecmesto_id = args.get("obecmesto_id", "")
     nuts3_id = args.get("nuts3_id", "")
     kraj_id = args.get("kraj_id", "")
+    last_qu = """select max(posledni_uprava) from(
+                  SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
+                  union 
+                  SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni);"""
 
     qu = ""
+    if(obecmesto_id == "" and nuts3_id == "" and kraj_id == ""): # kraj
+        kraj_id = str(1)
+
     if(obecmesto_id == "" and nuts3_id == "" and kraj_id != ""): # kraj
         qu = ""
 
@@ -161,6 +167,12 @@ def opatreni(request):
 
         nt_result = namedtuple('Result', [col[0] for col in desc])
 
+
+        cursor.execute(last_qu)
+        last_update = cursor.fetchone()
+
+
+
         columns = []
         for col in desc:
             columns.append(col[0])
@@ -199,7 +211,8 @@ def opatreni(request):
 
 
 
-        return render(request, 'opatreni.html', {'query_results': by_cath, "location": location})
+        return render(request, 'opatreni.html', {'query_results': by_cath, "location": location, "last_update": last_update})
+
     """
         columns = []
         for col in desc:
