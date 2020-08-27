@@ -1,8 +1,6 @@
 function myFunction(my_element, result_element) {
 
     var searched_text = document.getElementById(my_element).value;
-
-
     if(searched_text.length > 1) {
         fetch("/api/search?misto=" + searched_text)
             .then(function (response) {

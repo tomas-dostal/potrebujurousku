@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'yf4mk!6xv&c-ql1w21ff77lyebe^y0b)ahenr_gdb4t-glq%8u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'potrebujurousku.cz']
 
 
 # Application definition
@@ -39,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Projektrouska.apps.ProjektrouskaConfig',
-    'hello_world',
 
 ]
 
@@ -73,7 +71,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'projektrouska.wsgi.application'
 
 
 # Database
@@ -120,7 +117,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'cs'
+
+LANGUAGES = (
+    ('cs', u'Čeština'),
+    ('en', u'English'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -136,7 +138,7 @@ USE_TZ = True
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
-    '/var/www/static/',
+    #'/var/www/static/',
 
 )
 
