@@ -75,13 +75,23 @@ TEMPLATES = [
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+"""
 import io
 file = open("database.txt", "r") # file in gitignore with pw
 contents = file.read()
 dictionary = ast.literal_eval(contents)
+"""
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.oracle',
+		'NAME': 'ORACLE',
+		'USER': 'dostato6',
+		'PASSWORD': 'ee2fcydf',
+		'HOST': 'oracle.fit.cvut.cz',
+		'PORT': '1521',
+	}
+}
 
-DATABASES = dictionary
 '''
 {
 	'default': {
