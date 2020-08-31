@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <!DOCTYPE html>
 <!-- Rád se koukáš stránkám pod kapotu? Super, tak přesně takovéhle potřebujeme. Místo toho snažit se projekt rozbít, můžeš pomoct web stavět. Napiš a nějak se domluvíme -->
 <html lang="en">
@@ -7,14 +6,14 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <link rel="icon" href="../../favicon.ico">
       <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
-      <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/jumbotron/">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <script src="https://code.jquery.com/jquery-3.2.1.min.js"  crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
       {% load static %}
+     <link rel="icon" href="{% static 'rouska_logo_small.ico' %} ">
       <script src="{% static 'myfunction.js' %}"></script>
       <!-- Global site tag (gtag.js) - Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167906833-4"></script>
@@ -37,19 +36,25 @@
       <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-         <a class="navbar-brand" href="/">Potřebujuroušku.cz</a>
-         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'rouska_logo_small.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                Potřebujuroušku.cz
+              </a>
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
                <a class="nav-link enabled" href="/o-projektu/">O projektu</a>
             </li>
+             <!-- <li class="nav-item">
+              <a class="nav-link enabled" href="/statistiky/">Počty případů</a>
+            </li> -->
          </ul>
          <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
-            <!--<button class="btn btn-secondary" type="submit">Search</button>-->
          </form>
       </div>
    </nav>
-   <div class="row-fluid bg-light" >
+   <div class="row-fluid" >
       <div  class="container-fluid btn-group-vertical" id="search_results">
       </div>
    </div>

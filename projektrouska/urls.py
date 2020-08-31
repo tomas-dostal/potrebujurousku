@@ -15,11 +15,17 @@ Including another URLconf
 """
 from projektrouska import views
 from django.urls import path
+from django.conf import settings
+
+from django.conf.urls.static import static
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('o-projektu/', views.about, name='about'),
     path('opatreni/', views.opatreni, name='opatreni'),
+    #path('statistiky/', views.stats, name='statistiky'),
     path('api/search', views.najdi_mesto, name='najdi_mesto'),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+

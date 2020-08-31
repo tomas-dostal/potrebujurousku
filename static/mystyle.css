@@ -25,7 +25,12 @@ body {
   flex-shrink: none;
 }
 
+.btn
+{
+    margin-top: 5px;
+    margin-bottom: 5px;
 
+}
 #dropdown-menu
 {
     padding: 0 !important;

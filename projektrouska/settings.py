@@ -13,6 +13,7 @@ import ast
 import os
 from pathlib import Path
 import cx_Oracle
+import os.path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -25,9 +26,9 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'yf4mk!6xv&c-ql1w21ff77lyebe^y0b)ahenr_gdb4t-glq%8u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'potrebujurousku.cz']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'potrebujurousku.cz', "*"]
 
 
 # Application definition
@@ -146,10 +147,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    #'/var/www/static/',
 
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
 
@@ -165,4 +172,3 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-STATIC_URL = '/static/'

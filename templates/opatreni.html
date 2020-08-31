@@ -8,7 +8,26 @@
          {%block opatreni %}
          {% include 'varovani.html' %}
          {% endblock %}
-         <h1>Aktivní opatření - {% for i in location %}{{  i.MISTO }} {{  i.KRAJ }}{% endfor %}</h1>
+         <h2>Aktuální opatření</h2>
+         <hr>
+         <!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
+         {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+              <h3><i class="fas fa-map-marker-alt"></i>{{location.NAZEV_OBECMESTO}}</h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
+
+         {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+              <h3><i class="fas fa-map-marker-alt"></i>{{location.NAZEV_NUTS}} </h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
+
+         {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+              <h3><i class="fas map-marked-alt"></i>{{location.NAZEV_OKRES}}</h3><h5>{{location.NAZEV_KRAJ}}</h5>
+         {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
+              <h3><i class="fas map-marked-alt"></i>{{location.NAZEV_KRAJ}}</h3>
+         {% endif %}
+
+
+         {% block legenda %}
+         {% include 'legenda.html' %}
+         {% endblock %}
+
          {% for kategorie in query_results %}
          <!-- 'ID_KATEGORIE', 'NAZEV_KAT', --->
          <br>
@@ -17,74 +36,140 @@
          <hr>
          <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
             --->
-         {% for q in kategorie.narizeni %}
-         {% for queue in q %}
-         {% if  queue.TYP == "narizeni" %}
-         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}">
-         {% endif %}
-         {% if  queue.TYP == "doporuceni" %}
-         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}">
-         {% endif %}
-         {% endfor %}
-         {% for queue in q %}
-         {{  queue.NAZEV }}
-         {% endfor %}
-         </button>
-         <!-- Modal -->
-         <div class="modal fade" id="popup-{% for queue in q %}{{  queue.ID_POLOZKA }}{% endfor %}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-               <div class="modal-content">
-                  <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLongTitle">{% for queue in q %}{{  queue.NAZEV }}{% endfor %}</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="X">
-                     <span aria-hidden="true">&times;</span>
-                     </button>
-                  </div>
-                  <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ',
-                     'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
-                     --->
-                  <div class="modal-body">
-                     <bold>{% for queue in q %}{{  queue.NAZEV_ZKR }}{% endfor %}</bold>
-                     <hr>
-                     {% for queue in q %}
-                     {% if  queue.TYP == "narizeni" %}
-                     <span class="badge badge-danger">Nařízení</span>
+
+         {% for queue in kategorie.narizeni %}
+             <!--  Jeste neni aktivni -->
+             {% if queue.PLATNOST_OD > now  and queue.TYP == "doporuceni" %}
+                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                  {{  queue.NAZEV }} <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span>
+                  {% if   queue.PLATNOST_DO != None %}
+                     <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
+                  {% endif %}
+
+             {% elif queue.PLATNOST_OD > now  and queue.TYP == "info" %}
+                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 {{  queue.NAZEV }} <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span>
+                     {% if   queue.PLATNOST_DO != None %}
+                     <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                      {% endif %}
-                     {% if  queue.TYP == "doporuceni" %}
-                     <span class="badge badge-warning">Doporučení</span>
+             {% elif queue.PLATNOST_OD > now  and queue.TYP == "narizeni" %}
+                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 {{  queue.NAZEV }} <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
+                     {% if   queue.PLATNOST_DO != None %}
+                     <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                      {% endif %}
-                     {% endfor %}
-                     <span class="badge badge-primary">{% for queue in q %}{{  queue.NAZEV_KAT }}{% endfor %}</span>
-                     <span class="badge badge-success">od {% for queue in q %}{{  queue.PLATNOST_OD }}{% endfor %}</span>
-                     <hr>
-                     <p>{% for queue in q %}{{  queue.KOMENTAR }}{% endfor %}</p>
-                     <p>Zdroj: </p>
-                     <a href="{% for queue in q %}{{  queue.ZDROJ }}{% endfor %}">{% for queue in q %}{{  queue.NAZEV_OPATRENI }}{% endfor %}</a>
-                  </div>
-                  <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
-                  </div>
-               </div>
-            </div>
-         </div>
+             {% else %}
+
+              <!--  Uz je aktivni  -->
+
+             {% if queue.PLATNOST_OD < now  and queue.TYP == "narizeni" %}
+                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 {{  queue.NAZEV }} <!--   <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span> -->
+                  <!--  Je aktivni, pokud konci platnost  -->
+                 {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
+                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                 {% endif %}
+
+             {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
+                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 {{  queue.NAZEV }} <!-- <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span> -->
+                  <!--  Je aktivni, pokud konci platnost  -->
+                 {% if   queue.PLATNOST_DO > queue.PLATNOST_OD %}
+                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                 {% endif %}
+             {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
+                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 {{  queue.NAZEV }} <!-- <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span> -->
+                 <!--  Je aktivni, pokud konci platnost  -->
+                 {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
+                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                 {% endif %}
+            {% else  %}
+                 {% if  queue.TYP == "narizeni"  %}
+                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 {% elif  queue.TYP == "info" %}
+                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 {% elif  queue.TYP == "doporuceni"  %}
+                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 {% endif %}
+                 {{  queue.NAZEV }}
+              {% endif %}
+          {% endif %}
+
+
+
+
+             </button>
+             <!-- Modal -->
+             <div class="modal fade" id="popup-{{  queue.ID_POLOZKA }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                   <div class="modal-content">
+                      <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLongTitle">{{  queue.NAZEV }}</h5>
+                         <button type="button" class="close" data-dismiss="modal" aria-label="X">
+                         <span aria-hidden="true">&times;</span>
+                         </button>
+                      </div>
+                      <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ',
+                         'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
+                         --->
+                      <div class="modal-body">
+
+                         <!-- <hr> -->
+                         {% if  queue.TYP == "narizeni" %}
+                         <span class="badge badge-danger">Nařízení</span>
+                         {% endif %}
+                         {% if  queue.TYP == "doporuceni" %}
+                         <span class="badge badge-warning">Doporučení</span>
+                         {% endif %}
+                         {% if  queue.TYP == "info" %}
+                         <span class="badge badge-info">Informace</span>
+                         {% endif %}
+
+                         <span class="badge badge-primary">{{  queue.NAZEV_KAT }}</span>
+                         <br>
+                         <bold>{{  queue.NAZEV_ZKR }}</bold>
+
+                         <hr>
+                          Platnost: {% if  queue.PLATNOST_OD > now  %}
+                           <span class="badge badge-warning">Začne platit {{ queue.PLATNOST_OD}}</span>
+                          {% else %}
+                             <span class="badge badge-success">od {{  queue.PLATNOST_OD }}</span>
+
+                          {% endif %}
+                          {% if  queue.PLATNOST_DO != None  %}
+                           <span class="badge badge-warning">konec {{ queue.PLATNOST_DO}}</span>
+                          {% endif %}
+                         <hr>
+                         <p>{{  queue.KOMENTAR | linebreaks  }}</p>
+
+                         {% if  queue.VYJIMKA != None %}
+                               <h5>Výjimky</h5>
+                             {{  queue.VYJIMKA | linebreaks }}
+
+                         {% endif %}
+
+
+                         <h5>Zdroj: </h5>
+                          <a href="{{  queue.ZDROJ }}">{{  queue.NAZEV_OPATRENI }}</a>
+                      </div>
+                      <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                      </div>
+                   </div>
+                </div>
+             </div>
+              {% endfor %}
+
          {% endfor %}
-         {% endfor %}
          <br>
          <br>
          <br>
          <br>
          <br>
-         <div class="navbar fixed-bottom bg-light navbar-nav mr-auto mt-2 mt-lg-0 text-center">
-            <div class="btn-group-horizontal">
-               Legenda:
-               <button type="button" class="btn btn-danger"  >Nařízení</button>
-               <button type="button" class="btn btn-warning" >Doporučení</button>
-               <button type="button" class="btn btn-secondary">Nadcházející</button>
-               <br>
-            </div>
-            Tomáš Dostál, 2020 |
-            Poslední aktualizace databáze: {% for i in last_update %}{{  i }}{%  endfor%}
-         </div>
+         {%block posl_aktualizace %}
+         {% include 'posl_aktualizace.html' %}
+         {% endblock %}
       </div>
    </div>
 </div>
