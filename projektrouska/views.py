@@ -158,7 +158,7 @@ def opatreni(request):
                 select * from (
                        -- okres
                         select  null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do   from (
-            
+
                             select * from
                             (
                                 select * from OKRES  where ID_OKRES = :id_okr
@@ -168,7 +168,7 @@ def opatreni(request):
                         join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
                         union
                         -- kraj
-            
+
                         select null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do from (
                         select * from (
                                 select * from
@@ -177,14 +177,14 @@ def opatreni(request):
                                 ) join op_kraj using(KRAJ_ID_KRAJ)
                             ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
                             ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
-                            
-                        union 
-                         
-                        select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from (
-                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
 
-            
-            
+                        union
+
+                        select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from
+                       (
+                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                       )
+
                         ) join polozka on id_opatreni=opatreni_id_opatreni
                     ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
             misto_qu = """select distinct null as nazev_obecmesto, null as nazev_nuts, nazev_okres, nazev_kraj from (
@@ -198,87 +198,168 @@ def opatreni(request):
         elif (id_obecmesto != "" and nuts3_id == "" and kraj_id == ""):  # obecmesto
             flag = "obecmesto"
             qu = """select * from (
-            select * from (
-            -- lokalni
-            select nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj, ROZSAH,  platnost_od , platnost_do   from (
-                select  *  from (
-                   select * from (
-                        select * from (
-                           select * from (
-                                select * from ( select * from obecmesto where id_obecmesto=:id_ob)
-                           ) join nuts3 on nuts3_id_nuts=nuts3.id_nuts
-                       ) join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
+        select * from (
+                              -- lokalni
+                              select nazev_obecmesto,
+                                     nazev_nuts,
+                                     nazev_okres,
+                                     nazev_kraj,
+                                     id_opatreni,
+                                     nazev_opatreni,
+                                     nazev_zkr,
+                                     zdroj,
+                                     ROZSAH,
+                                     platnost_od,
+                                     platnost_do
+                              from (
+                                       select *
+                                       from (
+                                                select *
+                                                from (
+                                                         select *
+                                                         from (
+                                                                  select *
+                                                                  from (
+                                                                           select *
+                                                                           from (select * from obecmesto where id_obecmesto = :id_ob)
+                                                                       )
+                                                                           join nuts3 on nuts3_id_nuts = nuts3.id_nuts
+                                                              )
+                                                                  join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
+                                                     )
+                                                         join kraj on kraj.id_kraj = nuts3_kraj_id_kraj
+                                            )
+                                                join op_om on id_obecmesto = op_om.obecmesto_id_obecmesto
+                                   )
+                                       join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
+                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                and trunc(sysdate) >= PLATNOST_OD - 2
 
-                   ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj
+                              union
+                              -- nuts3
+                              select nazev_obecmesto,
+                                     nazev_nuts,
+                                     nazev_okres,
+                                     nazev_kraj,
+                                     id_opatreni,
+                                     nazev_opatreni,
+                                     nazev_zkr,
+                                     zdroj,
+                                     ROZSAH,
+                                     platnost_od,
+                                     platnost_do
+                              from (
+                                       select *
+                                       from (
+                                                select *
+                                                from (
+                                                         select *
+                                                         from (
+                                                                  select *
+                                                                  from (select * from obecmesto where id_obecmesto = :id_ob)
+                                                                           join nuts3 on nuts3_id_nuts = nuts3.id_nuts
+                                                              )
+                                                     )
+                                                         join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
+                                            )
+                                                join kraj on kraj.id_kraj = nuts3_kraj_id_kraj
+                                                join op_nuts on op_nuts.nuts3_id_nuts = id_nuts)
+                                       join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
+                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                and trunc(sysdate) >= PLATNOST_OD - 2
 
-                   ) join op_om on id_obecmesto=op_om.obecmesto_id_obecmesto
+                              union
+                              -- okres
+                              select nazev_obecmesto,
+                                     nazev_nuts,
+                                     nazev_okres,
+                                     nazev_kraj,
+                                     id_opatreni,
+                                     nazev_opatreni,
+                                     nazev_zkr,
+                                     zdroj,
+                                     ROZSAH,
+                                     platnost_od,
+                                     platnost_do
+                              from (
+                                       select *
+                                       from (
+                                                select *
+                                                from (
+                                                         select *
+                                                         from (
+                                                                  select *
+                                                                  from (select * from obecmesto where id_obecmesto = :id_ob)
+                                                                           join nuts3 on nuts3_id_nuts = nuts3.id_nuts)
+                                                     )
+                                                         join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
+                                            )
+                                                join kraj on kraj.id_kraj = nuts3_kraj_id_kraj
+                                                join op_okres on op_okres.okres_id_okres = id_okres
+                                   )
+                                       join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
+                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                and trunc(sysdate) >= PLATNOST_OD - 2
 
-                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                              union
+                              -- kraj
 
-            union
-            -- nuts3
-            select  nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj, ROZSAH,  platnost_od , platnost_do   from (
+                              select nazev_obecmesto,
+                                     nazev_nuts,
+                                     nazev_okres,
+                                     nazev_kraj,
+                                     id_opatreni,
+                                     nazev_opatreni,
+                                     nazev_zkr,
+                                     zdroj,
+                                     ROZSAH,
+                                     platnost_od,
+                                     platnost_do
+                              from (
+                                       select *
+                                       from (
+                                                select *
+                                                from (
+                                                         select *
+                                                         from (
+                                                                  select *
+                                                                  from (select * from obecmesto where id_obecmesto = :id_ob)
+                                                                           join nuts3 on nuts3_id_nuts = nuts3.id_nuts
+                                                              )
+                                                                  join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
+                                                     )
+                                                         join op_kraj on op_kraj.kraj_id_kraj = nuts3_kraj_id_kraj
+                                            )
+                                                join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
+                                       where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                         and trunc(sysdate) >= PLATNOST_OD - 2
+                                   )
+                                       join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
 
-                select * from
-                (
-                    select * from
-                    (
-                        select * from
-                        (
+                                   -- stat
+                              union
 
-                        select * from (select * from obecmesto where id_obecmesto=:id_ob )
-                        join nuts3 on nuts3_id_nuts=nuts3.id_nuts
-                        )
-                    ) join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
-
-                ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj
-                join op_nuts on op_nuts.nuts3_id_nuts=id_nuts)
-            join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
-            union
-            -- okres
-            select  nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do   from
-           (
-
-                select * from
-                (
-                    select * from
-                       (
-                          select *
-                          from (
-                                   select *
-                                   from (select * from obecmesto where id_obecmesto = :id_ob)
-                                            join nuts3 on nuts3_id_nuts = nuts3.id_nuts)
-                      ) join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
-                ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj
-                join op_okres on op_okres.okres_id_okres=id_okres
-                )
-            join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
-            union
-            -- kraj
-
-            select nazev_obecmesto,  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr,   zdroj,  ROZSAH, platnost_od , platnost_do from (
-            select * from (
-                    select * from
-                    (
-                        select * from
-                        (
-                        select * from (select * from obecmesto where id_obecmesto=:id_ob )
-                        join nuts3 on nuts3_id_nuts=nuts3.id_nuts
-                        ) join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
-
-                    ) join op_kraj on op_kraj.kraj_id_kraj=nuts3_kraj_id_kraj
-                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
-                ) join kraj on nuts3_kraj_id_kraj=kraj.id_kraj
-
-            -- stat
-            union
-
-            select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do from (
-            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
-
-
-            ) join polozka on id_opatreni=opatreni_id_opatreni
-            ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
+                              select null as nazev_obecmesto,
+                                     null as nazev_nuts,
+                                     null as nazev_okres,
+                                     null as nazev_kraj,
+                                     id_opatreni,
+                                     nazev_opatreni,
+                                     nazev_zkr,
+                                     zdroj,
+                                     ROZSAH,
+                                     platnost_od,
+                                     platnost_do
+                              from (
+                                       select *
+                                       from OP_STAT
+                                                join OPATRENI using (id_opatreni)
+                                       where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                         and trunc(sysdate) >= PLATNOST_OD - 2
+                                   )
+                          )
+              )join polozka on id_opatreni=opatreni_id_opatreni
+             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
             misto_qu = """select nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
                        select * from (
