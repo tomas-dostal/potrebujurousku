@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'yf4mk!6xv&c-ql1w21ff77lyebe^y0b)ahenr_gdb4t-glq%8u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'potrebujurousku.cz', "*"]
 
@@ -135,7 +135,7 @@ LANGUAGES = (
     ('en', u'English'),
 )
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 

@@ -1,0 +1,47 @@
+{%block header %}
+{% include 'base.html' %}
+{% endblock %}
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+   <div class="container">
+      <div class="row-fluid">
+         {%block opatreni %}
+         {% include 'varovani.html' %}
+         {% endblock %}
+      <!--     return render(request, 'aktualnost.html', {'pridat': adds, 'ubrat': removals, 'stejne': same,  'statistika': stats,})
+ -->
+      <h2>Stav k {{ cas }}</h2>
+      <p>
+          {{ statistika | linebreaks  }}
+      </p>
+      <h4>Chybí</h4>
+      <ul>
+        {% for p in pridat %}
+            <li>{{  p }}</li>
+        {% endfor %}
+      </ul>
+      <h4>Přebývá</h4>
+      <ul>
+        {% for u in ubrat %}
+            <li>{{  u }}</li>
+        {% endfor %}
+      </ul>
+
+
+
+         <hr>
+      <h5>Jak tato data získáváme?</h5>
+          Data automaticky kontrolujeme oproti serverům <a href="https://koronavirus.mzcr.cz/mapa-webu/">ministerstva zdravotnoctví</a>. S trochou dobré vůle by se dalo říci, že všechny příspěvky z kategorie <i>"Mimořádná a ochranná opatření"</i> budou reprezentovat množinu aktuálně platných nařízení v rámci ČR.
+          V tuto chvíli <b>nekontrolujeme data vůči "semaforu"</b>, protože se v tuto chvíli moc neví, co vlastně jaká barva znamená z pohledu opatření.
+                      <br><br>
+          <h5>Proč to tak dlouho trvá?</h5>
+          Jednoduše proto, že při každém požadavku (do budoucna zde nastavíme např. interval 5min) se sbírají nová data a to chvíli trvá. Za těch pár vteřin nicméně stihneme zkontrolovat, jak je na tom naše databáze vůči publikovaným nařízením, což vlastně není až tak špatné. Buďte tedy, prosím, trpěliví. Alespoň po dobu, než to vymyslíme lepší a rychlejší.
+
+      </div>
+   </div>
+</div>
+{% endblock %}
+{%block foot %}
+{% include 'footer.html' %}
+{% endblock %}

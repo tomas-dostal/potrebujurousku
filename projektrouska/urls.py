@@ -24,7 +24,9 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('o-projektu/', views.about, name='about'),
     path('opatreni/', views.opatreni, name='opatreni'),
-    #path('statistiky/', views.stats, name='statistiky'),
+    path('aktualnost/', views.aktualnost, name='aktualnost'),
+
+                  #path('statistiky/', views.stats, name='statistiky'),
     path('api/search', views.najdi_mesto, name='najdi_mesto'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

@@ -8,11 +8,73 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.db import connection
 from collections import namedtuple
+import os
+from .aktualnost import main2
+
+import hashlib
+
+
+def md5(fname):
+    hash_md5 = hashlib.md5()
+    with open(fname, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
 
 
 def about(request):
     print("o projektu")
     return render(request, 'o_projektu.html')
+def aktualnost(request):
+    import subprocess
+    cwd = os.path.dirname(os.path.realpath(__file__))
+
+    process = subprocess.run(['ls', cwd], check=True, stdout=subprocess.PIPE, universal_newlines=True)
+
+    #process = subprocess.run([cwd + '/aktualnost/kontrola.sh', cwd], check=True, stdout=subprocess.PIPE, universal_newlines=True)
+    output = process.stdout
+
+    res = main2.main()
+    stat = ""
+    adds = []
+    removals = []
+    same = []
+    for line in  res.replace("+++", "").replace("---", "").split("\n"):
+        if(len(line) == 0):
+            continue
+        if(line[0] == "+"):
+            adds.append(line[1:])
+        elif (line[0] == "-"):
+            removals.append(line[1:])
+        elif (line[0] == "@" or line[0] == "\n" or  (line[0] == ' ' and len(line) == 1)):
+            continue
+        else:
+            same.append(line)
+
+    procenta = int(100-(len(adds)+(len(removals)))/((len(same)+ len(adds)+len(removals)) / 100))
+    if(len(adds) > 0 or len(removals) > 0):
+        stat = "Data jsou z {}% kompletní a aktuální. Celkem máme v databázi {} opatření, {} je třeba odstranit a {} je třeba přidat. ".format(procenta, len(same), len(removals), len(adds))
+        print("ALERT ne všechny data jsou aktuální")
+    elif (len(adds) == 0 or len(removals) == 0 and same == 0):
+        stat = "Aktuálnost jsme nebyli schopni ověřit. Může to být způsobeno neustálými změnami na webu ministerstva zdravotnictví. Pokusíme se pro to udělat co nejvíce. "
+        print("ALERT neaktuální data")
+    elif (len(adds) == 0 or len(removals) == 0):
+        stat = "Všechna data jsou aktuální"
+
+    m = md5("./projektrouska/aktualnost/v_databazi.txt")
+    with connection.cursor() as cursor:
+            #query_results = cursor.fetchall()
+            #desc = cursor.description
+
+            cursor.execute("""insert into INFO (checksum, date_updated, poznamka, AKTUALNOST) values   (
+            :chec, 
+            trunc(sysdate, 'MI'), 
+            :pozn, 
+            :akt)""",
+                           {"chec": m, "pozn": stat, "akt": procenta})
+
+
+    return render(request, 'aktualnost.html', {'pridat': adds, 'ubrat': removals, 'stejne': same,  'statistika': stat, "cas": datetime.datetime.now()})
 
 
 def home(request):
