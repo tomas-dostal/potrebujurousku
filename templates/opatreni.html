@@ -13,6 +13,7 @@
          {% endblock %}
          <h2>Aktuální opatření</h2>
          <hr>
+
          <!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
          {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
               <h3><i class="fas fa-map-marker-alt"></i>{{location.NAZEV_OBECMESTO}}</h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
@@ -30,6 +31,7 @@
          {% block legenda %}
          {% include 'legenda.html' %}
          {% endblock %}
+         Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření.
 
          {% for kategorie in query_results %}
          <!-- 'ID_KATEGORIE', 'NAZEV_KAT', --->
@@ -155,6 +157,12 @@
 
                          <h5>Zdroj: </h5>
                           <a href="{{  queue.ZDROJ }}">{{  queue.NAZEV_OPATRENI }}</a>
+                            <br> <br>
+                          {% if  queue.EXTRA_LINK %}
+                             <h5>Extra odkazy: </h5>
+                              <a href="{{  queue.EXTRA_LINK }}">{{ queue.EXTRA_POPIS }}</a>
+                         {% endif %}
+
                       </div>
                       <div class="modal-footer">
                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
