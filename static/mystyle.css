@@ -35,3 +35,6 @@ body {
 {
     padding: 0 !important;
 }
+.cell-breakAll {
+   word-break: break-all;
+}

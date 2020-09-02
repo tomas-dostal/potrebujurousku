@@ -1,4 +1,3 @@
  <div class="navbar fixed-bottom bg-light navbar-nav mr-auto mt-2 mt-lg-0 text-center">
             Tomáš Dostál, 2020 |
-            Poslední aktualizace databáze: {% for i in last_update %}{{  i }}{%  endfor%}
- </div>
+            {{ kontrola.POZNAMKA }} (poslední kontrola {{ kontrola.DATE_UPDATED }}). Poslední změna v databázi proběhla {{ posledni_databaze }}. </div>

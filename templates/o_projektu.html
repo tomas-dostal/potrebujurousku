@@ -5,6 +5,9 @@
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
    <div class="container">
+      {%block disclaimer %}
+         {% include 'upozorneni.html' %}
+     {% endblock %}
       <h1 class="display-5">O projektu</h1>
       <br>
       <p>Tento projekt vznikl za cílem maximálně zjednodušit nařízení vydaná kvůli zamezení šíření COVID-19. Nařízení se mění (nebo alespoň v době vzniku projektu měnila) takřka ze dne na den a udržet přehled o tom, kde je zrovna dnes nařízeno nosit roušky, je takřka nadlidským úkolem.
@@ -23,7 +26,10 @@
       <br>
       <br>
       <h2 class="display-8">Přispěvatelé</h2>
-      Tomáš Dostál
+       <ul><li>Tomáš Dostál</li>
+           <li>Karolína Štenclová</li>
+           <li>Ondřej Vajda</li>
+       </ul>
    </div>
 </div>
 

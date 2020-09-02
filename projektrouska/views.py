@@ -1,15 +1,12 @@
 import datetime
 import json
 
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.http import JsonResponse
 
 # Create your views here.
 from django.shortcuts import render
 from django.db import connection
-from collections import namedtuple
-import os
-from .aktualnost import main2
+from projektrouska.aktualnost import main2
 
 import hashlib
 
@@ -26,72 +23,98 @@ def about(request):
     print("o projektu")
     return render(request, 'o_projektu.html')
 def aktualnost(request):
-    import subprocess
-    cwd = os.path.dirname(os.path.realpath(__file__))
-
-    process = subprocess.run(['ls', cwd], check=True, stdout=subprocess.PIPE, universal_newlines=True)
-
-    #process = subprocess.run([cwd + '/aktualnost/kontrola.sh', cwd], check=True, stdout=subprocess.PIPE, universal_newlines=True)
-    output = process.stdout
-
     res = main2.main()
-    stat = ""
-    adds = []
-    removals = []
-    same = []
-    for line in  res.replace("+++", "").replace("---", "").split("\n"):
-        if(len(line) == 0):
-            continue
-        if(line[0] == "+"):
-            adds.append(line[1:])
-        elif (line[0] == "-"):
-            removals.append(line[1:])
-        elif (line[0] == "@" or line[0] == "\n" or  (line[0] == ' ' and len(line) == 1)):
-            continue
-        else:
-            same.append(line)
+    aktualni = res["aktualni"]
+    smazali_je = res['smazali']
+    zmena_odkazu = res['zmena']
+    chybi = res['chybi']
+    celkem = len(aktualni) + len(smazali_je) + len (zmena_odkazu)+ len (chybi)
+    procenta = int(100-((len(chybi)+len(smazali_je) + len(zmena_odkazu))/(celkem / 100)))
 
-    procenta = int(100-(len(adds)+(len(removals)))/((len(same)+ len(adds)+len(removals)) / 100))
-    if(len(adds) > 0 or len(removals) > 0):
-        stat = "Data jsou z {}% kompletní a aktuální. Celkem máme v databázi {} opatření, {} je třeba odstranit a {} je třeba přidat. ".format(procenta, len(same), len(removals), len(adds))
+    if(len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0):
+        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
+            procenta,
+            celkem,
+            len(smazali_je),
+            len(zmena_odkazu),
+            len(chybi))
         print("ALERT ne všechny data jsou aktuální")
-    elif (len(adds) == 0 or len(removals) == 0 and same == 0):
+    elif (celkem == 0):
         stat = "Aktuálnost jsme nebyli schopni ověřit. Může to být způsobeno neustálými změnami na webu ministerstva zdravotnictví. Pokusíme se pro to udělat co nejvíce. "
         print("ALERT neaktuální data")
-    elif (len(adds) == 0 or len(removals) == 0):
-        stat = "Všechna data jsou aktuální"
+    elif (len(smazali_je) == 0 and len(zmena_odkazu) == 0 and  len(chybi) == 0):
+        stat = "Všechna data jsou aktuální!"
 
-    m = md5("./projektrouska/aktualnost/v_databazi.txt")
+    #m = md5("./projektrouska/aktualnost/v_databazi.txt")
     with connection.cursor() as cursor:
             #query_results = cursor.fetchall()
             #desc = cursor.description
 
-            cursor.execute("""insert into INFO (checksum, date_updated, poznamka, AKTUALNOST) values   (
-            :chec, 
+            cursor.execute('''insert into INFO (checksum, date_updated, poznamka, AKTUALNOST) values   (
+            null,
             trunc(sysdate, 'MI'), 
             :pozn, 
-            :akt)""",
-                           {"chec": m, "pozn": stat, "akt": procenta})
+            :akt)''',
+            {"pozn": stat, "akt": procenta})
 
 
-    return render(request, 'aktualnost.html', {'pridat': adds, 'ubrat': removals, 'stejne': same,  'statistika': stat, "cas": datetime.datetime.now()})
+    return render(request, 'aktualnost.html', {'procenta': procenta,
+                                               'pridat': chybi,
+                                               'ubrat': smazali_je,
+                                               'stejne': aktualni,
+                                               'zmena': zmena_odkazu,
+                                               'statistika': stat,
+                                               "cas": datetime.datetime.now(),
+                                               "kontrola": posledni_kontrola(),
+                                               "posledni_databaze": posledni_databaze(),
+                                               })
 
 
 def home(request):
     print("home")
-    return render(request, 'uvod.html')
+    posledni_kontrola()
+    return render(request, 'uvod.html', {"kontrola": posledni_kontrola(),
+                                         "posledni_databaze":  posledni_databaze()})
 
 
 def stats(request):
     return render(request, 'statistiky.html')
+def posledni_kontrola():
+     with connection.cursor() as cursor:
+        # query_results = cursor.fetchall()
+        # desc = cursor.description
 
+        cursor.execute('''select * from (select * from INFO order by DATE_UPDATED desc ) where rownum <= 1;''')
+        response = cursor.fetchone()
+
+
+        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+        columns = []
+        for col in desc:
+            columns.append(col[0])
+
+        dict = {}
+        i = 0
+        for row in response:
+            dict[columns[i]] = row
+            i += 1
+        print(dict)
+        return dict
+def posledni_databaze():
+    with connection.cursor() as cursor:
+        last_qu = """select max(posledni_uprava) from(
+                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
+                       union 
+                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni)"""
+        cursor.execute(last_qu)
+        last_update = cursor.fetchone()
+        return last_update[0]
 
 def opatreni(request):
     # ?obecmesto_id=replace"
     # "?nuts3_id=replace"'.
     # "?kraj_id=replace"'
     args = request.GET.copy()
-
     id_obecmesto = (args.get("obecmesto_id", ""))
     nuts3_id = (args.get("nuts3_id", ""))
     okres_id = (args.get("okres_id", ""))
@@ -99,10 +122,6 @@ def opatreni(request):
     flag = "nic"
 
     with connection.cursor() as cursor:
-        last_qu = """select max(posledni_uprava) from(
-                      SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
-                      union 
-                      SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni)"""
 
         qu = ""
         if (id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and  okres_id == ""):  # kraj
@@ -124,12 +143,12 @@ def opatreni(request):
                                     (
                                         select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k 
                                     ) join op_kraj using(kraj_id_kraj)
-                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                             )
                             union 
                             -- stat 
                             select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                             )
 
 
@@ -165,7 +184,7 @@ def opatreni(request):
                                                       join kraj using (ID_KRAJ)
                                          )
                                 )join op_nuts using(nuts3_id_nuts)
-                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                         union
 
                         -- okres
@@ -182,7 +201,7 @@ def opatreni(request):
                                 ) join kraj on KRAJ.ID_KRAJ = NUTS3_ID_NUTS
                             )
                             join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                         union
                         -- kraj
                         select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from
@@ -197,13 +216,13 @@ def opatreni(request):
 
                                     ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                                 ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                         ) join kraj using(id_kraj)
                         -- stat
                         union
 
                         select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                             )
 
                     ) join polozka on opatreni_id_opatreni = id_opatreni
@@ -227,7 +246,7 @@ def opatreni(request):
                             ) join kraj on kraj.id_kraj=KRAJ_ID_KRAJ
                             join op_okres on op_okres.okres_id_okres=id_okres
                             )
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                         union
                         -- kraj
 
@@ -237,14 +256,14 @@ def opatreni(request):
                                 (
                                     select * from OKRES  where ID_OKRES = :id_okr
                                 ) join op_kraj using(KRAJ_ID_KRAJ)
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                             ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                         union
 
                         select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from
                        (
-                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2
+                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
                        )
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
@@ -295,7 +314,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2
+                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
 
                               union
                               -- nuts3
@@ -328,7 +347,7 @@ def opatreni(request):
                                                 join op_nuts on op_nuts.nuts3_id_nuts = id_nuts)
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2
+                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
 
                               union
                               -- okres
@@ -361,7 +380,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2
+                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
 
                               union
                               -- kraj
@@ -394,7 +413,7 @@ def opatreni(request):
                                             )
                                                 join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 2
+                                         and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
                                    )
                                        join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
 
@@ -417,7 +436,7 @@ def opatreni(request):
                                        from OP_STAT
                                                 join OPATRENI using (id_opatreni)
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 2
+                                         and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
                                    )
                           )
               )join polozka on id_opatreni=opatreni_id_opatreni
@@ -456,8 +475,7 @@ def opatreni(request):
         location_results = cursor.fetchone()
         location_desc = cursor.description
 
-        cursor.execute(last_qu)
-        last_update = cursor.fetchone()
+
 
         ### MAGIC ###
         columns = []
@@ -497,7 +515,11 @@ def opatreni(request):
                     tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                     by_cath.append(tmp)
         return render(request, 'opatreni.html',
-                      {'query_results': by_cath, "location": location, "last_update": last_update,'now': datetime.datetime.now()})
+                      {'query_results': by_cath,
+                       "location": location,
+                       "posledni_databaze": posledni_databaze(),
+                       'now': datetime.datetime.now(),
+                       "kontrola": posledni_kontrola()})
 
 
 def najdi_mesto(request):
