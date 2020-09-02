@@ -1,12 +1,5 @@
 import requests
-from bs4 import BeautifulSoup, NavigableString
-import re
-import difflib
-from pathlib import Path
-
-import argparse
-import difflib
-import sys
+from bs4 import BeautifulSoup
 
 fetched = 0
 from django.db import connection
