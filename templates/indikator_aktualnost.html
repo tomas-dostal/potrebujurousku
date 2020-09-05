@@ -1,0 +1,44 @@
+<div style="margin-right:10px;">
+{% if kontrola.AKTUALNOST == 100 %}
+    <!-- Button trigger modal -->
+<button type="button" class="btn nav-link enabled btn-success btn-sm" data-toggle="modal" data-target="#exampleModal">
+   <i class="icon-ok"></i>Aktuální
+</button>
+{% elif kontrola.AKTUALNOST >= 70 %}
+<!-- Button trigger modal -->
+<button type="button" class="btn nav-link enabled btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">
+   <i class="fas fa-exclamation-triangle"></i> {{ kontrola.AKTUALNOST }}% aktuální
+</button>
+{% else %}
+<!-- Button trigger modal -->
+<button type="button" class="btn nav-link enabled btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+   <i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ kontrola.AKTUALNOST }}% aktuální
+</button>
+{% endif %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Databáze je z {{  kontrola.AKTUALNOST }}% aktuální</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <span class="badge badge-info">Poslední kontrola {{ kontrola.DATE_UPDATED }}</span>
+          {{ kontrola.POZNAMKA }}
+          <br>
+          Detailnější informace včetně způsobu, jak tyto data získáváme naleznete na stránce <a href="/aktualnost/">Aktuálnost</a>, či kliknutím na tlačíto "Více informací".
+          <br>
+          Poslední změny v databázi jsme dělali  {{ posledni_databaze }}.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+          <a  href="/aktualnost/" class="btn btn-primary active" role="button" aria-pressed="true">Více informací >></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>

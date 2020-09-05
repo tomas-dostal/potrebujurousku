@@ -7,11 +7,17 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
+       <script src="https://kit.fontawesome.com/3b11066d11.js" crossorigin="anonymous"></script>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
+<link
+  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+  rel="stylesheet"  type='text/css'>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <script async src="https://code.jquery.com/jquery-3.2.1.min.js"  crossorigin="anonymous"></script>
       <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
       <script async src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
       <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" crossorigin="anonymous">
       {% load static %}
      <link rel="icon" href="{% static 'favicon.ico' %} ">
       <script src="{% static 'myfunction.js' %}"></script>
@@ -43,13 +49,21 @@
               </a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
+               <a class="nav-link enabled" href="/opatreni/">Opatření podle místa</a>
+            </li>
+            <li class="nav-item">
                <a class="nav-link enabled" href="/o-projektu/">O projektu</a>
             </li>
             <li class="nav-item">
                <a class="nav-link enabled" href="/aktualnost/">Aktuálnost dat</a>
             </li>
+           <li class="nav-item">
+               <a class="nav-link enabled" href="/FAQ/">FAQ</a>
+            </li>
 
-            <li class="nav-item">
+
+
+            <!--<li class="nav-item">
                <a class="nav-link disabled" href="#">Seznam platných nařízení</a>
             </li>
             <li class="nav-item">
@@ -57,14 +71,20 @@
             </li>
             <li class="nav-item">
                <a class="nav-link disabled" href="#">Zdrojové kódy</a>
-            </li>
+            </li>-->
              <!-- <li class="nav-item">
               <a class="nav-link enabled" href="/statistiky/">Počty případů</a>
             </li> -->
          </ul>
+      <div class="btn-group">
+
+        {%block tooltip %}
+            {% include 'indikator_aktualnost.html' %}
+        {% endblock %}
          <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
          </form>
+      </div>
       </div>
    </nav>
    <div class="row-fluid" >

@@ -1,6 +1,7 @@
 import datetime
 import json
-
+from django.http import HttpResponse
+from django.views.decorators.http import require_GET
 from django.http import JsonResponse
 
 # Create your views here.
@@ -10,7 +11,6 @@ from projektrouska.aktualnost import main2
 
 import hashlib
 
-
 def md5(fname):
     hash_md5 = hashlib.md5()
     with open(fname, "rb") as f:
@@ -18,11 +18,126 @@ def md5(fname):
             hash_md5.update(chunk)
     return hash_md5.hexdigest()
 
+#@require_GET
+def robots_txt(request):
+    lines = [
+        "User-Agent: *",
+        "Disallow: /private/",
+        "Disallow: /junk/",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
 
 def about(request):
     print("o projektu")
-    return render(request, 'o_projektu.html')
+    return render(request, 'o_projektu.html', {"kontrola": posledni_kontrola()})
+def faq(request):
+    return render(request, 'faq.html', {"kontrola": posledni_kontrola()})
+
+def indikator_aktualnost():
+    with connection.cursor() as cursor:
+        # query_results = cursor.fetchall()
+        # desc = cursor.description
+
+        cursor.execute('''select *
+                        from
+                        (select * from info order by DATE_UPDATED desc)
+                        where
+                        ROWNUM <= 1''')
+
+        response = cursor.fetchone()
+
+        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+        columns = []
+        for col in desc:
+            columns.append(col[0])
+
+        dict = {}
+        i = 0
+        for row in response:
+            dict[columns[i]] = row
+            i += 1
+        print(dict)
+        from datetime import datetime, timedelta
+
+        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
+            print("Aktualnost aktualizovana pred mene nez 2 minutami")
+
+#TODO Dokoncit seznam narizeni a polozek
+def seznam_opatreni(request):
+    
+    with connection.cursor() as cursor:
+
+
+        cursor.execute('''select * from (select * from opatreni ) join polozka on ID_OPATRENI=OPATRENI_ID_OPATRENI join KATEGORIE K on K.ID_KATEGORIE = POLOZKA.KATEGORIE_ID_KATEGORIE order by je_platne desc, PLATNOST_OD desc)''')
+
+        query_results = cursor.fetchall()
+
+        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+        ### MAGIC ###
+        columns = []
+        for col in desc:
+            columns.append(col[0])
+
+
+        a = []
+
+        for line in query_results:
+            temp = {}
+            for i in range(0, len(line)):
+                temp[columns[i]] = line[i]
+            a.append(temp)
+
+        location = {}
+        i = 0
+        # setrizene podle kategorie
+        by_cath = []
+
+        existing = []
+        for col in a:
+            if ("NAZEV_KAT" in col):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
+                if (col["NAZEV_KAT"] in existing):
+                    by_cath[len(by_cath) - 1]["narizeni"].append(col)
+                else:
+                    existing.append(col["NAZEV_KAT"])
+                    tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
+                    by_cath.append(tmp)
+        return render(request, 'opatreni.html',
+                      {'query_results': by_cath,
+                       "location": location,
+                       "posledni_databaze": posledni_databaze(),
+                       'now': datetime.datetime.now(),
+                       "kontrola": posledni_kontrola()})
+
+
 def aktualnost(request):
+    with connection.cursor() as cursor:
+        # query_results = cursor.fetchall()
+        # desc = cursor.description
+
+        cursor.execute('''select *
+                        from
+                        (select * from info order by DATE_UPDATED desc)
+                        where
+                        ROWNUM <= 1''')
+
+        response = cursor.fetchone()
+
+        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+        columns = []
+        for col in desc:
+            columns.append(col[0])
+
+        dict = {}
+        i = 0
+        for row in response:
+            dict[columns[i]] = row
+            i += 1
+        print(dict)
+        from datetime import datetime, timedelta
+
+        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=2)):
+            print("Aktualnost aktualizovana pred mene nez 2 minutami")
+
     res = main2.main()
     aktualni = res["aktualni"]
     smazali_je = res['smazali']
@@ -64,7 +179,7 @@ def aktualnost(request):
                                                'stejne': aktualni,
                                                'zmena': zmena_odkazu,
                                                'statistika': stat,
-                                               "cas": datetime.datetime.now(),
+                                               "cas": datetime.now(),
                                                "kontrola": posledni_kontrola(),
                                                "posledni_databaze": posledni_databaze(),
                                                })
@@ -94,6 +209,7 @@ def posledni_kontrola():
             columns.append(col[0])
 
         dict = {}
+
         i = 0
         for row in response:
             dict[columns[i]] = row
@@ -143,17 +259,17 @@ def opatreni(request):
                                     (
                                         select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k 
                                     ) join op_kraj using(kraj_id_kraj)
-                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                             )
                             union 
                             -- stat 
                             select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                             )
 
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
-                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by id_kategorie asc, PLATNOST_OD asc;"""
+                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj from (
                       select * from kraj  where id_kraj=:id_k) """
 
@@ -184,7 +300,7 @@ def opatreni(request):
                                                       join kraj using (ID_KRAJ)
                                          )
                                 )join op_nuts using(nuts3_id_nuts)
-                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                         union
 
                         -- okres
@@ -201,7 +317,7 @@ def opatreni(request):
                                 ) join kraj on KRAJ.ID_KRAJ = NUTS3_ID_NUTS
                             )
                             join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                         union
                         -- kraj
                         select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from
@@ -216,17 +332,17 @@ def opatreni(request):
 
                                     ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                                 ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                         ) join kraj using(id_kraj)
                         -- stat
                         union
 
                         select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                             )
 
                     ) join polozka on opatreni_id_opatreni = id_opatreni
-                ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
+                ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
 
             misto_qu = """select null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
@@ -246,7 +362,7 @@ def opatreni(request):
                             ) join kraj on kraj.id_kraj=KRAJ_ID_KRAJ
                             join op_okres on op_okres.okres_id_okres=id_okres
                             )
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                         union
                         -- kraj
 
@@ -256,18 +372,18 @@ def opatreni(request):
                                 (
                                     select * from OKRES  where ID_OKRES = :id_okr
                                 ) join op_kraj using(KRAJ_ID_KRAJ)
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                             ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                         union
 
                         select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from
                        (
-                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -2 and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
                        )
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
-                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
+                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select distinct null as nazev_obecmesto, null as nazev_nuts, nazev_okres, nazev_kraj from (
                              select * from (
                                       select *
@@ -314,7 +430,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
 
                               union
                               -- nuts3
@@ -347,7 +463,7 @@ def opatreni(request):
                                                 join op_nuts on op_nuts.nuts3_id_nuts = id_nuts)
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
 
                               union
                               -- okres
@@ -380,7 +496,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
 
                               union
                               -- kraj
@@ -413,7 +529,7 @@ def opatreni(request):
                                             )
                                                 join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
+                                         and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
                                    )
                                        join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
 
@@ -436,11 +552,11 @@ def opatreni(request):
                                        from OP_STAT
                                                 join OPATRENI using (id_opatreni)
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 2 and je_platne=1
+                                         and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
                                    )
                           )
               )join polozka on id_opatreni=opatreni_id_opatreni
-             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, PLATNOST_OD asc;"""
+             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
                        select * from (

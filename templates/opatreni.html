@@ -8,23 +8,23 @@
          {%block opatreni %}
          {% include 'varovani.html' %}
          {% endblock %}
-         {%block disclaimer %}
-         {% include 'upozorneni.html' %}
-         {% endblock %}
+
          <h2>Aktuální opatření</h2>
          <hr>
-
+        <!--Get your own code at fontawesome.com-->
          <!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
          {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-              <h3><i class="fas fa-map-marker-alt"></i>{{location.NAZEV_OBECMESTO}}</h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
+              <h3><i class="fas fa-map-marked-alt" aria-hidden="true">
+</i> {{location.NAZEV_OBECMESTO}}</h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
 
          {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-              <h3><i class="fas fa-map-marker-alt"></i>{{location.NAZEV_NUTS}} </h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
+              <h3><i class="fas fa-map-marked-alt" aria-hidden="true">
+</i>{{location.NAZEV_NUTS}} </h3><h5> ({{location.NAZEV_OKRES}}), {{location.NAZEV_KRAJ}}</h5>
 
          {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-              <h3><i class="fas map-marked-alt"></i>{{location.NAZEV_OKRES}}</h3><h5>{{location.NAZEV_KRAJ}}</h5>
+              <h3><i class="fas map-marked-alt"  aria-hidden="true"></i>{{location.NAZEV_OKRES}}</h3><h5>{{location.NAZEV_KRAJ}}</h5>
          {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
-              <h3><i class="fas map-marked-alt"></i>{{location.NAZEV_KRAJ}}</h3>
+              <h3><i class="fas map-marked-alt"  aria-hidden="true"></i>{{location.NAZEV_KRAJ}}</h3>
          {% endif %}
 
 
@@ -45,20 +45,20 @@
          {% for queue in kategorie.narizeni %}
              <!--  Jeste neni aktivni -->
              {% if queue.PLATNOST_OD > now  and queue.TYP == "doporuceni" %}
-                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                   {{  queue.NAZEV }} <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span>
                   {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                   {% endif %}
 
              {% elif queue.PLATNOST_OD > now  and queue.TYP == "info" %}
-                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                  {{  queue.NAZEV }} <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span>
                      {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                      {% endif %}
              {% elif queue.PLATNOST_OD > now  and queue.TYP == "narizeni" %}
-                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                  {{  queue.NAZEV }} <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
                      {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
@@ -68,22 +68,22 @@
               <!--  Uz je aktivni  -->
 
              {% if queue.PLATNOST_OD < now  and queue.TYP == "narizeni" %}
-                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                  {{  queue.NAZEV }} <!--   <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span> -->
                   <!--  Je aktivni, pokud konci platnost  -->
                  {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                     <span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
                  {% endif %}
 
              {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
-                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                  {{  queue.NAZEV }} <!-- <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span> -->
                   <!--  Je aktivni, pokud konci platnost  -->
                  {% if   queue.PLATNOST_DO > queue.PLATNOST_OD %}
                      <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
                  {% endif %}
              {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
-                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                  {{  queue.NAZEV }} <!-- <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span> -->
                  <!--  Je aktivni, pokud konci platnost  -->
                  {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
@@ -91,11 +91,11 @@
                  {% endif %}
             {% else  %}
                  {% if  queue.TYP == "narizeni"  %}
-                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
                  {% elif  queue.TYP == "info" %}
-                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
                  {% elif  queue.TYP == "doporuceni"  %}
-                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
+                 <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
                  {% endif %}
                  {{  queue.NAZEV }}
               {% endif %}
@@ -173,14 +173,16 @@
               {% endfor %}
 
          {% endfor %}
+
          <br>
          <br>
-         <br>
-         <br>
-         <br>
-         {%block posl_aktualizace %}
-         {% include 'posl_aktualizace.html' %}
+          {%block disclaimer %}
+         {% include 'upozorneni.html' %}
          {% endblock %}
+         <br>
+         <br>
+         <br>
+
       </div>
    </div>
 </div>

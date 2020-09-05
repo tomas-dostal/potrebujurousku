@@ -12,22 +12,22 @@ def scrappni_link(link):
     soupsubpage = BeautifulSoup(subpage.content, 'html.parser')
     # print(soup.prettify())
 
-    odkaz = soupsubpage.find("article").find_all("a")[0]["href"]
-    nazev_op = soupsubpage.find("article").find_all("a")[0].contents[0]
+    ret = []
+    for i in soupsubpage.find("article").find_all("a"):
+        odkaz = i["href"]
+        nazev_op = i.contents[0]
 
-    nazev_op = soupsubpage.find("article").find_all("a")[0].attrs["title"].replace("soubor PDF – ", "")
-    if(len(nazev_op.split("-")) > 3):
-        nazev_op = soupsubpage.find("article").find_all("h1")[0].string
+        nazev_op =i.attrs["title"].replace("soubor PDF – ", "")
+        if (len(nazev_op.split("-")) > 3):
+            nazev_op = soupsubpage.find("article").find_all("h1")[0].string
 
-    if (nazev_op == 'Mimořádné opatření organizace a provádění karantény u zdravotnických pracovníků'):
-        print("jsemtoja")
+        publikovano = soupsubpage.find(class_="entryDate").text
 
-
-    publikovano = soupsubpage.find(class_="entryDate").text
-    print("{}: {}".format(fetched, nazev_op))
+        ret.append({'nazev': nazev_op, 'odkaz': odkaz, "publikovano": publikovano, "pocet_odkazu": len(soupsubpage.find("article").find_all("a"))})
+        print("{}: {}".format(fetched, nazev_op))
 
     # print("Nazev: \n{} Publikovano: \n{}\nOdkaz: \n{}\n".format(nazev_op, publikovano, odkaz))
-    return {'nazev': nazev_op, 'odkaz': odkaz, "publikovano": publikovano}
+    return ret
 
     #return "Nazev: \n{} Publikovano: \n{}\nOdkaz: \n{}\n".format(nazev_op, publikovano, odkaz)
     # return nazev_op,  publikovano,  odkaz
@@ -44,55 +44,64 @@ def stahni():
     chybi = []
     smazali_je = []
     zmena_odkazu = []
-
+    global fetched
+    fetched = 0
     kategorie = soup.select('#page > div > ul.wsp-posts-list > li:nth-child(1) > ul')
     for k in kategorie[0].contents:
         try:
             for i in k:
                 # print(i.attrs["href"])
+
                 tmp = {}
                 tmp = scrappni_link(i.attrs["href"])
-                out += tmp["nazev"]
-                with connection.cursor() as cursor:
 
-                    cursor.execute("""select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link;""", {"nazev": tmp["nazev"].replace('\xa0', ' '), "link": tmp["odkaz"].replace('\xa0', ' ')})
-                    # vysledek bude plus minus
-                    # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
+                # na jednom linku muze byt i vice narizeni, tak projed pro kazde
+                for o in tmp:
+                    out += o["nazev"]
+                    with connection.cursor() as cursor:
 
-                    query_results = cursor.fetchall()
-                    desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-                    columns = []
-                    for col in desc:
-                        columns.append(col[0])
+                        cursor.execute("""select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link;""", {"nazev": o["nazev"].replace('\xa0', ' '), "link": o["odkaz"].replace('\xa0', ' ')})
+                        # vysledek bude plus minus
+                        # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
 
-                    if (len(query_results) == 0):
-                        print("Opatření '{}' není v databázi".format(tmp["nazev"]))
-                        chybi.append({"nazev": tmp["nazev"].replace('\xa0', ' '), "odkaz": tmp["odkaz"]})
-                    else:
+                        query_results = cursor.fetchall()
+                        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+                        columns = []
+                        for col in desc:
+                            columns.append(col[0])
 
-                        for i in query_results:
-                            zdroj_server = i[columns.index("ZDROJ")]
+                        if (len(query_results) == 0):
+                            print("Opatření '{}' není v databázi".format(o["nazev"]))
+                            chybi.append({"nazev": o["nazev"].replace('\xa0', ' '), "odkaz": o["odkaz"]})
 
-                            # Nazev je v DB, link se zmenil
-                            if (zdroj_server != tmp["odkaz"]):
-                                print(
-                                    "Opatření {} nalezeno, ID={}, změnil se odkaz. \nPůvodní:  {} \nAktuální: {}".format(
-                                        tmp["nazev"].replace('\xa0', ' '),
-                                        i[columns.index("ID_OPATRENI")],
-                                        zdroj_server,
-                                        tmp["odkaz"]))
+                        else: # něco takoveho v databazi je (bud sedi odkaz, nebo sedi nazev, nebo oboje)
 
-                                zmena_odkazu.append({"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
-                                                     "NAZEV_OPATRENI": tmp["nazev"].replace('\xa0', ' '),
-                                                     "STARY_ODKAZ": zdroj_server,
-                                                     "ZDROJ": tmp["odkaz"]})
+                            for i in query_results:
+                                zdroj_server = i[columns.index("ZDROJ")]
+                                # pokud je na serveru shoda okazu a zaroven je pocet_odkazu > 1, tak ignoruj chybu zmeny odkazu!
 
-                            # Nazev i link jsou aktualni, necht je to tedy aktualni cele
-                            else:
 
-                                aktualni.append({"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
-                                                 "NAZEV_OPATRENI": tmp["nazev"].replace('\xa0', ' '),
-                                                 "ZDROJ": tmp["odkaz"]})
+
+                                # Nazev je v DB, link se zmenil
+                                if (zdroj_server != o["odkaz"] and o["pocet_odkazu"] <= 1):
+                                    print(
+                                        "Opatření {} nalezeno, ID={}, změnil se odkaz. \nPůvodní:  {} \nAktuální: {}".format(
+                                            o["nazev"].replace('\xa0', ' '),
+                                            i[columns.index("ID_OPATRENI")],
+                                            zdroj_server,
+                                            o["odkaz"]))
+
+                                    zmena_odkazu.append({"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
+                                                         "NAZEV_OPATRENI": o["nazev"].replace('\xa0', ' '),
+                                                         "STARY_ODKAZ": zdroj_server,
+                                                         "ZDROJ": o["odkaz"]})
+
+                                # Nazev i link jsou aktualni, necht je to tedy aktualni cele
+                                else:
+
+                                    aktualni.append({"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
+                                                     "NAZEV_OPATRENI": o["nazev"].replace('\xa0', ' '),
+                                                     "ZDROJ": o["odkaz"]})
 
                 # print(i.attrs["aria-label"])
         except AttributeError:
