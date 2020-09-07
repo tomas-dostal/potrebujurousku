@@ -259,12 +259,12 @@ def opatreni(request):
                                     (
                                         select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k 
                                     ) join op_kraj using(kraj_id_kraj)
-                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
                             union 
                             -- stat 
                             select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
 
@@ -300,7 +300,7 @@ def opatreni(request):
                                                       join kraj using (ID_KRAJ)
                                          )
                                 )join op_nuts using(nuts3_id_nuts)
-                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
 
                         -- okres
@@ -317,7 +317,7 @@ def opatreni(request):
                                 ) join kraj on KRAJ.ID_KRAJ = NUTS3_ID_NUTS
                             )
                             join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
                         -- kraj
                         select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from
@@ -332,13 +332,13 @@ def opatreni(request):
 
                                     ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                                 ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         ) join kraj using(id_kraj)
                         -- stat
                         union
 
                         select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
-                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
                     ) join polozka on opatreni_id_opatreni = id_opatreni
@@ -362,7 +362,7 @@ def opatreni(request):
                             ) join kraj on kraj.id_kraj=KRAJ_ID_KRAJ
                             join op_okres on op_okres.okres_id_okres=id_okres
                             )
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
                         -- kraj
 
@@ -372,14 +372,14 @@ def opatreni(request):
                                 (
                                     select * from OKRES  where ID_OKRES = :id_okr
                                 ) join op_kraj using(KRAJ_ID_KRAJ)
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                         union
 
                         select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from
                        (
-                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD -5 and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                        )
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
@@ -430,7 +430,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
                               -- nuts3
@@ -463,7 +463,7 @@ def opatreni(request):
                                                 join op_nuts on op_nuts.nuts3_id_nuts = id_nuts)
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
                               -- okres
@@ -496,7 +496,7 @@ def opatreni(request):
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                               where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
+                                and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
                               -- kraj
@@ -529,7 +529,7 @@ def opatreni(request):
                                             )
                                                 join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
+                                         and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                                    )
                                        join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
 
@@ -552,7 +552,7 @@ def opatreni(request):
                                        from OP_STAT
                                                 join OPATRENI using (id_opatreni)
                                        where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
-                                         and trunc(sysdate) >= PLATNOST_OD - 5 and je_platne=1
+                                         and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                                    )
                           )
               )join polozka on id_opatreni=opatreni_id_opatreni
@@ -565,14 +565,15 @@ def opatreni(request):
                   )join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
                 ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj;"""
 
+        dni_dopredu = 7 # urcuje v horizontu kolika dni se maji zobrazovat nadchazející opatreni
         if (flag == "obecmesto"):
-            cursor.execute(qu, {"id_ob": id_obecmesto})
+            cursor.execute(qu, {"id_ob": id_obecmesto, "zobrazit_dopredu": dni_dopredu})
         elif (flag == "nuts"):
-            cursor.execute(qu, {"id_nuts": nuts3_id})
+            cursor.execute(qu, {"id_nuts": nuts3_id, "zobrazit_dopredu": dni_dopredu})
         elif (flag == "okres"):
-            cursor.execute(qu, {"id_okr": okres_id})
+            cursor.execute(qu, {"id_okr": okres_id, "zobrazit_dopredu": dni_dopredu})
         elif (flag == "kraj"):
-            cursor.execute(qu, {"id_k": kraj_id})
+            cursor.execute(qu, {"id_k": kraj_id, "zobrazit_dopredu": dni_dopredu})
         # vysledek bude plus minus
         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
 
@@ -637,7 +638,7 @@ def opatreni(request):
                        'now': datetime.datetime.now(),
                        "kontrola": posledni_kontrola()})
 
-
+# TODO fix javascript to use dicts
 def najdi_mesto(request):
     # misto, ktere hledam je ulozene v args
     args = request.GET.copy()
