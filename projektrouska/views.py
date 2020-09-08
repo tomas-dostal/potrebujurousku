@@ -648,27 +648,36 @@ def najdi_mesto(request):
         return
 
     qu = """select * from (
-        SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, nazev_kraj, id_kraj 
+        SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, null as id_okres, null as nazev_okres,  nazev_kraj, id_kraj 
         from kraj WHERE lower(nazev_kraj) LIKE lower('%Pra%')
 
         union 
         (
-            SELECT null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, nazev_kraj, id_kraj from nuts3   
-            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('%Pra%') -- fuck you, oracle and security. 
+            SELECT null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
+            join okres on NUTS3_ID_NUTS=ID_NUTS
+            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('%Pra%') -- fuck you, oracle and security.
 
+        )
+        union 
+        (
+            SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
+            join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('%Pra%') -- fuck you, oracle and security.
         )
         union
         (
-            select  * from 
+            select  * from
             (
-                select id_obecmesto, nazev_obecmesto, id_nuts, nazev_nuts, nazev_kraj, id_kraj from 
+                select id_obecmesto, nazev_obecmesto, id_nuts, nazev_nuts,  id_okres, nazev_okres, nazev_kraj, id_kraj from
                 (
-                    SELECT * FROM obecmesto join nuts3 on nuts3_id_nuts=nuts3.id_nuts WHERE  lower(nazev_obecmesto) LIKE lower('%Pra%')
+                    select * from (SELECT ID_NUTS, ID_OBECMESTO, KRAJ_ID_KRAJ as ID_KRAJ, NAZEV_NUTS, NAZEV_OBECMESTO, NUTS3_ID_NUTS
+                                   FROM obecmesto
+                                            join nuts3 on nuts3_id_nuts = nuts3.id_nuts
+                                   WHERE lower(nazev_obecmesto) LIKE lower('%Pra%')
+                    ) join OKRES on OKRES.NUTS3_ID_NUTS=ID_NUTS
 
-
-                ) join kraj on kraj_id_kraj=kraj.id_kraj  
+                ) join kraj using (id_kraj)
             )
-        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first)  WHERE ROWNUM <= 10 """
+        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first, id_okres asc nulls first)  WHERE ROWNUM <= 10 """
     result = all(c.isalnum() or c.isspace() for c in mojemisto)
 
     if (not result):
@@ -684,8 +693,19 @@ def najdi_mesto(request):
         query_results = cursor.fetchall()
         desc = cursor.description
         # nt_result = namedtuple('Result', [col[0] for col in desc])
+        columns = []
+        for col in desc:
+            columns.append(col[0])
+        out_dict_array = []
 
-        jsonStr = json.dumps(query_results)
+        for line in query_results:
+            temp = {}
+            for i in range(0, len(line)):
+                temp[columns[i]] = line[i]
+            out_dict_array.append(temp)
+
+
+        jsonStr = json.dumps(out_dict_array)
 
         if (jsonStr == []):
             return JsonResponse({'data': 'empty'}, safe=False)

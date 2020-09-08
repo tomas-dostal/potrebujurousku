@@ -35,3 +35,7 @@ body {
 .cell-breakAll {
    word-break: break-all;
 }
+
+.jumbotron {
+    padding: 1rem 1rem !important;
+}
