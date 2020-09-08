@@ -42,7 +42,7 @@ function myFunction(my_element, result_element) {
                         button = button.replace("kraj_str", obj[i]["NAZEV_KRAJ"]);
                         document.getElementById(result_element).innerHTML += button;
                     // OKRES + kraj
-                    } else if (obj["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] == null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
+                    } else if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] == null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
                     {
                         var params = '"?okres_id=replace"'.replace("replace",  obj[i]["ID_OKRES"]);
 
@@ -54,7 +54,7 @@ function myFunction(my_element, result_element) {
 
                     }
                     // nuts + kraj
-                    else if (obj["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] != null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
+                    else if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] != null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
                     {
                         var params = '"?nuts3_id=replace"'.replace("replace", obj[i]["ID_NUTS"]);
 
@@ -67,7 +67,7 @@ function myFunction(my_element, result_element) {
                         document.getElementById(result_element).innerHTML += button;
                     // obecmesto
                     }
-                    else if (obj["ID_OBECMESTO"] != null && obj[i]["ID_NUTS"] != null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
+                    else if (obj[i]["ID_OBECMESTO"] != null && obj[i]["ID_NUTS"] != null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
                     {
                         //         SELECT  null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, nazev_kraj, id_kraj from kraj WHERE nazev_kraj LIKE '%Pra%'
 
