@@ -20,7 +20,9 @@ body {
         width:100%;
     }*/
 }
-
+p {
+  margin-bottom: 1.5em !important;
+}
 .btn
 {
     margin-top: 5px;

@@ -1,8 +1,8 @@
-import datetime
 import json
 from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 from django.http import JsonResponse
+from datetime import datetime, timedelta
 
 # Create your views here.
 from django.shortcuts import render
@@ -11,12 +11,15 @@ from projektrouska.aktualnost import main2
 
 import hashlib
 
-def md5(fname):
-    hash_md5 = hashlib.md5()
-    with open(fname, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+def calcmd5(string):
+    # initializing string
+    str2hash = string
+    # encoding GeeksforGeeks using encode()
+    # then sending to md5()
+    result = hashlib.md5(str2hash.encode())
+
+    # printing the equivalent hexadecimal value.
+    return (result.hexdigest())
 
 #@require_GET
 def robots_txt(request):
@@ -57,10 +60,9 @@ def indikator_aktualnost():
             dict[columns[i]] = row
             i += 1
         print(dict)
-        from datetime import datetime, timedelta
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
-            print("Aktualnost aktualizovana pred mene nez 2 minutami")
+            print("Aktualnost aktualizovana pred mene nez 10 minutami")
 
 #TODO Dokoncit seznam narizeni a polozek
 def seznam_opatreni(request):
@@ -135,8 +137,8 @@ def aktualnost(request):
         print(dict)
         from datetime import datetime, timedelta
 
-        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=2)):
-            print("Aktualnost aktualizovana pred mene nez 2 minutami")
+        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
+            print("Aktualnost aktualizovana pred mene nez 10 minutami")
 
     res = main2.main()
     aktualni = res["aktualni"]
@@ -144,7 +146,9 @@ def aktualnost(request):
     zmena_odkazu = res['zmena']
     chybi = res['chybi']
     celkem = len(aktualni) + len(smazali_je) + len (zmena_odkazu)+ len (chybi)
-    procenta = int(100-((len(chybi)+len(smazali_je) + len(zmena_odkazu))/(celkem / 100)))
+    celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
+    procenta = int(100-((celkem_upravit)/(celkem / 100)))
+
 
     if(len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0):
         stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
@@ -160,21 +164,46 @@ def aktualnost(request):
     elif (len(smazali_je) == 0 and len(zmena_odkazu) == 0 and  len(chybi) == 0):
         stat = "Všechna data jsou aktuální!"
 
+    str_for_checksum = "" + str(aktualni) + str(smazali_je) + str(zmena_odkazu) + str(chybi) + stat
+
+
+
+
     #m = md5("./projektrouska/aktualnost/v_databazi.txt")
     with connection.cursor() as cursor:
             #query_results = cursor.fetchall()
             #desc = cursor.description
 
-            cursor.execute('''insert into INFO (checksum, date_updated, poznamka, AKTUALNOST) values   (
-            null,
+            cursor.execute('''insert into INFO (checksum,  date_updated, poznamka, 
+            AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, 
+            ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE , CELK_ZMEN) values   (
+            :checksum,
             trunc(sysdate, 'MI'), 
             :pozn, 
-            :akt)''',
-            {"pozn": stat, "akt": procenta})
+            :akt, 
+            :chybi_pocet, 
+            :chybi_pole, 
+            :zmena_link_pocet,
+            :zmena_link_pole, 
+            :odstranit_pocet, 
+            :odstranit_pole, 
+            :celk_zmen)
+            ''', {"pozn": stat,
+             "checksum":  calcmd5(str_for_checksum),
+             "akt": procenta,
+             "chybi_pocet": len(chybi),
+             "chybi_pole": str(chybi),
+             "zmena_link_pocet": len(zmena_odkazu),
+             "zmena_link_pole": str(zmena_odkazu),
+             "odstranit_pocet": len(smazali_je),
+             "odstranit_pole": str(smazali_je),
+             "celk_zmen":   celkem_upravit
+                             })
 
 
     return render(request, 'aktualnost.html', {'procenta': procenta,
                                                'pridat': chybi,
+                                               'celkem': celkem,
                                                'ubrat': smazali_je,
                                                'stejne': aktualni,
                                                'zmena': zmena_odkazu,

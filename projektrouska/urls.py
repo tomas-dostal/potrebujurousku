@@ -26,7 +26,7 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('o-projektu/', views.about, name='about'),
-    path('FAQ/', views.faq, name='FAQ'),
+    #path('FAQ/', views.faq, name='FAQ'),
 
     path('opatreni/', views.opatreni, name='opatreni'),
     path('aktualnost/', views.aktualnost, name='aktualnost'),
@@ -44,7 +44,7 @@ from datetime import timedelta
 
 tl = Timeloop()
 
-@tl.job(interval=timedelta(seconds=240))
+@tl.job(interval=timedelta(seconds=300))
 def sample_job_every_240s():
     print("running update")
     res = main2.main()
