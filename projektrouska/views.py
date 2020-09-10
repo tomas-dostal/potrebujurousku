@@ -107,7 +107,7 @@ def seznam_opatreni(request):
                       {'query_results': by_cath,
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
-                       'now': datetime.datetime.now(),
+                       'now': datetime.now(),
                        "kontrola": posledni_kontrola()})
 
 
@@ -135,7 +135,6 @@ def aktualnost(request):
             dict[columns[i]] = row
             i += 1
         print(dict)
-        from datetime import datetime, timedelta
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
             print("Aktualnost aktualizovana pred mene nez 10 minutami")
@@ -664,7 +663,7 @@ def opatreni(request):
                       {'query_results': by_cath,
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
-                       'now': datetime.datetime.now(),
+                       'now': datetime.now(),
                        "kontrola": posledni_kontrola()})
 
 # TODO fix javascript to use dicts
