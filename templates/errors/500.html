@@ -1,0 +1,24 @@
+{%block header %}
+{% include 'base.html' %}
+{% endblock %}
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+   <div class="container">
+      <h1 class="display-5">Chyba na serveru (500)</h1>
+      <br>
+       <img src="/static/rouska_logo.png" class="rounded mx-auto d-block" alt="rouska_logo">
+
+       <p>Něco se nám pokazilo, usilovně na tom pracujeme.
+       <br>
+      <p> <b>Jak může k takovéto chybě dojít?</b></p>
+      <p>V podstatě jakkoli. Cokoli od toho, že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví provedli až tak rozsáhlé změny, že to náš aktualizační skript nerozdýchal až po problémy s databází.</p>
+
+       <p>Máte-li kapku odhodlání, určitě budeme rádi, když nám o tuto chybu <a href="mailto:admin@potrebujurousku.cz">nahlásite</a>. Pokud o ní ještě nevíme, budeme se jí o to dříve věnovat. Nezapoměňte zmínit odkaz stránky, na které jste se necházeli, když k tomuto chování došlo.</p>
+   </div>
+</div>
+
+{% endblock %}
+{%block foot %}
+{% include 'footer.html' %}
+{% endblock %}

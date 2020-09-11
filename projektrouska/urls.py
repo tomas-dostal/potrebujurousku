@@ -36,8 +36,14 @@ urlpatterns = [
 
                   #path('statistiky/', views.stats, name='statistiky'),
     path('api/search', views.najdi_mesto, name='najdi_mesto'),
+
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+handler404 = 'projektrouska.views.custom_page_not_found_view'
+handler500 = 'projektrouska.views.custom_error_view'
+handler403 = 'projektrouska.views.custom_permission_denied_view'
+handler400 = 'projektrouska.views.custom_bad_request_view'
 
 # Please forgive me. I did not wanted to do it this way...
 import time
