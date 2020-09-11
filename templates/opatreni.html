@@ -99,8 +99,18 @@
                  {% endif %}
                  {{  queue.NAZEV }}
               {% endif %}
-          {% endif %}
 
+
+             {% endif %}
+              {% if  queue.ROZSAH == "cr" %}
+                      <span class="badge badge-light">Ceploplošné</span>
+                 {% endif %}
+                 {% if  queue.ROZSAH == "kraj" %}
+                      <span class="badge badge-secondary">Lokální</span>
+                 {% endif %}
+                 {% if  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
+                      <span class="badge badge-secondary">Lokální</span>
+             {% endif %}
 
 
 
@@ -145,13 +155,28 @@
                           {% if  queue.PLATNOST_DO != None  %}
                            <span class="badge badge-warning">konec {{ queue.PLATNOST_DO}}</span>
                           {% endif %}
+
+                           {% if  queue.ROZSAH == "cr" %}
+                              <span class="badge badge-secondary">Ceploplošné</span>
+                         {% endif %}
+                         {% if  queue.ROZSAH == "kraj" %}
+                              <span class="badge badge-secondary">Lokální platnost - Kraj</span>
+                         {% endif %}
+                         {% if  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
+                              <span class="badge badge-secondary">Lokální platnost - obec/město</span>
+                         {% endif %}
+
                          <hr>
-                         <p>{{  queue.KOMENTAR | linebreaks  }}</p>
+                         <p>{% autoescape off %}
+                            {{  queue.KOMENTAR | linebreaks }}
+                         {% endautoescape %}
+                            </p>
 
                          {% if  queue.VYJIMKA != None %}
                                <h5>Výjimky</h5>
+                             {% autoescape off %}
                              {{  queue.VYJIMKA | linebreaks }}
-
+                             {% endautoescape %}
                          {% endif %}
 
 
