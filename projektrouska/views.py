@@ -11,6 +11,9 @@ from projektrouska.aktualnost import main2
 
 import hashlib
 
+from projektrouska.settings import DEV
+
+
 def calcmd5(string):
     # initializing string
     str2hash = string
@@ -31,7 +34,6 @@ def robots_txt(request):
     return HttpResponse("\n".join(lines), content_type="text/plain")
 
 def about(request):
-    print("o projektu")
     return render(request, 'o_projektu.html', {"kontrola": posledni_kontrola()})
 def faq(request):
     return render(request, 'faq.html', {"kontrola": posledni_kontrola()})
@@ -59,10 +61,12 @@ def indikator_aktualnost():
         for row in response:
             dict[columns[i]] = row
             i += 1
-        print(dict)
+        if(DEV == True):
+            print(dict)
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
-            print("Aktualnost aktualizovana pred mene nez 10 minutami")
+            if (DEV == True):
+                print("Aktualnost aktualizovana pred mene nez 10 minutami")
 
 #TODO Dokoncit seznam narizeni a polozek
 def seznam_opatreni(request):
@@ -214,7 +218,6 @@ def aktualnost(request):
 
 
 def home(request):
-    print("home")
     posledni_kontrola()
     return render(request, 'uvod.html', {"kontrola": posledni_kontrola(),
                                          "posledni_databaze":  posledni_databaze()})
@@ -301,7 +304,7 @@ def opatreni(request):
             misto_qu = """select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj from (
                       select * from kraj  where id_kraj=:id_k) """
 
-        elif (nuts3_id != '') and (id_obecmesto is '') and (kraj_id is '') and okres_id == "":  # nuts
+        elif (nuts3_id != '') and (id_obecmesto  == '') and (kraj_id == '') and okres_id == "":  # nuts
             flag = "nuts"
             qu = """
                     select * from
