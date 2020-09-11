@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 fetched = 0
 from django.db import connection
 
+from projektrouska.settings import DEV
+
 
 def scrappni_link(link):
     global fetched
@@ -24,7 +26,9 @@ def scrappni_link(link):
         publikovano = soupsubpage.find(class_="entryDate").text
 
         ret.append({'nazev': nazev_op, 'odkaz': odkaz, "publikovano": publikovano, "pocet_odkazu": len(soupsubpage.find("article").find_all("a"))})
-        print("{}: {}".format(fetched, nazev_op))
+
+        if(DEV == True):
+            print("{}: {}".format(fetched, nazev_op))
 
     # print("Nazev: \n{} Publikovano: \n{}\nOdkaz: \n{}\n".format(nazev_op, publikovano, odkaz))
     return ret
@@ -71,7 +75,8 @@ def stahni():
                             columns.append(col[0])
 
                         if (len(query_results) == 0):
-                            print("Opatření '{}' není v databázi".format(o["nazev"]))
+                            if (DEV == True):
+                                print("Opatření '{}' není v databázi".format(o["nazev"]))
                             chybi.append({"nazev": o["nazev"].replace('\xa0', ' '), "odkaz": o["odkaz"]})
 
                         else: # něco takoveho v databazi je (bud sedi odkaz, nebo sedi nazev, nebo oboje)
@@ -84,7 +89,8 @@ def stahni():
 
                                 # Nazev je v DB, link se zmenil
                                 if (zdroj_server != o["odkaz"] and o["pocet_odkazu"] <= 1):
-                                    print(
+                                    if (DEV == True):
+                                        print(
                                         "Opatření {} nalezeno, ID={}, změnil se odkaz. \nPůvodní:  {} \nAktuální: {}".format(
                                             o["nazev"].replace('\xa0', ' '),
                                             i[columns.index("ID_OPATRENI")],
@@ -134,14 +140,15 @@ def stahni():
                 cursor.fetchall
                 cursor.execute("""commit;""",
                                {"id": z.get("ID_OPATRENI"), "link": z.get("ZDROJ")})
-                print("Update databaze se POVEDLA")
+                if (DEV == True):
+                    print("Update databaze se POVEDLA")
 
 
             except Exception as e:
                 id_v_databazi.append(z.get("ID_OPATRENI"))
-                print(e)
-
-                print("Update databaze se nezdaril")
+                if (DEV == True):
+                    print(e)
+                    print("Update databaze se nezdaril")
 
         # ted bych mel mit vsechna IDcka co jsou v databazi a maji tam byt v id_v_databazi
 

@@ -48,5 +48,4 @@ tl = Timeloop()
 @tl.job(interval=timedelta(seconds=300))
 def sample_job_every_240s():
     page = requests.get("https://potrebujurousku.cz/aktualnost/")
-    print("Update")
 tl.start(block=False)
