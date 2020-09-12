@@ -706,24 +706,24 @@ def najdi_mesto(request):
         return
 
     qu = '''select * from (
-        SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, null as id_okres, null as nazev_okres,  nazev_kraj, id_kraj 
+        SELECT distinct null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, null as id_okres, null as nazev_okres,  nazev_kraj, id_kraj 
         from kraj WHERE lower(nazev_kraj) LIKE lower('Pra%')
 
         union 
         (
-            SELECT null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
+            SELECT distinct null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
             join okres on NUTS3_ID_NUTS=ID_NUTS
             join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('Pra%') -- fuck you, oracle and security.
 
         )
         union 
         (
-            SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
+            SELECT distinct null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
             join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('Pra%') -- fuck you, oracle and security.
         )
         union
         (
-            select  * from
+            select distinct * from
             (
                 select id_obecmesto, nazev_obecmesto, id_nuts, nazev_nuts,  id_okres, nazev_okres, nazev_kraj, id_kraj from
                 (
@@ -771,7 +771,7 @@ def najdi_mesto(request):
 
 
 
-# TODO fix javascript to use dicts
+# TODO Pokud bude ve výsledku query dva řádky, které se budou lišit pouze v tom, že jeden je nuts a obecmesto je null a druhý že je nuts a obecmesto není null (pro uživatele vypadá jako dva stejné výsledky), tak smaž jeden z nich (asi ten NUTS)
 def najdi_mesto(request):
     # misto, ktere hledam je ulozene v args
     args = request.GET.copy()
@@ -811,7 +811,7 @@ def najdi_mesto(request):
 
                 ) join kraj using (id_kraj)
             )
-        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first, id_okres asc nulls first) '''# WHERE ROWNUM <= :zraz
+        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first, id_okres asc nulls first) where rownum < 10 '''# WHERE ROWNUM <= :zraz
     result = all(c.isalnum() or c.isspace() for c in mojemisto)
 
     if (not result):

@@ -10,8 +10,6 @@ function myFunction(my_element, result_element) {
         $(".jumbotron").height(2000);
     }
 
-
-
     var searched_text = document.getElementById(my_element).value;
     if(searched_text.length > 1) {
         fetch("/api/search?misto=" + searched_text)
@@ -30,23 +28,40 @@ function myFunction(my_element, result_element) {
 
 
                 document.getElementById(result_element).innerHTML = "";
+                // TODO: Dokončit vyhledávání stisknutím enteru, v tuto chvíli neočekávan chování, při stisknutí entru to hodí default stránku
+
+                $('#'+ my_element).on('keypress', function (e) {
+                 if(e.which === 13) {
+                    $(my_element).submit(function(e){
+                        e.preventDefault();
+                    });
+
+                     if ($(document.querySelector("#" + result_element + "> a")).length >= 1) {
+                         $(document.querySelector("#" + result_element + "> a")).click()
+                     } else
+                     {
+
+                     }
+
+                 }
+                });
                 while(i < obj.length)
                 {
                     // jen kraj
                     if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] == null && obj[i]["ID_OKRES"] == null)
                     {
-                        var params = '"?kraj_id=replace"'.replace("replace",  obj[i]["ID_KRAJ"]);
+                        var params = '/opatreni/?kraj_id=replace'.replace("replace",  obj[i]["ID_KRAJ"]);
 
-                        var button = "<button type='button' class='btn  btn-block btn-dark cut-text'  onclick='redirect(parametry)'><span style='color:lightgray'>kraj_str</span></div></button>";
+                        var button = "<a type='button' class='btn  btn-block btn-dark cut-text'  href='"+params+"'><span style='color:lightgray'>kraj_str</span></div></a>";
                         button = button.replace("parametry", params);
                         button = button.replace("kraj_str", obj[i]["NAZEV_KRAJ"]);
                         document.getElementById(result_element).innerHTML += button;
                     // OKRES + kraj
                     } else if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] == null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
                     {
-                        var params = '"?okres_id=replace"'.replace("replace",  obj[i]["ID_OKRES"]);
+                        var params = '/opatreni/?okres_id=replace'.replace("replace",  obj[i]["ID_OKRES"]);
 
-                        var button = "<button type='button' class='btn  btn-block btn-dark cut-text'  onclick='redirect(parametry)'>okres_str<span style='color:lightgray'>, kraj_str</span></div></button>";
+                        var button = "<a type='button' class='btn  btn-block btn-dark cut-text'  href='"+params+"'>okres_str<span style='color:lightgray'>, kraj_str</span></div></a>";
                         button = button.replace("parametry", params);
                         button = button.replace("okres_str", obj[i]["NAZEV_OKRES"]);
                         button = button.replace("kraj_str", obj[i]["NAZEV_KRAJ"]);
@@ -56,9 +71,9 @@ function myFunction(my_element, result_element) {
                     // nuts + kraj
                     else if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] != null && obj[i]["ID_OKRES"] != null && obj[i]["ID_KRAJ"] != null)
                     {
-                        var params = '"?nuts3_id=replace"'.replace("replace", obj[i]["ID_NUTS"]);
+                        var params = '/opatreni/?nuts3_id=replace'.replace("replace", obj[i]["ID_NUTS"]);
 
-                        var button = "<button type='button' class='btn  btn-block btn-secondary cut-text'  onclick='redirect(parametry)'>nuts3_str<span style='color:lightgray'>, okres_str, kraj_str</span></div></button>";
+                        var button = "<a type='button' class='btn  btn-block btn-secondary cut-text'  href='"+params+"'>nuts3_str<span style='color:lightgray'>, okres_str, kraj_str</span></div></a>";
                         button = button.replace("parametry", params);
                         button = button.replace("okres_str", obj[i]["NAZEV_OKRES"]);
 
@@ -71,9 +86,9 @@ function myFunction(my_element, result_element) {
                     {
                         //         SELECT  null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, nazev_kraj, id_kraj from kraj WHERE nazev_kraj LIKE '%Pra%'
 
-                         var params = '"?obecmesto_id=replace"'.replace("replace",  obj[i]["ID_OBECMESTO"]);
+                         var params = '/opatreni/?obecmesto_id=replace'.replace("replace",  obj[i]["ID_OBECMESTO"]);
 
-                        var button = "<button type='button' class='btn  btn-block btn-secondary cut-text'  onclick='redirect(parametry)'>obecmesto_str<span style='color:lightgray'>, okres_str, kraj_str</span></div></button>";
+                        var button = "<a type='button' class='btn  btn-block btn-secondary cut-text'    href='"+params+"'>obecmesto_str<span style='color:lightgray'>, okres_str, kraj_str</span></div></a>";
                         button = button.replace("parametry", params);
                         button = button.replace("obecmesto_str", obj[i]["NAZEV_OBECMESTO"]);
                         button = button.replace("okres_str", obj[i]["NAZEV_OKRES"]);
@@ -96,10 +111,4 @@ function myFunction(my_element, result_element) {
                 console.log("Error: " + error);
             });
     }
-}
-
-function redirect(parameters) {
-
-    window.location.href = "/opatreni/" + parameters;
-
 }
