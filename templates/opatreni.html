@@ -103,7 +103,7 @@
 
              {% endif %}
               {% if  queue.ROZSAH == "cr" %}
-                      <span class="badge badge-light">Ceploplošné</span>
+                      <span class="badge badge-light">Celoplošné</span>
                  {% endif %}
                  {% if  queue.ROZSAH == "kraj" %}
                       <span class="badge badge-secondary">Lokální</span>
@@ -175,7 +175,7 @@
                          {% if  queue.VYJIMKA != None %}
                                <h5>Výjimky</h5>
                              {% autoescape off %}
-                             {{  queue.VYJIMKA | linebreaks }}
+                             {{  queue.VYJIMKA }}
                              {% endautoescape %}
                          {% endif %}
 
