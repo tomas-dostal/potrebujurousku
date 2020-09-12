@@ -25,7 +25,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }} změn</h5>
+          {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
+          <h5 class="modal-title" id="exampleModalLabel">Všechna data jsou aktuální!</h5>
+
+          {% else %}
+            <h5 class="modal-title" id="exampleModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }} změn</h5>
+        {% endif %}
+
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -34,10 +40,10 @@
        <span class="badge badge-info">Poslední kontrola {{ kontrola.DATE_UPDATED }}</span>
             Poslední změny v databázi jsme dělali  {{ posledni_databaze }}.
 
-          {% if kontrola.CELK_ZMEN == 0 %}
+          {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
               Všechna data jsou aktuální!
           {% else %}
-              Všechny změny jsme ještě nestihli zpracovat. Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn ( {{ CHYBI_POCET }} přidat, u {{ ZMENA_LINK_POCET }} upravit odkaz a {{ ODSTRANIT_POCET }} odebrat.
+              Všechny změny jsme ještě nestihli zpracovat. Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn ( {{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
               <br>Zajímá vás, co <a href="/aktualnost/">jsme nestihli zpracovat?</a>
           {% endif %}
           <br>
