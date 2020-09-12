@@ -2,5 +2,4 @@ y
 y.pub
 **/instantclient
 **/venv_python
-secret.py
-projektrouska/secret.py
+**/secret.py
