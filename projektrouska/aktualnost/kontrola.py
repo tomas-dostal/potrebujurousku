@@ -37,7 +37,7 @@ def scrappni_link(link):
     # return nazev_op,  publikovano,  odkaz
 
 
-def stahni():
+def start():
     page = requests.get("https://koronavirus.mzcr.cz/mapa-webu/")
     soup = BeautifulSoup(page.content, 'html.parser')
 
@@ -126,7 +126,7 @@ def stahni():
         for a in aktualni:
             id_v_databazi.append(a.get("ID_OPATRENI"))
         for z in zmena_odkazu:
-            """"NAZEV_OPATRENI": tmp["nazev"],
+            """NAZEV_OPATRENI": tmp["nazev"],
                  "STARY_ODKAZ": i[columns.index("ZDROJ")],
                  "ZDROJ": tmp["odkaz"]})"""
             try:
@@ -134,12 +134,10 @@ def stahni():
 
                 cursor.execute("""UPDATE OPATRENI 
                     SET ZDROJ_AUTOOPRAVA = :link
-                    WHERE ID_OPATRENI = :id ;
-                    commit;""",
+                    WHERE ID_OPATRENI = :id ;""",
                                {"id": z.get("ID_OPATRENI"), "link": z.get("ZDROJ")})
-                cursor.fetchall
-                cursor.execute("""commit;""",
-                               {"id": z.get("ID_OPATRENI"), "link": z.get("ZDROJ")})
+                #cursor.fetchall
+                cursor.execute("""COMMIT;""")
                 if (DEV == True):
                     print("Update databaze se POVEDLA")
 
@@ -155,6 +153,21 @@ def stahni():
         for i in query_results:
             if (i[columns.index("ID_OPATRENI")] not in id_v_databazi and i[columns.index("JE_PLATNE")] > 0):
                 # bylo stazeno z webu, TODO deaktivuj
+
+                try:
+                    cursor.execute("""UPDATE OPATRENI 
+                                SET PLATNOST_AUTOOPRAVA = 0
+                                WHERE ID_OPATRENI = :id ;""",
+                                   {"id": i[columns.index("ID_OPATRENI")]})
+                    # cursor.fetchall
+                    cursor.execute("""COMMIT;""")
+
+                except Exception as e:
+                    if (DEV == True):
+                        print(e)
+
+                        print("Update databaze se nezdaril")
+
                 smazali_je.append({"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
                                    "NAZEV_OPATRENI": i[columns.index("NAZEV_OPATRENI")],
                                    "ZDROJ": i[columns.index("ZDROJ")]})
@@ -166,9 +179,3 @@ def stahni():
 
     return {"aktualni": aktualni, "chybi": chybi, "smazali": smazali_je, "zmena": zmena_odkazu}
 
-
-def main():
-    return stahni()
-
-if __name__ == "__main__":
-    main()

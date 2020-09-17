@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 # Create your views here.
 from django.shortcuts import render
 from django.db import connection
-from projektrouska.aktualnost import main2
+from projektrouska.aktualnost import kontrola
 
 import hashlib
 
@@ -138,37 +138,44 @@ def seznam_opatreni(request):
                        'now': datetime.now(),
                        "kontrola": posledni_kontrola()})
 
+def vrat_seznam(data, description):
+    desc = description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+    columns = []
+    for col in desc:
+        columns.append(col[0])
+
+    dict = {}
+    i = 0
+    for row in data:
+        dict[columns[i]] = row
+        i += 1
+    print(dict)
+    return dict
+
 
 def aktualnost(request):
-    with connection.cursor() as cursor:
-        # query_results = cursor.fetchall()
-        # desc = cursor.description
+    dict = {}
+    dict2 = {}
 
+    with connection.cursor() as cursor:
         cursor.execute('''select *
                         from
                         (select * from info order by DATE_UPDATED desc)
                         where
                         ROWNUM <= 1''')
-
-        response = cursor.fetchone()
-
-        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-
-        dict = {}
-        i = 0
-        for row in response:
-            dict[columns[i]] = row
-            i += 1
+        dict = vrat_seznam(cursor.fetchone(), cursor.description)
         print(dict)
 
-        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
-            print("Aktualnost aktualizovana pred mene nez 10 minutami")
+        cursor.execute('''select count(*) as celk_mame from opatreni;''')
+        dict2 = vrat_seznam(cursor.fetchone(), cursor.description)
 
-    res = main2.main()
+        if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
+            print("Aktualnost kontrolovana pred mene nez 10 minutami")
+
+
+    res = kontrola.start()
     aktualni = res["aktualni"]
+    celkem_mame = dict2["CELK_MAME"]
     smazali_je = res['smazali']
     zmena_odkazu = res['zmena']
     chybi = res['chybi']
@@ -177,9 +184,11 @@ def aktualnost(request):
     procenta = int(100-((celkem_upravit)/(celkem / 100)))
 
 
+
     if(len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0):
-        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
+        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} z nich je aktivních, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
             procenta,
+            celkem_mame,
             celkem,
             len(smazali_je),
             len(zmena_odkazu),
@@ -224,7 +233,8 @@ def aktualnost(request):
              "zmena_link_pole": str(zmena_odkazu),
              "odstranit_pocet": len(smazali_je),
              "odstranit_pole": str(smazali_je),
-             "celk_zmen":   celkem_upravit
+             "celk_zmen":   celkem_upravit,
+
                              })
 
 
@@ -238,6 +248,7 @@ def aktualnost(request):
                                                "cas": datetime.now(),
                                                "kontrola": posledni_kontrola(),
                                                "posledni_databaze": posledni_databaze(),
+                                                "celk_mame": celkem_mame
                                                })
 
 
@@ -280,7 +291,10 @@ def posledni_databaze():
         cursor.execute(last_qu)
         last_update = cursor.fetchone()
         return last_update[0]
-
+def aktualnost_v_case(request):
+    """select min(DATE_UPDATED) as DATE_UPDATED, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN from info
+group by CHECKSUM, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN
+order by  DATE_UPDATED"""
 def opatreni(request):
     # ?obecmesto_id=replace"
     # "?nuts3_id=replace"'.
@@ -306,7 +320,7 @@ def opatreni(request):
                         select * from
                         (
                             -- kraj 
-                            select null as nazev_obecmesto, null as nazev_nuts, null as  nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from 
+                            select null as nazev_obecmesto, null as nazev_nuts, null as  nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava  from 
                             (
                                 select * from 
                                 (
@@ -318,7 +332,7 @@ def opatreni(request):
                             )
                             union 
                             -- stat 
-                            select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
+                            select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava  from (
                             select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
@@ -337,7 +351,7 @@ def opatreni(request):
 
 
                         -- nuts3
-                        select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
+                        select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
                            select *
                            from (
                                     select *
@@ -359,7 +373,7 @@ def opatreni(request):
                         union
 
                         -- okres
-                        select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do   from
+                        select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava   from
                         (
                             select * from
                             (
@@ -375,7 +389,7 @@ def opatreni(request):
                         join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
                         -- kraj
-                        select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from
+                        select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from
                         (
                             select * from
                             (
@@ -392,7 +406,7 @@ def opatreni(request):
                         -- stat
                         union
 
-                        select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do  from (
+                        select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
                         select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
@@ -409,7 +423,7 @@ def opatreni(request):
             qu= """select * from (
                 select * from (
                        -- okres
-                        select  null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do   from (
+                        select  null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava  from (
 
                             select * from
                             (
@@ -421,7 +435,7 @@ def opatreni(request):
                         union
                         -- kraj
 
-                        select null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do from (
+                        select null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
                         select * from (
                                 select * from
                                 (
@@ -432,7 +446,7 @@ def opatreni(request):
 
                         union
 
-                        select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do from
+                        select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from
                        (
                         select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                        )
@@ -462,7 +476,10 @@ def opatreni(request):
                                      zdroj,
                                      ROZSAH,
                                      platnost_od,
-                                     platnost_do
+                                     platnost_do, 
+                                     platnost_autooprava, 
+                                     zdroj_autooprava,
+                                     nazev_autooprava
                               from (
                                        select *
                                        from (
@@ -499,7 +516,10 @@ def opatreni(request):
                                      zdroj,
                                      ROZSAH,
                                      platnost_od,
-                                     platnost_do
+                                     platnost_do,
+                                     platnost_autooprava, 
+                                     zdroj_autooprava, 
+                                     nazev_autooprava
                               from (
                                        select *
                                        from (
@@ -532,7 +552,10 @@ def opatreni(request):
                                      zdroj,
                                      ROZSAH,
                                      platnost_od,
-                                     platnost_do
+                                     platnost_do,
+                                     platnost_autooprava, 
+                                     zdroj_autooprava, 
+                                     nazev_autooprava
                               from (
                                        select *
                                        from (
@@ -566,7 +589,10 @@ def opatreni(request):
                                      zdroj,
                                      ROZSAH,
                                      platnost_od,
-                                     platnost_do
+                                     platnost_do,
+                                     platnost_autooprava, 
+                                     zdroj_autooprava, 
+                                     nazev_autooprava
                               from (
                                        select *
                                        from (
@@ -601,7 +627,10 @@ def opatreni(request):
                                      zdroj,
                                      ROZSAH,
                                      platnost_od,
-                                     platnost_do
+                                     platnost_do,
+                                     platnost_autooprava, 
+                                     zdroj_autooprava, 
+                                     nazev_autooprava
                               from (
                                        select *
                                        from OP_STAT

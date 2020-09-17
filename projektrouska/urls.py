@@ -21,7 +21,7 @@ import requests
 from django.conf.urls.static import static
 from django.contrib import admin
 
-from projektrouska.aktualnost import main2
+from projektrouska.aktualnost import kontrola
 from django.db import connection
 
 urlpatterns = [

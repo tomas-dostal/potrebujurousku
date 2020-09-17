@@ -31,19 +31,20 @@ function myFunction(my_element, result_element) {
                 // TODO: Dokončit vyhledávání stisknutím enteru, v tuto chvíli neočekávan chování, při stisknutí entru to hodí default stránku
 
                 $('#'+ my_element).on('keypress', function (e) {
-                 if(e.which === 13) {
-                    $(my_element).submit(function(e){
-                        e.preventDefault();
-                    });
+                    if (e.which === 13) {
+                        $(my_element).submit(function (e) {
+                            e.preventDefault();
+                        });
+                        var selector = "#" + result_element + " a";
 
-                     if ($(document.querySelector("#" + result_element + "> a")).length >= 1) {
-                         $(document.querySelector("#" + result_element + "> a")).click()
-                     } else
-                     {
+                        $(document).ready(function () {
+                            if ($(document.querySelector('' + selector)).length >= 1) {
+                                $('' + selector)[0].click();
+                            } else {
+                            }
 
-                     }
-
-                 }
+                        });
+                    }
                 });
                 while(i < obj.length)
                 {

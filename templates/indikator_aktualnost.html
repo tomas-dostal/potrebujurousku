@@ -43,7 +43,8 @@
           {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
               Všechna data jsou aktuální!
           {% else %}
-              Všechny změny jsme ještě nestihli zpracovat. Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn ( {{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
+              Všechny změny jsme ještě nestihli zpracovat. <br>
+              Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn ( {{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
               <br>Zajímá vás, co <a href="/aktualnost/">jsme nestihli zpracovat?</a>
           {% endif %}
           <br>

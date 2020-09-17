@@ -120,7 +120,13 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                    <div class="modal-content">
                       <div class="modal-header">
-                         <h5 class="modal-title" id="exampleModalLongTitle">{{  queue.NAZEV }}</h5>
+                          {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
+                             <h5 class="modal-title" id="exampleModalLongTitle"><s>{{  queue.NAZEV }}</s></h5>
+
+                          {% else  %}
+                             <h5 class="modal-title" id="exampleModalLongTitle">{{  queue.NAZEV }}</h5>
+                          {% endif   %}
+
                          <button type="button" class="close" data-dismiss="modal" aria-label="X">
                          <span aria-hidden="true">&times;</span>
                          </button>
@@ -129,6 +135,10 @@
                          'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
                          --->
                       <div class="modal-body">
+                           {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
+
+                             <span class="badge badge-danger">Bylo nahrazeno, zpracováváme změny</span>
+                          {% endif  %}
 
                          <!-- <hr> -->
                          {% if  queue.TYP == "narizeni" %}
@@ -141,9 +151,17 @@
                          <span class="badge badge-info">Informace</span>
                          {% endif %}
 
+
                          <span class="badge badge-primary">{{  queue.NAZEV_KAT }}</span>
+
                          <br>
-                         <bold>{{  queue.NAZEV_ZKR }}</bold>
+                         {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
+                            <bold><s>{{  queue.NAZEV_ZKR }}</s></bold>
+
+                         {% else %}
+                           <bold>{{  queue.NAZEV_ZKR }}</bold>
+
+                         {% endif %}
 
                          <hr>
                           Platnost: {% if  queue.PLATNOST_OD > now  %}
@@ -165,6 +183,7 @@
                          {% if  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
                               <span class="badge badge-secondary">Lokální platnost - obec/město</span>
                          {% endif %}
+
 
                          <hr>
                          <p>{% autoescape off %}
