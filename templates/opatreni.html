@@ -22,7 +22,7 @@
                 </tr>
               </thead>
             <tbody>
-                <tr class="table-secondary">>
+                <tr class="table-secondary">
                   {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
                     <!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
                     <td>{{location.NAZEV_OBECMESTO}}</td>
@@ -60,13 +60,13 @@
          Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření. Zobrazeny jsou i opatření, které nabydou platnosti během následujících 7 dní.
 
          {% for kategorie in query_results %}
-         <!-- 'ID_KATEGORIE', 'NAZEV_KAT', --->
+         <!-- 'ID_KATEGORIE', 'NAZEV_KAT', -->
          <br>
          <br>
          <h3 >{{  kategorie.kategorie }}</h3>
          <hr>
          <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
-            --->
+            -->
 
          {% for queue in kategorie.narizeni %}
              <!--  Jeste neni aktivni -->
@@ -159,7 +159,7 @@
                       </div>
                       <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ',
                          'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV_ZKR', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
-                         --->
+                         -->
                       <div class="modal-body">
                            {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
 
@@ -201,7 +201,7 @@
                           {% endif %}
 
                            {% if  queue.ROZSAH == "cr" %}
-                              <span class="badge badge-secondary">Ceploplošné</span>
+                              <span class="badge badge-secondary">Celoplošné</span>
                          {% endif %}
                          {% if  queue.ROZSAH == "kraj" %}
                               <span class="badge badge-secondary">Lokální platnost - Kraj</span>
