@@ -1,3 +1,4 @@
+{% load my_filters %}
 <div style="margin-right:10px;">
 {% if kontrola.CELK_ZMEN == 0 %}
     <!-- Button trigger modal -->
@@ -12,7 +13,7 @@
 {% elif kontrola.CELK_ZMEN > 0 and kontrola.CELK_ZMEN <= 5 %}
 <!-- Button trigger modal -->
 <button type="button" class="btn nav-link enabled btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal">
-   <i class="fas fa-exclamation-triangle"></i> {{ kontrola.CELK_ZMEN }} změn
+   <i class="fas fa-exclamation-triangle"></i> {{ kontrola.CELK_ZMEN }} změn{{ kontrola.CELK_ZMEN|cz_pluralize:"a,y," }}
 </button>
 {% else %}
 <!-- Button trigger modal -->
@@ -29,7 +30,8 @@
           <h5 class="modal-title" id="exampleModalLabel">Všechna data jsou aktuální!</h5>
 
           {% else %}
-            <h5 class="modal-title" id="exampleModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }} změn</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }}
+                změn{{ kontrola.CELK_ZMEN|cz_pluralize:"u,y," }}</h5>
         {% endif %}
 
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -44,7 +46,8 @@
               Všechna data jsou aktuální!
           {% else %}
               Všechny změny jsme ještě nestihli zpracovat. <br>
-              Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn ({{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
+              Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn{{ kontrola.CELK_ZMEN|cz_pluralize:"a,y," }}
+              ({{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
               <br>Zajímá vás, co <a href="/aktualnost/">jsme nestihli zpracovat?</a>
           {% endif %}
           <br>
