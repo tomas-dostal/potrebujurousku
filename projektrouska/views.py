@@ -338,7 +338,7 @@ def opatreni(request):
 
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
-                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj from (
                       select * from kraj  where id_kraj=:id_k) """
 
@@ -411,7 +411,7 @@ def opatreni(request):
                             )
 
                     ) join polozka on opatreni_id_opatreni = id_opatreni
-                ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+                ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
 
             misto_qu = """select null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
@@ -452,7 +452,7 @@ def opatreni(request):
                        )
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
-                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select distinct null as nazev_obecmesto, null as nazev_nuts, nazev_okres, nazev_kraj from (
                              select * from (
                                       select *
@@ -640,7 +640,7 @@ def opatreni(request):
                                    )
                           )
               )join polozka on id_opatreni=opatreni_id_opatreni
-             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
             misto_qu = """select nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
                        select * from (
