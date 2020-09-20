@@ -345,7 +345,9 @@ def opatreni(request):
         elif (nuts3_id != '') and (id_obecmesto  == '') and (kraj_id == '') and okres_id == "":  # nuts
             flag = "nuts"
             qu = """
-                    select * from
+                    
+
+select * from
                     (
                         select * from (
 
@@ -380,10 +382,10 @@ def opatreni(request):
                                 select * from (
                                     select * from
                                     (
-                                       select * from nuts3 where id_nuts=:id_nuts
+                                       select id_nuts, nazev_nuts, kod_nuts, kraj_id_kraj as id_kraj from nuts3 where id_nuts=:id_nuts
 
                                     ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
-                                ) join kraj on KRAJ.ID_KRAJ = NUTS3_ID_NUTS
+                                ) join kraj using(ID_KRAJ)
                             )
                             join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
                         join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
