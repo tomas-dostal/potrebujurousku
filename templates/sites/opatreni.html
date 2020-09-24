@@ -1,12 +1,12 @@
 {%block header %}
-{% include 'base.html' %}
+{% include 'sites/parts/header.html' %}
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
    <div class="container">
       <div class="row-fluid">
          {%block opatreni %}
-         {% include 'varovani.html' %}
+         {% include 'sites/parts/varovani.html' %}
          {% endblock %}
          <h2>Aktuální opatření</h2>
             <table class="table">
@@ -55,7 +55,7 @@
 
 
          {% block legenda %}
-         {% include 'legenda.html' %}
+         {% include 'sites/parts/legenda.html' %}
          {% endblock %}
          Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření. Zobrazeny jsou i opatření, které nabydou platnosti během následujících 7 dní.
 
@@ -72,20 +72,20 @@
              <!--  Jeste neni aktivni -->
              {% if queue.PLATNOST_OD > now  and queue.TYP == "doporuceni" %}
                  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                  {{  queue.NAZEV }} <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span>
+                  {{  queue.NAZEV }} <br><span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span>
                   {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                   {% endif %}
 
              {% elif queue.PLATNOST_OD > now  and queue.TYP == "info" %}
                  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                 {{  queue.NAZEV }} <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span>
+                 {{  queue.NAZEV }} <br><span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span>
                      {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                      {% endif %}
              {% elif queue.PLATNOST_OD > now  and queue.TYP == "narizeni" %}
                  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                 {{  queue.NAZEV }} <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
+                 {{  queue.NAZEV }} <br><span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
                      {% if   queue.PLATNOST_DO != None %}
                      <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                      {% endif %}
@@ -95,25 +95,25 @@
 
              {% if queue.PLATNOST_OD < now  and queue.TYP == "narizeni" %}
                  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                 {{  queue.NAZEV }} <!--   <span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span> -->
+                 {{  queue.NAZEV }}
                   <!--  Je aktivni, pokud konci platnost  -->
                  {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                     <span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
+                     <br><span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
                  {% endif %}
 
              {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
                  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                 {{  queue.NAZEV }} <!-- <span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span> -->
+                 {{  queue.NAZEV }}
                   <!--  Je aktivni, pokud konci platnost  -->
                  {% if   queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                     <br><span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
                  {% endif %}
              {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
                  <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                 {{  queue.NAZEV }} <!-- <span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span> -->
+                 {{  queue.NAZEV }}
                  <!--  Je aktivni, pokud konci platnost  -->
                  {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                     <br><span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
                  {% endif %}
             {% else  %}
                  {% if  queue.TYP == "narizeni"  %}
@@ -247,7 +247,7 @@
          <br>
          <br>
           {%block disclaimer %}
-         {% include 'upozorneni.html' %}
+         {% include 'sites/parts/upozorneni.html' %}
          {% endblock %}
          <br>
          <br>
@@ -258,5 +258,5 @@
 </div>
 {% endblock %}
 {%block foot %}
-{% include 'footer.html' %}
+{% include 'sites/parts/footer.html' %}
 {% endblock %}

@@ -1,5 +1,5 @@
 {%block header %}
-{% include 'base.html' %}
+{% include 'sites/parts/header.html' %}
 {% endblock %}
 {% block content %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -7,7 +7,7 @@
    <div class="container">
       <div class="row-fluid">
          {%block opatreni %}
-         {% include 'varovani.html' %}
+         {% include 'sites/parts/varovani.html' %}
          {% endblock %}
 
       <!--     return render(request, 'aktualnost.html', {'pridat': adds, 'ubrat': removals, 'stejne': same,  'statistika': stats,})
@@ -117,12 +117,12 @@
       </div>
       <br><br>
         {%block disclaimer %}
-         {% include 'upozorneni.html' %}
+         {% include 'sites/parts/upozorneni.html' %}
         {% endblock %}
    </div>
 </div>
 </div>
 {% endblock %}
 {%block foot %}
-{% include 'footer.html' %}
+{% include 'sites/parts/footer.html' %}
 {% endblock %}

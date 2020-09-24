@@ -19,7 +19,9 @@
       <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
         <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" crossorigin="anonymous">
       {% load static %}
-     <link rel="icon" href="{% static 'favicon.ico' %} ">
+     <link rel="icon" href="{% static './logo/favicon.ico' %} ">
+     <link rel="stylesheet"  href="{% static 'mystyle.css' %}">
+
       <script src="{% static 'myfunction.js' %}"></script>
       <!-- Global site tag (gtag.js) - Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167906833-4"></script>
@@ -30,7 +32,6 @@
 
           gtag('config', 'UA-167906833-4');
       </script>
-      <link rel="stylesheet"  href="{% static 'mystyle.css' %}">
       <!-- Bootstrap core JavaScript
          ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
@@ -44,7 +45,7 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
             <a class="navbar-brand" href="/">
-                <img src="{% static 'rouska_logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                <img src="{% static './logo/rouska_logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
                 Potřebujuroušku.cz
               </a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -75,11 +76,17 @@
       <div class="btn-group">
 
         {%block tooltip %}
-            {% include 'indikator_aktualnost.html' %}
+            {% include 'sites/parts/indikator_aktualnost.html' %}
         {% endblock %}
-         <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
+        <!-- <form class="form-inline my-2 my-lg-0">
+            <span class="fa fa-search form-control-feedback"></span><input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
          </form>
+-->
+      </div>
+
+      <div class="form-group has-search">
+        <span class="fa fa-search form-control-feedback"></span>
+        <input type="text" id="header_search" class="form-control"  autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('header_search', 'search_results')">
       </div>
       </div>
    </nav>
@@ -89,7 +96,9 @@
    </div>
     <noscript>
         <style>
-            .pagecontainer {display:none;}
+            .pagecontainer {
+                display:none;
+            }
         </style>
         <div class="noscriptmsg">
            <div class="container">

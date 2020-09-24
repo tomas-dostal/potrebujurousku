@@ -48,12 +48,23 @@ function myFunction(my_element, result_element) {
                 });
                 while(i < obj.length)
                 {
+
+
                     // jen kraj
                     if (obj[i]["ID_OBECMESTO"] == null && obj[i]["ID_NUTS"] == null && obj[i]["ID_OKRES"] == null)
                     {
                         var params = '/opatreni/?kraj_id=replace'.replace("replace",  obj[i]["ID_KRAJ"]);
 
-                        var button = "<a type='button' class='btn  btn-block btn-dark cut-text'  href='"+params+"'><span style='color:lightgray'>kraj_str</span></div></a>";
+                        var button = "<a class=\"card-block stretched-link text-decoration-none\" href='parametry'>\n<div className=\"card\" style=\"width: 18rem;\">\n" +
+                            "                        <div className=\"card-body\">\n" +
+                            "                            <h5 className=\"card-title\">kraj_str</h5>\n" +
+                            "                            <h6 className=\"card-subtitle mb-2 text-muted\">Card subtitle</h6>\n" +
+                            "                            <p className=\"card-text\">Some quick example text to build on the card title and make up the\n" +
+                            "                                bulk of the card's content.</p>\n" +
+                            "                            <a href=\"#\" className=\"card-link\">Card link</a>\n" +
+                            "                            <a href=\"#\" className=\"card-link\">Another link</a>\n" +
+                            "                        </div>\n" +
+                            "                    </div></a>";
                         button = button.replace("parametry", params);
                         button = button.replace("kraj_str", obj[i]["NAZEV_KRAJ"]);
                         document.getElementById(result_element).innerHTML += button;

@@ -39,12 +39,11 @@ urlpatterns = [
 
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-handler404 = 'projektrouska.views.custom_page_not_found_view'
-handler500 = 'projektrouska.views.custom_error_view'
-handler403 = 'projektrouska.views.custom_permission_denied_view'
-handler400 = 'projektrouska.views.custom_bad_request_view'
-
+from projektrouska.view.errors import custom_error_view, custom_page_not_found_view, custom_permission_denied_view, custom_bad_request_view
+handler404 = custom_page_not_found_view
+handler500 = custom_error_view
+handler403 = custom_permission_denied_view
+handler400 = custom_bad_request_view
 # Please forgive me. I did not wanted to do it this way...
 import time
 from timeloop import Timeloop

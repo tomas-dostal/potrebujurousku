@@ -1,12 +1,12 @@
 {%block header %}
-{% include 'base.html' %}
+{% include 'sites/parts/header.html' %}
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
    <div class="container">
       <div class="row-fluid">
          {%block opatreni %}
-         {% include 'varovani.html' %}
+         {% include 'sites/parts/varovani.html' %}
          {% endblock %}
          <h1>Statisktiky</h1>
 
@@ -27,5 +27,5 @@
 </div>
 {% endblock %}
 {%block foot %}
-{% include 'footer.html' %}
+{% include 'sites/parts/footer.html' %}
 {% endblock %}

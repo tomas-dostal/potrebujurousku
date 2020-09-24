@@ -12,17 +12,8 @@ from projektrouska.aktualnost import kontrola
 import hashlib
 
 from projektrouska.settings import DEV
+from projektrouska.functions import *
 
-
-def calcmd5(string):
-    # initializing string
-    str2hash = string
-    # encoding GeeksforGeeks using encode()
-    # then sending to md5()
-    result = hashlib.md5(str2hash.encode())
-
-    # printing the equivalent hexadecimal value.
-    return (result.hexdigest())
 
 #@require_GET
 def robots_txt(request):
@@ -33,34 +24,56 @@ def robots_txt(request):
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
 
-def custom_page_not_found_view(request, exception):
-    return render(request, "errors/404.html",
-                  { "posledni_databaze": posledni_databaze(),
-                       'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
-
-
-
-def custom_error_view(request, exception=None):
-    return render(request, "errors/500.html", { "posledni_databaze": posledni_databaze(),
-                       'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
-
-def custom_permission_denied_view(request, exception=None):
-    return render(request, "errors/403.html", { "posledni_databaze": posledni_databaze(),
-                       'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
-
-def custom_bad_request_view(request, exception=None):
-    return render(request, "errors/400.html", { "posledni_databaze": posledni_databaze(),
-                       'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
-
 
 def about(request):
-    return render(request, 'o_projektu.html', {"kontrola": posledni_kontrola()})
-def faq(request):
-    return render(request, 'faq.html', {"kontrola": posledni_kontrola()})
+    return render(request, 'sites/o_projektu.html', {"kontrola": posledni_kontrola()})
+
+def formatnum(number):
+    import locale
+    locale.setlocale(locale.LC_ALL, '')
+    return str(locale.format_string("%d", number, grouping=True)).replace(" ", "&nbsp;")
+def home(request):
+    import requests
+    r = requests.get(url='https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json')
+    result = r.json()["data"][0]
+    data_modified=datetime.fromisoformat(r.json()["modified"])
+
+    """
+        "datum": "2020-09-23",
+        "provedene_testy_celkem": 1240417,
+        "potvrzene_pripady_celkem": 54244,
+        "aktivni_pripady": 26984,
+        "vyleceni": 26709,
+        "umrti": 551,
+        "aktualne_hospitalizovani": 628,
+        "provedene_testy_vcerejsi_den": 21403,
+        "potvrzene_pripady_vcerejsi_den": 2392,
+        "potvrzene_pripady_dnesni_den": 1091
+            
+    """
+    vcera = int( result["potvrzene_pripady_vcerejsi_den"])
+    testu_vcera = int( result["provedene_testy_vcerejsi_den"])
+    pozitivnich = round(vcera / (testu_vcera / 100),2)
+
+
+
+    return render(request, 'sites/home.html', {"kontrola": posledni_kontrola(),
+                                               "datum": result["datum"],
+                                               "provedene_testy_celkem": formatnum(result["provedene_testy_celkem"]),
+                                               "potvrzene_pripady_celkem": formatnum(result["potvrzene_pripady_celkem"]),
+                                               "aktivni_pripady": formatnum(result["aktivni_pripady"]),
+                                               "vyleceni": formatnum(result["vyleceni"]),
+                                               "umrti": formatnum(result["umrti"]),
+                                               "aktualne_hospitalizovani": formatnum(result["aktualne_hospitalizovani"]),
+                                               "provedene_testy_vcerejsi_den": formatnum(result["provedene_testy_vcerejsi_den"]),
+                                               "pozitivnich_procenta_vcera": pozitivnich,
+                                               "potvrzene_pripady_vcerejsi_den": formatnum(result["potvrzene_pripady_vcerejsi_den"]),
+                                               "potvrzene_pripady_dnesni_den": formatnum(result["potvrzene_pripady_dnesni_den"]),
+                                                "posledni_update_dat": data_modified.strftime("%d.%m.%Y %H:%M"),
+                                                "posledni_databaze":  posledni_databaze()})
+def stats(request):
+    return render(request, 'sites/statistiky.html')
+
 
 def indikator_aktualnost():
     with connection.cursor() as cursor:
@@ -73,18 +86,8 @@ def indikator_aktualnost():
                         where
                         ROWNUM <= 1''')
 
-        response = cursor.fetchone()
+        dict = vrat_seznam(cursor.fetchone(), cursor.description)
 
-        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-
-        dict = {}
-        i = 0
-        for row in response:
-            dict[columns[i]] = row
-            i += 1
         if(DEV == True):
             print(dict)
 
@@ -103,6 +106,8 @@ def seznam_opatreni(request):
         query_results = cursor.fetchall()
 
         desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+
+
         ### MAGIC ###
         columns = []
         for col in desc:
@@ -131,26 +136,12 @@ def seznam_opatreni(request):
                     existing.append(col["NAZEV_KAT"])
                     tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                     by_cath.append(tmp)
-        return render(request, 'opatreni.html',
+        return render(request, 'sites/opatreni.html',
                       {'query_results': by_cath,
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
                        'now': datetime.now(),
                        "kontrola": posledni_kontrola()})
-
-def vrat_seznam(data, description):
-    desc = description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-    columns = []
-    for col in desc:
-        columns.append(col[0])
-
-    dict = {}
-    i = 0
-    for row in data:
-        dict[columns[i]] = row
-        i += 1
-    print(dict)
-    return dict
 
 
 def aktualnost(request):
@@ -238,7 +229,7 @@ def aktualnost(request):
                              })
 
 
-    return render(request, 'aktualnost.html', {'procenta': procenta,
+    return render(request, 'sites/aktualnost.html', {'procenta': procenta,
                                                'pridat': chybi,
                                                'celkem': celkem,
                                                'ubrat': smazali_je,
@@ -249,39 +240,19 @@ def aktualnost(request):
                                                "kontrola": posledni_kontrola(),
                                                "posledni_databaze": posledni_databaze(),
                                                 "celk_mame": celkem_mame
-                                               })
+                                                     })
 
 
-def home(request):
-    posledni_kontrola()
-    return render(request, 'uvod.html', {"kontrola": posledni_kontrola(),
-                                         "posledni_databaze":  posledni_databaze()})
-
-
-def stats(request):
-    return render(request, 'statistiky.html')
 def posledni_kontrola():
      with connection.cursor() as cursor:
         # query_results = cursor.fetchall()
         # desc = cursor.description
 
         cursor.execute('''select * from (select * from INFO order by DATE_UPDATED desc ) where rownum <= 1;''')
-        response = cursor.fetchone()
-
-
-        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-
-        dict = {}
-
-        i = 0
-        for row in response:
-            dict[columns[i]] = row
-            i += 1
+        dict = vrat_seznam(cursor.fetchone(), cursor.description)
         print(dict)
         return dict
+
 def posledni_databaze():
     with connection.cursor() as cursor:
         last_qu = """select max(posledni_uprava) from(
@@ -295,6 +266,8 @@ def aktualnost_v_case(request):
     """select min(DATE_UPDATED) as DATE_UPDATED, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN from info
 group by CHECKSUM, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN
 order by  DATE_UPDATED"""
+
+
 def opatreni(request):
     # ?obecmesto_id=replace"
     # "?nuts3_id=replace"'.
@@ -328,12 +301,12 @@ def opatreni(request):
                                     (
                                         select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k 
                                     ) join op_kraj using(kraj_id_kraj)
-                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                                ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
                             union 
                             -- stat 
                             select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava  from (
-                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                            select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
 
@@ -347,7 +320,7 @@ def opatreni(request):
             qu = """
                     
 
-select * from
+                    select * from
                     (
                         select * from (
 
@@ -371,7 +344,7 @@ select * from
                                                       join kraj using (ID_KRAJ)
                                          )
                                 )join op_nuts using(nuts3_id_nuts)
-                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                        )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
 
                         -- okres
@@ -388,7 +361,7 @@ select * from
                                 ) join kraj using(ID_KRAJ)
                             )
                             join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
                         -- kraj
                         select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from
@@ -403,13 +376,13 @@ select * from
 
                                     ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                                 ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         ) join kraj using(id_kraj)
                         -- stat
                         union
 
                         select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
-                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             )
 
                     ) join polozka on opatreni_id_opatreni = id_opatreni
@@ -433,7 +406,7 @@ select * from
                             ) join kraj on kraj.id_kraj=KRAJ_ID_KRAJ
                             join op_okres on op_okres.okres_id_okres=id_okres
                             )
-                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                        join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                         union
                         -- kraj
 
@@ -443,14 +416,14 @@ select * from
                                 (
                                     select * from OKRES  where ID_OKRES = :id_okr
                                 ) join op_kraj using(KRAJ_ID_KRAJ)
-                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                            ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                             ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                         union
 
                         select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from
                        (
-                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                        select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                        )
 
                         ) join polozka on id_opatreni=opatreni_id_opatreni
@@ -503,7 +476,7 @@ select * from
                                                 join op_om on id_obecmesto = op_om.obecmesto_id_obecmesto
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
-                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                              where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
                                 and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
@@ -539,7 +512,7 @@ select * from
                                                 join kraj on kraj.id_kraj = nuts3_kraj_id_kraj
                                                 join op_nuts on op_nuts.nuts3_id_nuts = id_nuts)
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
-                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                              where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
                                 and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
@@ -575,7 +548,7 @@ select * from
                                                 join op_okres on op_okres.okres_id_okres = id_okres
                                    )
                                        join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
-                              where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                              where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
                                 and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                               union
@@ -611,7 +584,7 @@ select * from
                                                          join op_kraj on op_kraj.kraj_id_kraj = nuts3_kraj_id_kraj
                                             )
                                                 join opatreni on opatreni_id_opatreni = opatreni.id_opatreni
-                                       where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                       where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
                                          and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                                    )
                                        join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
@@ -637,7 +610,7 @@ select * from
                                        select *
                                        from OP_STAT
                                                 join OPATRENI using (id_opatreni)
-                                       where (trunc(sysdate) <= PLATNOST_DO or PLATNOST_DO is null)
+                                       where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
                                          and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                                    )
                           )
@@ -717,7 +690,7 @@ select * from
                     existing.append(col["NAZEV_KAT"])
                     tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                     by_cath.append(tmp)
-        return render(request, 'opatreni.html',
+        return render(request, 'sites/opatreni.html',
                       {'query_results': by_cath,
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
@@ -744,13 +717,13 @@ def najdi_mesto(request):
         (
             SELECT distinct null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
             join okres on NUTS3_ID_NUTS=ID_NUTS
-            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('Pra%') -- fuck you, oracle and security.
+            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('Pra%') 
 
         )
         union 
         (
             SELECT distinct null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
-            join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('Pra%') -- fuck you, oracle and security.
+            join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('Pra%') 
         )
         union
         (

@@ -1,0 +1,98 @@
+{%block header %}
+{% include 'sites/parts/header.html' %}
+{% endblock %}
+{% block content %}
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="main">
+    <div class="tight">
+      <div class="row-fluid">
+         {%block opatreni %}
+         {% include 'sites/parts/varovani.html' %}
+         {% endblock %}
+         <h1 class="display-4 text-center">Zadejte polohu</h1>
+      </div>
+    </div>
+    <div class="wide">
+
+{% load my_filters %}
+
+
+      {% load static %}
+
+
+          <div class="card-deck">
+          <div class="card mb-3">
+
+
+
+
+            <!--<img class="card-img-top" src="{% static './city.jpg' %} " alt="Card image cap">-->
+            <div class="card-body">
+              <h5 class="card-title text-center">Zadejte <b>název obce, města, okresu, či kraje</b></h5>
+              <p class="card-text text-center"><p>  pro vyhledání přehledných  informací o covid nařízeních ve zvoleném místě. Kliknutím na kartu zvolíte místo.</p>
+            </div>
+            <!--<div class="card-footer">
+              <small class="text-muted">Tip pro začátek</small>
+            </div>-->
+
+
+               </div>
+
+
+          <div class="card mb-3" >
+            <div class="card-body">
+
+                {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
+                  <h5 class="card-title text-center">Data jsou aktuální!</h5>
+                  <p class="card-text text-center">{{ kontrola.poznamka }} I tak vás ale může zajímat, jakým způsobem tato data získáváme. Mrkněte na stránku <a href="/aktualnost/">Aktuálnost</a></p>
+
+              {% else %}
+                 <h5 class="card-title text-center">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }}
+                    změn{{ kontrola.CELK_ZMEN|cz_pluralize:"u,y," }}</h5>
+                <p class="card-text text-center">Do systému jsme ještě nestihli zanést všechny změny. {{ kontrola.poznamka}} <br>Bližší informace ohledně chybějících nařízení i způsobu, jak data zpracováváme a získáváme naleznete na stránce <a href="/aktualnost/">Aktuálnost</a></p>
+
+              {% endif %}
+
+
+            </div>
+          </div>
+            <div class="card mb-3">
+              <ul class="list-group list-group-flush text-center">
+                  <li class="list-group-item">Potvrzených <b>{{ potvrzene_pripady_celkem }}</b>, <br>včera <b>+{{  potvrzene_pripady_vcerejsi_den }}</b>, dnes <b>+{{ potvrzene_pripady_vcerejsi_den }}</b></li>
+
+                  <li class="list-group-item">Aktivních: <b>{{ aktivni_pripady }}</b></li>
+
+                  <li class="list-group-item">Testů včera: <b>{{ provedene_testy_vcerejsi_den }}</b> (z toho {{ pozitivnich_procenta_vcera }}%</b> pozitivních)</li>
+                  <li class="list-group-item">Hospitalizovaných: <b>{{ aktualne_hospitalizovani }}</b></li>
+                  <li class="list-group-item">Vyléčení: <b>{{ vyleceni }}</b><br>Umrtí: <b>{{ umrti }}</b></li>
+
+
+                 </ul>
+
+            <div class="card-footer">
+
+              <small class="text-muted">Aktualizováno {{ posledni_update_dat }}, <a href="https://onemocneni-aktualne.mzcr.cz/covid-19">Zdroj</a></small>
+
+            </div>
+
+             </div>
+
+           </div>
+
+        <div class="tight">
+
+              <!-- Actual search box -->
+              <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" id="main_search" class="form-control"  autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('main_search', 'dropdown-menu')">
+              </div>
+             <div  class="container-fluid btn-group-vertical" id="dropdown-menu">
+             </div>
+        </div>
+    </div>
+   </div>
+</div>
+{% endblock %}
+{%block foot %}
+{% include 'sites/parts/footer.html' %}
+{% endblock %}

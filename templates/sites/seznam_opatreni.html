@@ -1,12 +1,12 @@
 {%block header %}
-{% include 'base.html' %}
+{% include 'sites/parts/header.html' %}
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
    <div class="container">
       <div class="row-fluid">
          {%block opatreni %}
-         {% include 'varovani.html' %}
+         {% include 'sites/parts/varovani.html' %}
          {% endblock %}
 
          <h2>Aktuální opatření</h2>
@@ -29,7 +29,7 @@
 
 
          {% block legenda %}
-         {% include 'legenda.html' %}
+         {% include 'sites/parts/legenda.html' %}
          {% endblock %}
          Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření.
 
@@ -177,18 +177,18 @@
          <br>
          <br>
           {%block disclaimer %}
-         {% include 'upozorneni.html' %}
+         {% include 'sites/parts/upozorneni.html' %}
          {% endblock %}
          <br>
          <br>
          <br>
          {%block posl_aktualizace %}
-         {% include 'posl_aktualizace.html' %}
+         {% include 'sites/parts/posl_aktualizace.html' %}
          {% endblock %}
       </div>
    </div>
 </div>
 {% endblock %}
 {%block foot %}
-{% include 'footer.html' %}
+{% include 'sites/parts/footer.html' %}
 {% endblock %}

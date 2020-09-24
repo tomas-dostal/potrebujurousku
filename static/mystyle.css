@@ -1,11 +1,12 @@
 body
 {
     padding:0px;
-    background-color: #e9ecef;
+    background-color: #fbfbfb;
 }
 html,
 body {
   height: 100%;
+
 }
 .cut-text {
   text-overflow: ellipsis;
@@ -20,9 +21,16 @@ body {
         width:100%;
     }*/
 }
+#myicon
+{
+
+ width: 40px !important;
+height: 40px !important;
+}
 p {
   margin-bottom: 1.5em !important;
 }
+
 .btn
 {
     margin-top: 5px;
@@ -40,4 +48,71 @@ p {
 
 .jumbotron {
     padding: 1rem 1rem !important;
+    background-color: transparent;
+
+}
+
+.bg-dark
+{
+    background-color: #262729 !important;
+    padding:  0.6rem 1rem
+;
+}
+.link-unstyled,  a:focus
+{
+
+    color: #212529 !important;
+    text-decoration: none;
+}
+.link-unstyled.a:focus {
+    color: rgb(66 66 66) !important;
+    text-decoration: underline !important;
+
+}
+
+.navbar-dark .navbar-nav .nav-link
+{
+    color:#CCC;
+
+}
+
+/* Styles for wrapping the search box */
+card
+{
+    border-radius: 16px !important;
+}
+.tight
+{
+
+    width: 60%;
+    margin: 50px auto;
+}
+
+.wide
+{
+    width: 80%;
+    margin: 50px auto;
+}
+
+/* Bootstrap 4 text input with search icon */
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+
+::placeholder {
+  color: #c4c5c4 !important;
 }
