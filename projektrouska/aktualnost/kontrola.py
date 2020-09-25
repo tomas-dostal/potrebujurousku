@@ -156,7 +156,7 @@ def start():
 
                 try:
                     cursor.execute("""UPDATE OPATRENI 
-                                SET PLATNOST_AUTOOPRAVA = 0
+                                SET PLATNOST_AUTOOPRAVA = 0--, JE_PLATNE = 2
                                 WHERE ID_OPATRENI = :id ;""",
                                    {"id": i[columns.index("ID_OPATRENI")]})
                     # cursor.fetchall
