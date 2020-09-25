@@ -4,16 +4,12 @@ from django.views.decorators.http import require_GET
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 
-# Create your views here.
 from django.shortcuts import render
 from django.db import connection
 from projektrouska.aktualnost import kontrola
-
-import hashlib
-
 from projektrouska.settings import DEV
 from projektrouska.functions import *
-
+from projektrouska.api import *
 
 #@require_GET
 def robots_txt(request):
@@ -28,10 +24,6 @@ def robots_txt(request):
 def about(request):
     return render(request, 'sites/o_projektu.html', {"kontrola": posledni_kontrola()})
 
-def formatnum(number):
-    import locale
-    locale.setlocale(locale.LC_ALL, '')
-    return str(locale.format_string("%d", number, grouping=True)).replace(" ", "&nbsp;")
 def home(request):
     import requests
     r = requests.get(url='https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json')
@@ -59,16 +51,16 @@ def home(request):
 
     return render(request, 'sites/home.html', {"kontrola": posledni_kontrola(),
                                                "datum": result["datum"],
-                                               "provedene_testy_celkem": formatnum(result["provedene_testy_celkem"]),
-                                               "potvrzene_pripady_celkem": formatnum(result["potvrzene_pripady_celkem"]),
-                                               "aktivni_pripady": formatnum(result["aktivni_pripady"]),
-                                               "vyleceni": formatnum(result["vyleceni"]),
-                                               "umrti": formatnum(result["umrti"]),
-                                               "aktualne_hospitalizovani": formatnum(result["aktualne_hospitalizovani"]),
-                                               "provedene_testy_vcerejsi_den": formatnum(result["provedene_testy_vcerejsi_den"]),
+                                               "provedene_testy_celkem": format_num(result["provedene_testy_celkem"]),
+                                               "potvrzene_pripady_celkem": format_num(result["potvrzene_pripady_celkem"]),
+                                               "aktivni_pripady": format_num(result["aktivni_pripady"]),
+                                               "vyleceni": format_num(result["vyleceni"]),
+                                               "umrti": format_num(result["umrti"]),
+                                               "aktualne_hospitalizovani": format_num(result["aktualne_hospitalizovani"]),
+                                               "provedene_testy_vcerejsi_den": format_num(result["provedene_testy_vcerejsi_den"]),
                                                "pozitivnich_procenta_vcera": pozitivnich,
-                                               "potvrzene_pripady_vcerejsi_den": formatnum(result["potvrzene_pripady_vcerejsi_den"]),
-                                               "potvrzene_pripady_dnesni_den": formatnum(result["potvrzene_pripady_dnesni_den"]),
+                                               "potvrzene_pripady_vcerejsi_den": format_num(result["potvrzene_pripady_vcerejsi_den"]),
+                                               "potvrzene_pripady_dnesni_den": format_num(result["potvrzene_pripady_dnesni_den"]),
                                                 "posledni_update_dat": data_modified.strftime("%d.%m.%Y %H:%M"),
                                                 "posledni_databaze":  posledni_databaze()})
 def stats(request):
@@ -86,7 +78,7 @@ def indikator_aktualnost():
                         where
                         ROWNUM <= 1''')
 
-        dict = vrat_seznam(cursor.fetchone(), cursor.description)
+        dict = return_as_dict(cursor.fetchone(), cursor.description)
 
         if(DEV == True):
             print(dict)
@@ -154,11 +146,11 @@ def aktualnost(request):
                         (select * from info order by DATE_UPDATED desc)
                         where
                         ROWNUM <= 1''')
-        dict = vrat_seznam(cursor.fetchone(), cursor.description)
+        dict = return_as_dict(cursor.fetchone(), cursor.description)
         print(dict)
 
         cursor.execute('''select count(*) as celk_mame from opatreni;''')
-        dict2 = vrat_seznam(cursor.fetchone(), cursor.description)
+        dict2 = return_as_dict(cursor.fetchone(), cursor.description)
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
             print("Aktualnost kontrolovana pred mene nez 10 minutami")
@@ -249,7 +241,7 @@ def posledni_kontrola():
         # desc = cursor.description
 
         cursor.execute('''select * from (select * from INFO order by DATE_UPDATED desc ) where rownum <= 1;''')
-        dict = vrat_seznam(cursor.fetchone(), cursor.description)
+        dict = return_as_dict(cursor.fetchone(), cursor.description)
         print(dict)
         return dict
 
@@ -438,7 +430,8 @@ def opatreni(request):
 
         elif (id_obecmesto != "" and nuts3_id == "" and kraj_id == ""):  # obecmesto
             flag = "obecmesto"
-            qu = """select * from (
+            qu = """
+            select * from (
         select * from (
                               -- lokalni
                               select nazev_obecmesto,
@@ -615,7 +608,8 @@ def opatreni(request):
                                    )
                           )
               )join polozka on id_opatreni=opatreni_id_opatreni
-             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+             join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc 
+             """
             misto_qu = """select nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
               select * from (
                        select * from (
@@ -648,41 +642,13 @@ def opatreni(request):
         elif (flag == "kraj"):
             cursor.execute(misto_qu, {"id_k": kraj_id})
 
-        location_results = cursor.fetchone()
-        location_desc = cursor.description
+        location = return_as_dict(cursor.fetchone(), cursor.description)
+        array = return_as_array(query_results, desc)
 
-
-
-        ### MAGIC ###
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-
-        location_columns = []
-        for col in location_desc:
-            location_columns.append(col[0])
-
-        a = []
-
-        for line in query_results:
-            temp = {}
-            for i in range(0, len(line)):
-                temp[columns[i]] = line[i]
-            a.append(temp)
-
-        location = {}
-        i = 0
-        for line in location_results:
-            # {'key': 'value', 'mynewkey': 'mynewvalue'}
-            location[location_columns[i]]=line
-            i += 1
-
-
-        # setrizene podle kategorie
+        # oder by cathegory
         by_cath = []
-
         existing = []
-        for col in a:
+        for col in array:
             if ("NAZEV_KAT" in col):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
                 if (col["NAZEV_KAT"] in existing):
                     by_cath[len(by_cath) - 1]["narizeni"].append(col)
@@ -690,6 +656,7 @@ def opatreni(request):
                     existing.append(col["NAZEV_KAT"])
                     tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                     by_cath.append(tmp)
+
         return render(request, 'sites/opatreni.html',
                       {'query_results': by_cath,
                        "location": location,
@@ -697,154 +664,63 @@ def opatreni(request):
                        'now': datetime.now(),
                        "kontrola": posledni_kontrola()})
 
-
-
-# TODO fix javascript to use dicts
-def najdi_mesto(request):
-    # misto, ktere hledam je ulozene v args
-    args = request.GET.copy()
-    mojemisto = str(args.get("misto", "Praha"))
-    zobraz = len(mojemisto*5)
-
-    if (len(mojemisto) < 2):
-        return
-
-    qu = '''select * from (
-        SELECT distinct null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, null as id_okres, null as nazev_okres,  nazev_kraj, id_kraj 
-        from kraj WHERE lower(nazev_kraj) LIKE lower('Pra%')
-
-        union 
-        (
-            SELECT distinct null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
-            join okres on NUTS3_ID_NUTS=ID_NUTS
-            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('Pra%') 
-
-        )
-        union 
-        (
-            SELECT distinct null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
-            join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('Pra%') 
-        )
-        union
-        (
-            select distinct * from
-            (
-                select id_obecmesto, nazev_obecmesto, id_nuts, nazev_nuts,  id_okres, nazev_okres, nazev_kraj, id_kraj from
-                (
-                    select * from (SELECT ID_NUTS, ID_OBECMESTO, KRAJ_ID_KRAJ as ID_KRAJ, NAZEV_NUTS, NAZEV_OBECMESTO, NUTS3_ID_NUTS
-                                   FROM obecmesto
-                                            join nuts3 on nuts3_id_nuts = nuts3.id_nuts
-                                   WHERE lower(nazev_obecmesto) LIKE lower('Pra%')
-                    ) join OKRES on OKRES.NUTS3_ID_NUTS=ID_NUTS
-
-                ) join kraj using (id_kraj)
-            )
-        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first, id_okres asc nulls first) '''# WHERE ROWNUM <= :zraz
-    result = all(c.isalnum() or c.isspace() for c in mojemisto)
-
-    if (not result):
-        return JsonResponse({'data': 'empty', 'invalid': 'Invalid character! Please stop injecting. Thank you'},
-                            safe=False)
+def opaterni_celoplosne(request):
+    qu = """
+        select * from (
+    select * from (
+                          select null as nazev_obecmesto,
+                                 null as nazev_nuts,
+                                 null as nazev_okres,
+                                 null as nazev_kraj,
+                                 id_opatreni,
+                                 nazev_opatreni,
+                                 nazev_zkr,
+                                 zdroj,
+                                 ROZSAH,
+                                 platnost_od,
+                                 platnost_do,
+                                 platnost_autooprava, 
+                                 zdroj_autooprava, 
+                                 nazev_autooprava
+                          from (
+                                   select *
+                                   from OP_STAT
+                                            join OPATRENI using (id_opatreni)
+                                   where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
+                                     and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                               )
+                      )
+          )join polozka on id_opatreni=opatreni_id_opatreni
+         join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc 
+         """
 
     with connection.cursor() as cursor:
 
-            # try:
-        cursor.execute(qu.replace("Pra", str(mojemisto)))
+        cursor.execute(qu, {"zobrazit_dopredu": 7})
+        # vysledek bude plus minus
+        # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
+
         query_results = cursor.fetchall()
-        desc = cursor.description
-        # nt_result = namedtuple('Result', [col[0] for col in desc])
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-        out_dict_array = []
+        desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+        array = return_as_array(query_results, desc)
 
-        for line in query_results:
-            temp = {}
-            for i in range(0, len(line)):
-                temp[columns[i]] = line[i]
-            out_dict_array.append(temp)
+        # oder by cathegory
+        by_cath = []
+        existing = []
+        for col in array:
+            if ("NAZEV_KAT" in col):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
+                if (col["NAZEV_KAT"] in existing):
+                    by_cath[len(by_cath) - 1]["narizeni"].append(col)
+                else:
+                    existing.append(col["NAZEV_KAT"])
+                    tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
+                    by_cath.append(tmp)
 
-
-        jsonStr = json.dumps(out_dict_array)
-
-        if (jsonStr == []):
-            return JsonResponse({'data': 'empty'}, safe=False)
-        return JsonResponse(jsonStr, safe=False)
-        # except:
-        #    print("Error occured")
-
+        return render(request, 'sites/celostatni_opatreni.html',
+                      {'query_results': by_cath,
+                       "posledni_databaze": posledni_databaze(),
+                       'now': datetime.now(),
+                       "kontrola": posledni_kontrola()})
 
 
-# TODO Pokud bude ve výsledku query dva řádky, které se budou lišit pouze v tom, že jeden je nuts a obecmesto je null a druhý že je nuts a obecmesto není null (pro uživatele vypadá jako dva stejné výsledky), tak smaž jeden z nich (asi ten NUTS)
-def najdi_mesto(request):
-    # misto, ktere hledam je ulozene v args
-    args = request.GET.copy()
-    mojemisto = str(args.get("misto", "Praha"))
-    zobraz = len(mojemisto*5)
 
-    if (len(mojemisto) < 2):
-        return
-
-    qu = '''select * from (
-        SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, null as id_okres, null as nazev_okres,  nazev_kraj, id_kraj 
-        from kraj WHERE lower(nazev_kraj) LIKE lower('Pra%')
-
-        union 
-        (
-            SELECT null as id_obecmesto, null as nazev_obecmesto, id_nuts, nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from nuts3
-            join okres on NUTS3_ID_NUTS=ID_NUTS
-            join kraj on nuts3.kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_nuts) LIKE lower('Pra%') -- fuck you, oracle and security.
-
-        )
-        union 
-        (
-            SELECT null as id_obecmesto, null as nazev_obecmesto, null as id_nuts, null as nazev_nuts, id_okres, nazev_okres,  nazev_kraj, id_kraj from okres
-            join kraj on kraj_id_kraj=kraj.id_kraj WHERE lower(nazev_okres) LIKE lower('Pra%') -- fuck you, oracle and security.
-        )
-        union
-        (
-            select  * from
-            (
-                select id_obecmesto, nazev_obecmesto, id_nuts, nazev_nuts,  id_okres, nazev_okres, nazev_kraj, id_kraj from
-                (
-                    select * from (SELECT ID_NUTS, ID_OBECMESTO, KRAJ_ID_KRAJ as ID_KRAJ, NAZEV_NUTS, NAZEV_OBECMESTO, NUTS3_ID_NUTS
-                                   FROM obecmesto
-                                            join nuts3 on nuts3_id_nuts = nuts3.id_nuts
-                                   WHERE lower(nazev_obecmesto) LIKE lower('Pra%')
-                    ) join OKRES on OKRES.NUTS3_ID_NUTS=ID_NUTS
-
-                ) join kraj using (id_kraj)
-            )
-        ) order by  nazev_obecmesto asc nulls first,  id_nuts asc nulls first, id_okres asc nulls first) where rownum < 10 '''# WHERE ROWNUM <= :zraz
-    result = all(c.isalnum() or c.isspace() for c in mojemisto)
-
-    if (not result):
-        return JsonResponse({'data': 'empty', 'invalid': 'Invalid character! Please stop injecting. Thank you'},
-                            safe=False)
-
-    with connection.cursor() as cursor:
-
-            # try:
-        cursor.execute(qu.replace("Pra", str(mojemisto)))
-        query_results = cursor.fetchall()
-        desc = cursor.description
-        # nt_result = namedtuple('Result', [col[0] for col in desc])
-        columns = []
-        for col in desc:
-            columns.append(col[0])
-        out_dict_array = []
-
-        for line in query_results:
-            temp = {}
-            for i in range(0, len(line)):
-                temp[columns[i]] = line[i]
-            out_dict_array.append(temp)
-
-
-        jsonStr = json.dumps(out_dict_array)
-
-        if (jsonStr == []):
-            return JsonResponse({'data': 'empty'}, safe=False)
-        return JsonResponse(jsonStr, safe=False)
-        # except:
-        #    print("Error occured")

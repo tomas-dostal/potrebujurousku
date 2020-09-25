@@ -8,42 +8,7 @@
 			{%block opatreni %}
 			{% include 'sites/parts/varovani.html' %}
 			{% endblock %}
-			<h2>Aktuální opatření</h2>
-			<table class="table">
-				<thead class="thead-dark">
-					<tr class="table-active">
-						{% if  location.NAZEV_OBECMESTO != None or  location.NAZEV_NUTS != None  %}
-						<th scope="col">Místo</th>
-						{% endif %}
-						{% if  location.NAZEV_OKRES != None  %}
-						<th scope="col">Okres</th>
-						{% endif %}
-						<th scope="col">Kraj</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="table-secondary">
-						{% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
-						<td>{{location.NAZEV_OBECMESTO}}</td>
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-						{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
-						<td>{{location.NAZEV_NUTS}}</td>
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-						{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-					</tr>
-					{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
-					<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
-					<td>{{location.NAZEV_KRAJ}}</td>
-					{% endif %}
-				</tbody>
-			</table>
+			<h2>Aktuální opatření (celostátní)</h2>
 			<!--Get your own code at fontawesome.com-->
 			<!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
 			{% block legenda %}
@@ -111,15 +76,6 @@
 			{% endif %}
 			{{  queue.NAZEV }}
 			{% endif %}
-			{% endif %}
-			{% if  queue.ROZSAH == "cr" %}
-			<span class="badge badge-light">Celoplošné</span>
-			{% endif %}
-			{% if  queue.ROZSAH == "kraj" %}
-			<span class="badge badge-secondary">Lokální</span>
-			{% endif %}
-			{% if  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
-			<span class="badge badge-secondary">Lokální</span>
 			{% endif %}
 			</button>
 			<!-- Modal -->

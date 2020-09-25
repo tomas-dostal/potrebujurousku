@@ -20,37 +20,44 @@ import requests
 
 from django.conf.urls.static import static
 from django.contrib import admin
-
+from projektrouska.api.search import *
+from projektrouska.settings import BETA, DEV
 from projektrouska.aktualnost import kontrola
 from django.db import connection
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('o-projektu/', views.about, name='about'),
-    #path('FAQ/', views.faq, name='FAQ'),
+                  # path('admin/', admin.site.urls),
+                  path('', views.home, name='home'),
+                  path('o-projektu/', views.about, name='about'),
+                  path('opatreni/', views.opatreni, name='opatreni'),
+                  path('celostatni-opatreni/', views.opaterni_celoplosne, name='celostatni-opatreni'),
 
-    path('opatreni/', views.opatreni, name='opatreni'),
-    path('aktualnost/', views.aktualnost, name='aktualnost'),
-    path("robots.txt", views.robots_txt),
+                  path('aktualnost/', views.aktualnost, name='aktualnost'),
+                  path("robots.txt", views.robots_txt),
+                  # path('statistiky/', views.stats, name='statistiky'),
+                  path('api/search', find_place_by_name, name='najdi_mesto'),
 
-                  #path('statistiky/', views.stats, name='statistiky'),
-    path('api/search', views.najdi_mesto, name='najdi_mesto'),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+from projektrouska.view.errors import custom_error_view, custom_page_not_found_view, custom_permission_denied_view, \
+    custom_bad_request_view
 
-
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-from projektrouska.view.errors import custom_error_view, custom_page_not_found_view, custom_permission_denied_view, custom_bad_request_view
 handler404 = custom_page_not_found_view
 handler500 = custom_error_view
 handler403 = custom_permission_denied_view
 handler400 = custom_bad_request_view
+
 # Please forgive me. I did not wanted to do it this way...
 import time
 from timeloop import Timeloop
 from datetime import timedelta
 
 tl = Timeloop()
+
+
 @tl.job(interval=timedelta(seconds=300))
-def sample_job_every_240s():
-    page = requests.get("https://potrebujurousku.cz/aktualnost/")
+def sample_job_every_300s():
+    if (not BETA and not DEV):
+        requests.get("https://potrebujurousku.cz/aktualnost/")
+
+
 tl.start(block=False)

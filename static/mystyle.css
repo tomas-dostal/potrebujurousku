@@ -38,9 +38,11 @@ p {
     white-space: normal;
     word-break: break-word;
 }
-#dropdown-menu
+#dropdown-menu, #search_results
 {
     padding: 0 !important;
+     display: inline-block;
+    column-break-inside: avoid;
 }
 .cell-breakAll {
    word-break: break-all;
@@ -90,7 +92,7 @@ card
 
 .wide
 {
-    width: 80%;
+    width: 90%;
     margin: 50px auto;
 }
 
@@ -115,4 +117,51 @@ card
 
 ::placeholder {
   color: #c4c5c4 !important;
+}
+
+#spinner
+{
+    margin-top: 15px;
+}
+
+#info-tab
+{
+   column-count: 3  !important;
+}
+
+@media (min-width: 787px) {
+
+   /* full-width, dropdown-menu, btn-group-vertical{
+        width:100%;
+    }*/
+    .card-columns {
+        column-count: 5  !important;
+    }
+}
+@media (max-width: 786px) {
+
+   /* full-width, dropdown-menu, btn-group-vertical{
+        width:100%;
+    }*/
+    .card-columns {
+        column-count: 3  !important;
+    }
+}
+@media (max-width: 576px) {
+
+   /* full-width, dropdown-menu, btn-group-vertical{
+        width:100%;
+    }*/
+    .card-columns {
+        column-count: 2  !important;
+    }
+}
+@media (max-width: 378px) {
+
+   /* full-width, dropdown-menu, btn-group-vertical{
+        width:100%;
+    }*/
+    .card-columns {
+        column-count: 1 !important;
+    }
 }

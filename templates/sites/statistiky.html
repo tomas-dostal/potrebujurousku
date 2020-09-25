@@ -3,27 +3,24 @@
 {% endblock %}
 {% block content %}
 <div class="jumbotron">
-   <div class="container">
-      <div class="row-fluid">
-         {%block opatreni %}
-         {% include 'sites/parts/varovani.html' %}
-         {% endblock %}
-         <h1>Statisktiky</h1>
-
-          Údaje na této stránce pocházejí přímo z webu ministerstva zdravotnictví.
-
-            <!-- 16:9 aspect ratio -->
-            <div class="embed-responsive embed-responsive-16by9">
-              <iframe class="embed-responsive-item" src="https://onemocneni-aktualne.mzcr.cz/covid-19/widget"></iframe>
-            </div>
-
-         <div class="embed-responsive embed-responsive-16by9" id="moje">
-         </div>
-         <script>
-            $("#moje").load("https://onemocneni-aktualne.mzcr.cz/covid-19/widget #prehled");
-        </script>
-    </div>
-   </div>
+	<div class="container">
+		<div class="row-fluid">
+			{%block opatreni %}
+			{% include 'sites/parts/varovani.html' %}
+			{% endblock %}
+			<h1>Statisktiky</h1>
+			TODO
+			<!-- 16:9 aspect ratio -->
+			<div class="embed-responsive embed-responsive-16by9">
+				<iframe class="embed-responsive-item" src="https://onemocneni-aktualne.mzcr.cz/covid-19/widget"></iframe>
+			</div>
+			<div class="embed-responsive embed-responsive-16by9" id="moje">
+			</div>
+			<script>
+				$("#moje").load("https://onemocneni-aktualne.mzcr.cz/covid-19/widget #prehled");
+			</script>
+		</div>
+	</div>
 </div>
 {% endblock %}
 {%block foot %}

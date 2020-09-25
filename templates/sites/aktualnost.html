@@ -4,123 +4,104 @@
 {% block content %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="jumbotron">
-   <div class="container">
-      <div class="row-fluid">
-         {%block opatreni %}
-         {% include 'sites/parts/varovani.html' %}
-         {% endblock %}
-
-      <!--     return render(request, 'aktualnost.html', {'pridat': adds, 'ubrat': removals, 'stejne': same,  'statistika': stats,})
- -->
-      <h2>Stav k {{ cas }}</h2>
-      <p>
-          {{ statistika }}
-           <br>Poslední změna v databázi proběhla {{ posledni_databaze }}
-      </p>
-    {% if pridat %}
-
-      <h3>Nestihli jsme zpracovat</h3>
-      <div class="table-responsive">
-  <!--Table-->
-  <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Název opatření</th>
-              <th scope="col">Zdroj</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for p in pridat %}
-           <tr>
-              <td>{{ p.nazev }}</td>
-                <td class="cell-breakAll"><a href="{{ p.odkaz }}">{{ p.odkaz }}</a></td>
-            </tr>
-           {% endfor %}
-
-          </tbody>
-        </table>
-      </div>
-      {% endif %}
-
-      {% if ubrat %}
-
-      <h3>Máme navíc</h3>
-      <p>Stává se, že z ničeho nic se některá opatření ze stránek ministerstva zdravotnictví, sekce "Aktuální opatření" prostě vypaří. Většinou k tomu vede to, že nařízení pozbyde platnosti (je zrušeno jiným nařízením), je přebytečné (např. nemá smysl držet v "aktuálních nařízeních" opatření, které ruši jiné opatření).</p>
-      <div class="table-responsive">
-  <!--Table-->
-  <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">ID*</th>
-              <th scope="col">Název opatření</th>
-              <th scope="col">Zdroj</th>
-            </tr>
-          </thead>
-          <tbody>
-
-            {% for u in ubrat %}
-             <tr>
-                <td>{{ u.ID_OPATRENI }}</td>
-                <td>{{ u.NAZEV_OPATRENI }}</td>
-
-                 <td class="cell-breakAll"><a href="{{ u.ZDROJ }}">{{ u.ZDROJ }}</a></td>
-            </tr>
-           {% endfor %}
-
-          </tbody>
-        </table>
-          *Zmiňované ID slouží pouze pro zjednodušení identifikace pro naši databázi.
-      {% endif %}
-    {% if zmena %}
-
-      <h3>Asi proběhla změna?</h3>
-          <p>Pravděpodobně došlo ke změně odkazu nařízení (se zachováním stejného názvu). Prostě se tak z ničeho nic stane, že se změní odkaz na nařízení. Tyto změny jsme zatím ještě nestihli zpracovat, ale většinou pro běžného uživatele nemají téměř žádný vliv. Při náhledu do konkrétních opatření týkajících se tohoto opatření budete varováni, že došlo ke změně odkazu.</p>
-     <div class="table-responsive">
-  <!--Table-->
-  <table class="table table-striped">
-          <thead>
-            <tr>
-               <th>ID opatření</th>
-               <th class="col-4">Název opatření</th>
-               <th class="col-3">Starý odkaz</th>
-               <th class="col-3">V tuto chvíli získaný zdroj</th>
-
-            </tr>
-          </thead>
-          <tbody>
-
-            {% for u in zmena %}
-             <tr>
-               <td>{{ u.ID_OPATRENI }}</td>
-                <td>{{ u.NAZEV_OPATRENI }}</td>
-
-                <td class="cell-breakAll"><a href="{{ u.STARY_ODKAZ }}">{{ u.STARY_ODKAZ }}</a></td>
-                <td class="cell-breakAll"><a href="{{ u.ZDROJ }}">{{ u.ZDROJ }}</a></td>
-
-            </tr>
-           {% endfor %}
-
-          </tbody>
-        </table>
-      </div>
-      {% endif %}
-
-
-
-         <hr>
-      <h5>Jak tato data získáváme?</h5>
-          Data automaticky kontrolujeme oproti serverům <a href="https://koronavirus.mzcr.cz/mapa-webu/">ministerstva zdravotnictví</a>. S trochou dobré vůle by se dalo říci, že všechny příspěvky z kategorie <i>"Mimořádná a ochranná opatření"</i> budou reprezentovat množinu aktuálně platných nařízení v rámci ČR.
-          V tuto chvíli <b>nekontrolujeme data vůči "semaforu"</b>, protože se v tuto chvíli není přesně dané, co vlastně jaká barva znamená z pohledu opatření. Nicméně, z našeho pozorování se zdá, že semafor je pouze sekundární informační kanál, který slouží spíše pro orientaci lidí.
-                      <br><br>
-          <h5>Proč načítání této stránky tak dlouho trvá?</h5>
-          Aby byla data jak se patří čerstvá, provádíme kontrolu při každém požadavku. Časem toto změníme, protože nikdo nerad čeká. Data budeme brát přímo z databáze a kontroly budou probíhat automaticky.
-      </div>
-      <br><br>
-        {%block disclaimer %}
-         {% include 'sites/parts/upozorneni.html' %}
-        {% endblock %}
-   </div>
-</div>
+	<div class="container">
+		<div class="row-fluid">
+			{%block opatreni %}
+			{% include 'sites/parts/varovani.html' %}
+			{% endblock %}
+			<h2>Stav k {{ cas }}</h2>
+			<p>
+				{{ statistika }}
+				<br>Poslední změna v databázi proběhla {{ posledni_databaze }}
+			</p>
+			{% if pridat %}
+			<h3>Nestihli jsme zpracovat</h3>
+			<div class="table-responsive">
+				<!--Table-->
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">Název opatření</th>
+							<th scope="col">Zdroj</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for p in pridat %}
+						<tr>
+							<td>{{ p.nazev }}</td>
+							<td class="cell-breakAll"><a href="{{ p.odkaz }}">{{ p.odkaz }}</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% endif %}
+			{% if ubrat %}
+			<h3>Máme navíc</h3>
+			<p>Stává se, že z ničeho nic se některá opatření ze stránek ministerstva zdravotnictví, sekce "Aktuální opatření" prostě vypaří. Většinou k tomu vede to, že nařízení pozbyde platnosti (je zrušeno jiným nařízením), je přebytečné (např. nemá smysl držet v "aktuálních nařízeních" opatření, které ruši jiné opatření).</p>
+			<div class="table-responsive">
+				<!--Table-->
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">ID*</th>
+							<th scope="col">Název opatření</th>
+							<th scope="col">Zdroj</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for u in ubrat %}
+						<tr>
+							<td>{{ u.ID_OPATRENI }}</td>
+							<td>{{ u.NAZEV_OPATRENI }}</td>
+							<td class="cell-breakAll"><a href="{{ u.ZDROJ }}">{{ u.ZDROJ }}</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				*Zmiňované ID slouží pouze pro zjednodušení identifikace pro naši databázi.
+				{% endif %}
+				{% if zmena %}
+				<h3>Asi proběhla změna?</h3>
+				<p>Pravděpodobně došlo ke změně odkazu nařízení (se zachováním stejného názvu). Prostě se tak z ničeho nic stane, že se změní odkaz na nařízení. Tyto změny jsme zatím ještě nestihli zpracovat, ale většinou pro běžného uživatele nemají téměř žádný vliv. Při náhledu do konkrétních opatření týkajících se tohoto opatření budete varováni, že došlo ke změně odkazu.</p>
+				<div class="table-responsive">
+					<!--Table-->
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID opatření</th>
+								<th class="col-4">Název opatření</th>
+								<th class="col-3">Starý odkaz</th>
+								<th class="col-3">V tuto chvíli získaný zdroj</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for u in zmena %}
+							<tr>
+								<td>{{ u.ID_OPATRENI }}</td>
+								<td>{{ u.NAZEV_OPATRENI }}</td>
+								<td class="cell-breakAll"><a href="{{ u.STARY_ODKAZ }}">{{ u.STARY_ODKAZ }}</a></td>
+								<td class="cell-breakAll"><a href="{{ u.ZDROJ }}">{{ u.ZDROJ }}</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				{% endif %}
+				<hr>
+				<h5>Jak tato data získáváme?</h5>
+				Data automaticky kontrolujeme oproti serverům <a href="https://koronavirus.mzcr.cz/mapa-webu/">ministerstva zdravotnictví</a>. S trochou dobré vůle by se dalo říci, že všechny příspěvky z kategorie <i>"Mimořádná a ochranná opatření"</i> budou reprezentovat množinu aktuálně platných nařízení v rámci ČR.
+				V tuto chvíli <b>nekontrolujeme data vůči "semaforu"</b>, protože se v tuto chvíli není přesně dané, co vlastně jaká barva znamená z pohledu opatření. Nicméně, z našeho pozorování se zdá, že semafor je pouze sekundární informační kanál, který slouží spíše pro orientaci lidí.
+				<br><br>
+				<h5>Proč načítání této stránky tak dlouho trvá?</h5>
+				Aby byla data jak se patří čerstvá, provádíme kontrolu při každém požadavku. Časem toto změníme, protože nikdo nerad čeká. Data budeme brát přímo z databáze a kontroly budou probíhat automaticky.
+			</div>
+			<br><br>
+			{%block disclaimer %}
+			{% include 'sites/parts/upozorneni.html' %}
+			{% endblock %}
+		</div>
+	</div>
 </div>
 {% endblock %}
 {%block foot %}

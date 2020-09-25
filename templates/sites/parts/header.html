@@ -1,66 +1,78 @@
 <!DOCTYPE html>
 <!-- Rád se koukáš stránkám pod kapotu? Super, tak přesně takovéhle potřebujeme. Místo toho snažit se projekt rozbít, můžeš pomoct web stavět. Napiš a nějak se domluvíme -->
 <html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="description" content="">
-      <meta name="author" content="">
-      <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
-       <script src="https://kit.fontawesome.com/3b11066d11.js" crossorigin="anonymous"></script>
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet">
-<link
-  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
-  rel="stylesheet"  type='text/css'>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-      <script src="https://code.jquery.com/jquery-3.2.1.min.js"  crossorigin="anonymous"></script>
-      <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-      <script async src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-      <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
-        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" crossorigin="anonymous">
-      {% load static %}
-     <link rel="icon" href="{% static './logo/favicon.ico' %} ">
-     <link rel="stylesheet"  href="{% static 'mystyle.css' %}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
+        <script src="https://kit.fontawesome.com/3b11066d11.js" crossorigin="anonymous"></script>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
+        <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script async src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" crossorigin="anonymous" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        {% load static %}
+        <link rel="icon" href="{% static './logo/favicon.ico' %} " />
+        <link rel="stylesheet" href="{% static 'mystyle.css' %}" />
 
-      <script src="{% static 'myfunction.js' %}"></script>
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167906833-4"></script>
-      <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        <script src="{% static 'myfunction.js' %}"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167906833-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
 
-          gtag('config', 'UA-167906833-4');
-      </script>
-      <!-- Bootstrap core JavaScript
+            gtag("config", "UA-167906833-4");
+        </script>
+        <!-- Bootstrap core JavaScript
          ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <script async src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-   </head>
-   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    </head>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a class="navbar-brand" href="/">
-                <img src="{% static './logo/rouska_logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+                <img src="{% static './logo/rouska_logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" />
                 Potřebujuroušku.cz
-              </a>
-          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <li class="nav-item">
-               <a class="nav-link enabled" href="/opatreni/">Opatření podle místa</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link enabled" href="/o-projektu/">O projektu</a>
-            </li>
-            <li class="nav-item">
-               <a class="nav-link enabled" href="/aktualnost/">Aktuálnost dat</a>
-            </li>
+            </a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link enabled" href="/"><i class="fas fa-home"></i> <b>Domů</b></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link enabled" href="/opatreni/"><i class="fas fa-search-location"></i> Opatření podle místa</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link enabled" href="/celostatni-opatreni/"><i class="fas fa-map"></i></i> Celostátní opatření</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link enabled" href="/aktualnost/"><i class="fas fa-sync"></i> Aktuálnost dat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link enabled" href="/o-projektu/"><i class="fas fa-info-circle"></i> O projektu</a>
+                </li>
 
 
-            <!--<li class="nav-item">
+                <!--<li class="nav-item">
                <a class="nav-link disabled" href="#">Seznam platných nařízení</a>
             </li>
             <li class="nav-item">
@@ -69,42 +81,43 @@
             <li class="nav-item">
                <a class="nav-link disabled" href="#">Zdrojové kódy</a>
             </li>-->
-             <!-- <li class="nav-item">
+                <!-- <li class="nav-item">
               <a class="nav-link enabled" href="/statistiky/">Počty případů</a>
             </li> -->
-         </ul>
-      <div class="btn-group">
-
-        {%block tooltip %}
-            {% include 'sites/parts/indikator_aktualnost.html' %}
-        {% endblock %}
-        <!-- <form class="form-inline my-2 my-lg-0">
+            </ul>
+            <div class="btn-group">
+                {%block tooltip %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
+                <!-- <form class="form-inline my-2 my-lg-0">
             <span class="fa fa-search form-control-feedback"></span><input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
          </form>
 -->
-      </div>
+            </div>
+			<!-- Actual search box -->
+			<div class="form-group has-search">
+				<span class="fa fa-search form-control-feedback"></span>
+                <input type="text" id="header_search" class="form-control" autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('header_search', 'search_results')">
+			</div>
+			<div class="d-flex align-items-center justify-content-center" id="spinner" style="visibility: hidden"><span class="spinner-border spinner-border-sm" ></span> Načítání..</div>
+		</div>
+    </nav>
+   	<div class="wide">
+			<div  class="card-columns" id="search_results">
+		</div>
+    </div>
 
-      <div class="form-group has-search">
-        <span class="fa fa-search form-control-feedback"></span>
-        <input type="text" id="header_search" class="form-control"  autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('header_search', 'search_results')">
-      </div>
-      </div>
-   </nav>
-   <div class="row-fluid" >
-      <div  class="container-fluid btn-group-vertical" id="search_results">
-      </div>
-   </div>
     <noscript>
         <style>
             .pagecontainer {
-                display:none;
+                display: none;
             }
         </style>
         <div class="noscriptmsg">
-           <div class="container">
-                 <div class="alert alert-danger">
-               <strong>Javascript je blokován!</strong><br>Stránky pro své správné fungování potřebují javascript. Budete-li jej i nadále blokovat, přijdete o část funkcionality stránek.
-            </div>
+            <div class="container">
+                <div class="alert alert-danger">
+                    <strong>Javascript je blokován!</strong><br />
+                    Stránky pro své správné fungování potřebují javascript. Budete-li jej i nadále blokovat, přijdete o část funkcionality stránek.
+                </div>
             </div>
         </div>
     </noscript>
+</html>
