@@ -41,8 +41,9 @@ p {
 #dropdown-menu, #search_results
 {
     padding: 0 !important;
-     display: inline-block;
+    display: list-item;
     column-break-inside: avoid;
+    list-style: none;
 }
 .cell-breakAll {
    word-break: break-all;
@@ -135,7 +136,7 @@ card
         width:100%;
     }*/
     .card-columns {
-        column-count: 5  !important;
+        column-count: 4  !important;
     }
 }
 @media (max-width: 786px) {
@@ -165,3 +166,10 @@ card
         column-count: 1 !important;
     }
 }
+.searchbox
+{
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+
+}
+

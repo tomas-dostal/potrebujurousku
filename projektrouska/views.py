@@ -22,7 +22,9 @@ def robots_txt(request):
 
 
 def about(request):
-    return render(request, 'sites/o_projektu.html', {"kontrola": posledni_kontrola()})
+    return render(request, 'sites/o_projektu.html', {"kontrola": posledni_kontrola(),
+                                                     "zastarala_data": zastarala_data()})
+
 
 def home(request):
     import requests
@@ -62,7 +64,8 @@ def home(request):
                                                "potvrzene_pripady_vcerejsi_den": format_num(result["potvrzene_pripady_vcerejsi_den"]),
                                                "potvrzene_pripady_dnesni_den": format_num(result["potvrzene_pripady_dnesni_den"]),
                                                 "posledni_update_dat": data_modified.strftime("%d.%m.%Y %H:%M"),
-                                                "posledni_databaze":  posledni_databaze()})
+                                                "posledni_databaze":  posledni_databaze(),
+                                                "zastarala_data": zastarala_data()})
 def stats(request):
     return render(request, 'sites/statistiky.html')
 
@@ -133,7 +136,8 @@ def seznam_opatreni(request):
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
                        'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
+                       "kontrola": posledni_kontrola(),
+                       "zastarala_data": zastarala_data()})
 
 
 def aktualnost(request):
@@ -231,7 +235,8 @@ def aktualnost(request):
                                                "cas": datetime.now(),
                                                "kontrola": posledni_kontrola(),
                                                "posledni_databaze": posledni_databaze(),
-                                                "celk_mame": celkem_mame
+                                               "celk_mame": celkem_mame,
+                                               "zastarala_data": zastarala_data()
                                                      })
 
 
@@ -254,6 +259,22 @@ def posledni_databaze():
         cursor.execute(last_qu)
         last_update = cursor.fetchone()
         return last_update[0]
+# source: https://stackoverflow.com/questions/8906926/formatting-timedelta-objects
+def strfdelta(tdelta, fmt):
+    d = {"days": tdelta.days}
+    d["hours"], rem = divmod(tdelta.seconds, 3600)
+    d["minutes"], d["seconds"] = divmod(rem, 60)
+    return fmt.format(**d)
+
+def zastarala_data():
+    posledni_datetime = posledni_kontrola()["DATE_UPDATED"]
+    naposledy_povedeno = ( datetime.now() - posledni_datetime)
+    str_naposledy = strfdelta(naposledy_povedeno, "{days} dny, {hours} hodinami {minutes} minutami") #  {seconds} vteřinami
+    if((datetime.now() - posledni_datetime) < timedelta(minutes=60)):
+        return {"zastarala_data": False,  "posledni_uspesna_kontrola_timespan": str_naposledy}
+    return {"zastarala_data": True, "posledni_uspesna_kontrola_timespan": str_naposledy}
+
+
 def aktualnost_v_case(request):
     """select min(DATE_UPDATED) as DATE_UPDATED, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN from info
 group by CHECKSUM, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN
@@ -662,7 +683,9 @@ def opatreni(request):
                        "location": location,
                        "posledni_databaze": posledni_databaze(),
                        'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
+                       "kontrola": posledni_kontrola(),
+                       "zastarala_data": zastarala_data()
+                       })
 
 def opaterni_celoplosne(request):
     qu = """
@@ -720,7 +743,9 @@ def opaterni_celoplosne(request):
                       {'query_results': by_cath,
                        "posledni_databaze": posledni_databaze(),
                        'now': datetime.now(),
-                       "kontrola": posledni_kontrola()})
+                       "kontrola": posledni_kontrola(),
+                       "zastarala_data": zastarala_data()
+                       })
 
 
 
