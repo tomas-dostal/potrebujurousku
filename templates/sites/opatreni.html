@@ -67,9 +67,14 @@
 
 
                 <!-- #################    Jeste neni aktivni   #################   -->
-                {% if queue.PLATNOST_OD > now  and queue.TYP == "doporuceni" %}
-
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                {% if queue.PLATNOST_OD > now %}
+                    {% if  queue.TYP == "doporuceni"  or  queue.TYP == "info"  or  queue.TYP == "narizeni"  %}
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    {% elif queue.TYP == "narizeninouzovy" %}
+                        <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    {% else %}
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    {% endif %}
 
                         {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
                                 <s>{{  queue.NAZEV }}</s>
@@ -82,124 +87,45 @@
                         <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
                     {% endif %}
 
-                {% elif queue.PLATNOST_OD > now  and queue.TYP == "info" %}
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                    {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                            <s>{{  queue.NAZEV }}</s>
-                         {% else %}{{  queue.NAZEV }}
-                    {% endif %}
 
-                    <br><span class="badge badge-info"> od {{ queue.PLATNOST_OD}}</span>
-                    {% if   queue.PLATNOST_DO != None %}
-                        <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
-                    {% endif %}
 
-                {% elif queue.PLATNOST_OD > now  and queue.TYP == "narizeni" %}
-                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                                <s>{{  queue.NAZEV }}</s>
-                            {% else %}
-                                {{  queue.NAZEV }}
-                        {% endif %}
 
-                        <br><span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
-                        {% if   queue.PLATNOST_DO != None %}
-                            <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
-                        {% endif %}
-
-                {% elif queue.PLATNOST_OD > now  and queue.TYP == "narizeninouzovy" %}
-                    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                                <s>{{  queue.NAZEV }}</s>
-                            {% else %}
-                                {{  queue.NAZEV }}
-                        {% endif %}
-
-                        <br><span class="badge badge-danger"> od {{ queue.PLATNOST_OD}}</span>
-                        {% if   queue.PLATNOST_DO != None %}
-                            <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
-                        {% endif %}
                 <!-- #################    JE AKTIVNI   #################   -->
 
-                {% elif queue.PLATNOST_OD < now  and queue.TYP == "narizeni" %}
-
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                            <s>{{  queue.NAZEV }}</s>
-                         {% else %}
-                            {{  queue.NAZEV }}
-                        {% endif %}
-                        <!--  Je aktivni, pokud konci platnost  -->
-                        {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                            <br><span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
-                        {% endif %}
-
-
-                {% elif queue.PLATNOST_OD < now  and queue.TYP == "narizeninouzovy" %}
-
-                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                            <s>{{  queue.NAZEV }}</s>
-                         {% else %}
-                            {{  queue.NAZEV }}
-                        {% endif %}
-                        <!--  Je aktivni, pokud konci platnost  -->
-                        {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                            <br><span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
-                        {% endif %}
-
-                {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                            <s>{{  queue.NAZEV }}</s>
-                         {% else %}
-                            {{  queue.NAZEV }}
-                        {% endif %}
-
-
-                    <!--  Je aktivni, pokud konci platnost  -->
-                    {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                            <br><span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
-                    {% endif %}
-                {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
-                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                            <s>{{  queue.NAZEV }}</s>
+                {% else %}
+                        {% if queue.TYP == "narizeni" %}
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                        {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                        {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
+                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                        {% elif queue.TYP == "narizeninouzovy" %}
+                            <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
                         {% else %}
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                        {% endif %}
+
+                        {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
+                            <s>{{  queue.NAZEV }}</s>
+                         {% else %}
                             {{  queue.NAZEV }}
                         {% endif %}
-
-                        <!--  Je aktivni, pokud konci platnost  -->
                         {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                            <br><span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO}}</span>
+                            <br><span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
                         {% endif %}
 
-                    {% if  queue.TYP == "narizeni"  %}
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
-                    {% elif  queue.TYP == "info" %}
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
-                    {% elif  queue.TYP == "doporuceni"  %}
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{  queue.ID_POLOZKA }}">
-                    {% endif %}
-                    {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
-                        <s>{{  queue.NAZEV }}</s>
-                    {% else %}
-                        {{  queue.NAZEV }}
+
+                {% endif %}
+                    {% if  queue.ROZSAH == "cr" %}
+                        <span class="badge badge-light">Celoplošné</span>
+                    {% elif  queue.ROZSAH == "kraj" %}
+                        <span class="badge badge-secondary">Lokální</span>
+                    {% elif  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
+                        <span class="badge badge-secondary">Lokální</span>
                     {% endif %}
 
-                {% endif %}
+                 </button>
 
-
-                {% if  queue.ROZSAH == "cr" %}
-                <span class="badge badge-light">Celoplošné</span>
-                {% endif %}
-                {% if  queue.ROZSAH == "kraj" %}
-                <span class="badge badge-secondary">Lokální</span>
-                {% endif %}
-                {% if  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
-                <span class="badge badge-secondary">Lokální</span>
-                {% endif %}
-                </button>
                 <!-- Modal -->
                 <div class="modal fade" id="popup-{{  queue.ID_POLOZKA }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -285,6 +211,7 @@
                         </div>
                     </div>
                 </div>
+
 			{% endfor %}
 			{% endfor %}
 			<br>
