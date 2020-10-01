@@ -3,12 +3,11 @@ function myFunction(my_element, result_element) {
 
     }
 
-    if ($(window).width() < 992 ) {
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $("#" + my_element).offset().top-20
-        }, 500);
-        $(".jumbotron").height(2000);
-    }
+
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#" + my_element).offset().top-50
+    }, 1000);
+
 
     var searched_text = document.getElementById(my_element).value;
     if(searched_text.length > 2) {
