@@ -10,6 +10,7 @@ from projektrouska.aktualnost import kontrola
 from projektrouska.settings import DEV
 from projektrouska.functions import *
 from projektrouska.api import *
+import asyncio
 
 #@require_GET
 def robots_txt(request):
@@ -139,7 +140,6 @@ def seznam_opatreni(request):
                        "kontrola": posledni_kontrola(),
                        "zastarala_data": zastarala_data()})
 
-
 def aktualnost(request):
     dict = {}
     dict2 = {}
@@ -158,7 +158,6 @@ def aktualnost(request):
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
             print("Aktualnost kontrolovana pred mene nez 10 minutami")
-
 
     res = kontrola.start()
     aktualni = res["aktualni"]
@@ -215,11 +214,11 @@ def aktualnost(request):
              "checksum":  calcmd5(str_for_checksum),
              "akt": procenta,
              "chybi_pocet": len(chybi),
-             "chybi_pole": str(chybi),
+             "chybi_pole": str(chybi)[:3999],
              "zmena_link_pocet": len(zmena_odkazu),
-             "zmena_link_pole": str(zmena_odkazu),
+             "zmena_link_pole": str(zmena_odkazu)[:3999],
              "odstranit_pocet": len(smazali_je),
-             "odstranit_pole": str(smazali_je),
+             "odstranit_pole": str(smazali_je)[:3999],
              "celk_zmen":   celkem_upravit,
 
                              })
