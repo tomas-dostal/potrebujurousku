@@ -59,7 +59,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
+                        {% if kontrola.CELK_ZMEN == 0 %}
                         <h5 class="modal-title" id="infoModalLabel">Všechna data jsou aktuální!</h5>
                         {% else %}
                         <h5 class="modal-title" id="infoModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }}
@@ -73,7 +73,7 @@
                     <div class="modal-body">
                         <span class="badge badge-info">Poslední kontrola {{ kontrola.DATE_UPDATED }}</span>
                         Poslední změny v databázi jsme dělali  {{ posledni_databaze }}.
-                        {% if kontrola.CHYBI_POCET == 0 or kontrola.CHYBI_POCET == "0" %}
+                        {% if kontrola.CELK_ZMEN == 0 %}
                         Všechna data jsou aktuální!
                         {% else %}
                         Všechny změny jsme ještě nestihli zpracovat. <br>
