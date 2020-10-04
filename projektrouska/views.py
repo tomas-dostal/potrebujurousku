@@ -10,7 +10,6 @@ from projektrouska.aktualnost import kontrola
 from projektrouska.settings import DEV
 from projektrouska.functions import *
 from projektrouska.api import *
-import asyncio
 
 #@require_GET
 def robots_txt(request):
@@ -167,9 +166,25 @@ def aktualnost(request):
     chybi = res['chybi']
     celkem = len(aktualni) + len(smazali_je) + len (zmena_odkazu)+ len (chybi)
     celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
-    procenta = int(100-((celkem_upravit)/(celkem / 100)))
+    try:
+        procenta = int(100-((celkem_upravit)/(celkem / 100)))
+    except:
+        procenta = 100
+    if(DEV):
+        try:
+            print("SMAZALI")
+            for i in smazali_je:
+                print("SMAZALI ID={}, nazev {}".format(i['ID_OPATRENI'], i['NAZEV_OPATRENI']))
 
+            print("Zmena odkazu")
+            for i in zmena_odkazu:
+                print("ZMENA ID={}, nazev {}\nStary {}\nNovy: {}".format(i['ID_OPATRENI'], i['NAZEV_OPATRENI'],  i['STARY_ODKAZ'],  i['ZDROJ']))
+            print("CHYBI")
+            for i in chybi:
+                print("CHYBI  nazev {} \nodkaz: {}".format(i['nazev'],i['odkaz']))
 
+        except:
+            print("Nezkontroloval jsem spravne parametry vypisu a uz se mi to nechce opravovat")
 
     if(len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0):
         stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} z nich je aktivních, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
@@ -196,6 +211,10 @@ def aktualnost(request):
             #query_results = cursor.fetchall()
             #desc = cursor.description
 
+            z = str(zmena_odkazu)[:3000]
+            s = str(smazali_je)[:3000]
+            c = str(chybi)[:3000]
+
             cursor.execute('''insert into INFO (checksum,  date_updated, poznamka, 
             AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, 
             ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE , CELK_ZMEN) values   (
@@ -214,14 +233,12 @@ def aktualnost(request):
              "checksum":  calcmd5(str_for_checksum),
              "akt": procenta,
              "chybi_pocet": len(chybi),
-             "chybi_pole": str(chybi)[:3999],
+             "chybi_pole": c,
              "zmena_link_pocet": len(zmena_odkazu),
-             "zmena_link_pole": str(zmena_odkazu)[:3999],
+             "zmena_link_pole": z,
              "odstranit_pocet": len(smazali_je),
-             "odstranit_pole": str(smazali_je)[:3999],
-             "celk_zmen":   celkem_upravit,
-
-                             })
+             "odstranit_pole": s,
+             "celk_zmen":   int(celkem_upravit) })
 
 
     return render(request, 'sites/aktualnost.html', {'procenta': procenta,

@@ -10,27 +10,28 @@ fetched = 0
 from django.db import connection
 
 from projektrouska.settings import DEV
+
 blacklist = ["https://eregpublicsecure.ksrzis.cz/jtp/public/ExterniZadost?s=ISIN_SOC"]
 
 
-def check_in_db(tmp):
+def check_in_db(to_check):
     out = ""
     aktualni = []
     chybi = []
     smazali_je = []
     zmena_odkazu = []
 
-    print("Kotrnoluju soubor déky {}: \n{}".format(len(tmp), str(tmp)))
+    print("Kotrnoluju soubor déky {}: \n{}".format(len(to_check), str(to_check)))
     # na jednom linku muze byt i vice narizeni, tak projed pro kazde
-    for o in tmp:
-        out += o["nazev"]
-        if( o["odkaz"] in blacklist):
-            continue # skip this
+    for o in to_check:
+        if (o["odkaz"] in blacklist):
+            continue  # skip this
 
         with connection.cursor() as cursor:
 
-            cursor.execute("""select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link and  PLATNOST_AUTOOPRAVA = null;""",
-                           {"nazev": o["nazev"], "link": o["odkaz"]})
+            cursor.execute(
+                """select * from opatreni where (NAZEV_OPATRENI = :nazev or ZDROJ=:link ) and PLATNOST_AUTOOPRAVA != 0 and PLATNOST_AUTOOPRAVA != 1 and PLATNOST_AUTOOPRAVA != 2 """,
+                {"nazev": o["nazev"], "link": o["odkaz"]})
             # vysledek bude plus minus
             # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
 
@@ -41,10 +42,11 @@ def check_in_db(tmp):
                 columns.append(col[0])
 
             if (len(query_results) == 0):
-                if (DEV == True):
-                    print("Opatření '{}' není v databázi".format(o["nazev"]))
-                chybi.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
-                add_to_db(o) # await?
+                #if (DEV == True):
+                #    print("Opatření '{}' není v databázi".format(o["nazev"]))
+                if(add_to_db(o)): # checks if alredy pending for update
+                    chybi.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
+                  # await?
 
             else:  # něco takoveho v databazi je (bud sedi odkaz, nebo sedi nazev, nebo oboje)
 
@@ -53,7 +55,7 @@ def check_in_db(tmp):
                     # pokud je na serveru shoda okazu a zaroven je pocet_odkazu > 1, tak ignoruj chybu zmeny odkazu!
 
                     # Nazev je v DB, link se zmenil
-                    if (zdroj_server != o["odkaz"] and o["pocet_odkazu"] <= 1):
+                    if (zdroj_server != o["odkaz"]):
                         if (DEV == True):
                             print(
                                 "Opatření {} nalezeno, ID={}, změnil se odkaz. \nPůvodní:  {} \nAktuální: {}".format(
@@ -62,10 +64,10 @@ def check_in_db(tmp):
                                     zdroj_server,
                                     o["odkaz"]))
                         to_add = {"ID_OPATRENI": i[columns.index("ID_OPATRENI")],
-                                             "NAZEV_OPATRENI": o["nazev"],
-                                             "STARY_ODKAZ": zdroj_server,
-                                             "ZDROJ": o["odkaz"]}
-                        if(to_add not in zmena_odkazu):
+                                  "NAZEV_OPATRENI": o["nazev"],
+                                  "STARY_ODKAZ": zdroj_server,
+                                  "ZDROJ": o["odkaz"]}
+                        if (to_add not in zmena_odkazu):
                             zmena_odkazu.append(to_add)
 
                     # Nazev i link jsou aktualni, necht je to tedy aktualni cele
@@ -75,40 +77,46 @@ def check_in_db(tmp):
                                          "NAZEV_OPATRENI": o["nazev"],
                                          "ZDROJ": o["odkaz"]})
 
-    return {"aktualni": aktualni, "smazali": smazali_je, "zmena":  zmena_odkazu, "chybi":  chybi}
+    return {"aktualni": aktualni, "smazali": smazali_je, "zmena": zmena_odkazu, "chybi": chybi}
+
 
 def add_to_db(dictionary):
-
     with connection.cursor() as cursor:
-        cursor.execute("""select * from opatreni where (NAZEV_OPATRENI = :nazev or ZDROJ=:link) and PLATNOST_AUTOOPRAVA != 2;""",
+        cursor.execute("""select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link order by PLATNOST_AUTOOPRAVA asc;""",
                        {"nazev": dictionary["nazev"], "link": dictionary["odkaz"]})
         query_results = cursor.fetchall()
         desc = cursor.description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
 
         db_contains = return_as_array(query_results, desc)
 
-        cursor.execute("""select max(id_opatreni) as MAX_ID from opatreni;""")
+        if (len(db_contains) > 0): #
 
-        # Meh. Next time I'll use autoincrement when creating a db. Sorry guys!
-        max_id = int(return_as_dict(cursor.fetchone(),  cursor.description)["MAX_ID"])
+            if(db_contains[0]["PLATNOST_AUTOOPRAVA"] == 2 or db_contains[0]["PLATNOST_AUTOOPRAVA"] == 0):
+                print("Ceka na zpracovani '{}'".format(dictionary))
+                return 1
+            else:
+                print("v DB uz je'{}'".format(dictionary))
+                return 0
 
-        if(len(db_contains) > 0):
-            print("Asi spatne oznacene, v databazi uz '{}' je".format(dictionary))
+
         else:
-            "Mimořádné opatření Krajské hygienické stanice Zlínského kraje se sídlem ve Zlíně č. 3/2020"
-            nazev_zkr = dictionary["nazev"].replace("Krajské ", "K").replace("hygienické stanice", "HS").replace(" se sídlem", "")
+            cursor.execute("""select max(id_opatreni) as MAX_ID from opatreni;""")
 
+            # Meh. Next time I'll use autoincrement when creating a db. Sorry guys!
+            max_id = int(return_as_dict(cursor.fetchone(), cursor.description)["MAX_ID"])
+
+            nazev_zkr = dictionary["nazev"].replace("Krajské ", "K").replace("hygienické stanice", "HS").replace(
+                " se sídlem", "")
+            nazev_zkr = nazev_zkr[:250]
 
             cursor.execute('''insert into opatreni (id_opatreni, nazev_opatreni, platnost_od, je_platne, 
             zdroj, nazev_zkr, rozsah, platnost_do, zdroj_autooprava, 
-            priorita, identifikator, platnost_autooprava, nazev_autooprava) 
-            values   (
-                     :id_opatreni,
+            priorita, identifikator, platnost_autooprava, nazev_autooprava)  values   ( :id_opatreni,
                      :nazev_opatreni, 
                      null,  -- platnost_od
                      2,    -- je_platne
                      :zdroj, 
-                     :nazev_zkr, 
+                     :nazev_zkr, -- limit 250 chars
                      null, -- rozsah
                      null, -- platnost_do 
                      null, -- zdroj_autooprava
@@ -117,19 +125,19 @@ def add_to_db(dictionary):
                      2, -- platnost_autooprava
                      null -- nazev_autooprava
                      )''', {"id_opatreni": max_id + 1,
-                           "nazev_opatreni": dictionary["nazev"],
-                           "zdroj": dictionary["odkaz"],
-                           "nazev_zkr": nazev_zkr})
+                            "nazev_opatreni": dictionary["nazev"],
+                            "zdroj": dictionary["odkaz"],
+                            "nazev_zkr": nazev_zkr})
 
             cursor.execute('''commit;''')
-
+    return 1
 
 def get_links_of_posts(cathegory_url):
     next_page = True
     links_of_posts = []
 
     # starting page with cathegories
-    page = requests.get(cathegory_url)      #"https://koronavirus.mzcr.cz/category/mimoradna-opatreni/")
+    page = requests.get(cathegory_url)  # "https://koronavirus.mzcr.cz/category/mimoradna-opatreni/")
     print("Getting links")
     i = 1
     # scrap links of all to articles of the cathegory.
@@ -201,5 +209,3 @@ def start():
                 except:
                     print("Somethig fucked up a lot")
     return check_in_db(results)
-
-
