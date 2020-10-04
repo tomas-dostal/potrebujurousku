@@ -152,7 +152,7 @@ def aktualnost(request):
         dict = return_as_dict(cursor.fetchone(), cursor.description)
         print(dict)
 
-        cursor.execute('''select count(*) as celk_mame from opatreni;''')
+        cursor.execute('''select count(*) as celk_mame from (select distinct NAZEV_OPATRENI from opatreni);''')
         dict2 = return_as_dict(cursor.fetchone(), cursor.description)
 
         if((datetime.now() - dict['DATE_UPDATED']) < timedelta(minutes=10)):
