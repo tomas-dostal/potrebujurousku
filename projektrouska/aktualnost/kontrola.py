@@ -106,7 +106,7 @@ def add_to_db(dictionary):
             max_id = int(return_as_dict(cursor.fetchone(), cursor.description)["MAX_ID"])
 
             nazev_zkr = dictionary["nazev"].replace("Krajské ", "K").replace("hygienické stanice", "HS").replace(
-                " se sídlem", "")
+                " se sídlem", "").replace("s účinností ", "")
             nazev_zkr = nazev_zkr[:250]
 
             cursor.execute('''insert into opatreni (id_opatreni, nazev_opatreni, platnost_od, je_platne, 
@@ -199,13 +199,13 @@ def start():
                     results.append({'nazev': text.replace('\xa0', ' '), 'odkaz': link.replace('\xa0', ' ')})
 
             except:
-                print("Somethig fucked up")
+                print("Somethig went wrong, maybe 'wp-block-file' or something like that not found")
                 try:
                     text = article_post.find(attrs={'class': 'entry'}).find('a')['title']
                     link = article_post.find(attrs={'class': 'entry'}).find('a')["href"]
-                    print("FUCKED UP Text: {}, link {}".format(text, link))
+                    print("Trying to find at least something: Text: {}, link {}".format(text, link))
                     results.append({'nazev': text.replace('\xa0', ' '), 'odkaz': link.replace('\xa0', ' ')})
 
                 except:
-                    print("Somethig fucked up a lot")
+                    print("Unable to find text and/or link")
     return check_in_db(results)
