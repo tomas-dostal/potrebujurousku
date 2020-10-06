@@ -20,7 +20,9 @@ import requests
 
 from django.conf.urls.static import static
 from django.contrib import admin
+
 from projektrouska.api.search import *
+from projektrouska.api.update_stats import *
 from projektrouska.settings import BETA, DEV
 from projektrouska.aktualnost import kontrola
 from django.db import connection
@@ -36,6 +38,7 @@ urlpatterns = [
                   path("robots.txt", views.robots_txt),
                   # path('statistiky/', views.stats, name='statistiky'),
                   path('api/search', find_place_by_name, name='najdi_mesto'),
+                  path('api/update_stats', get_update_stats, name='update_stats'),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 from projektrouska.view.errors import custom_error_view, custom_page_not_found_view, custom_permission_denied_view, \
