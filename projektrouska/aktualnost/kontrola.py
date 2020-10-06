@@ -1,32 +1,30 @@
 from bs4 import BeautifulSoup
-from datetime import datetime
-
 import requests
-import time
-import datetime
 from projektrouska.functions import return_as_array, return_as_dict
-
-fetched = 0
 from django.db import connection
-
 from projektrouska.settings import DEV
 
 blacklist = ["https://eregpublicsecure.ksrzis.cz/jtp/public/ExterniZadost?s=ISIN_SOC"]
 
 
 def check_in_db(to_check):
-    out = ""
+    """
+    Checks how many items from given array of dicts is up-to-date
+    :param to_check: Array of dictinoaries like: [{nazev: value, odkaz: value}, {nazev: value, odkaz: value}, ...]
+    :return:  Returns {"aktualni": array of up-to-date items, "smazali": array of to-delete items, "zmena": array of to-change items, "chybi": array of missing items}
+
+    """
     aktualni = []
     chybi = []
     smazali_je = []
     zmena_odkazu = []
+    cekajici_na_zpracovani = []
 
     print("Kotrnoluju soubor déky {}: \n{}".format(len(to_check), str(to_check)))
     # na jednom linku muze byt i vice narizeni, tak projed pro kazde
     for o in to_check:
         if (o["odkaz"] in blacklist):
             continue  # skip this
-
         with connection.cursor() as cursor:
 
             cursor.execute(
@@ -42,11 +40,13 @@ def check_in_db(to_check):
                 columns.append(col[0])
 
             if (len(query_results) == 0):
-                #if (DEV == True):
-                #    print("Opatření '{}' není v databázi".format(o["nazev"]))
-                if(add_to_db(o)): # checks if alredy pending for update
+                v = add_to_db(o)
+                if( v == 1): # already exists
+                    aktualni.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
+                elif( v == 2 ):
+                    cekajici_na_zpracovani.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
+                else:
                     chybi.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
-                  # await?
 
             else:  # něco takoveho v databazi je (bud sedi odkaz, nebo sedi nazev, nebo oboje)
 
@@ -81,6 +81,12 @@ def check_in_db(to_check):
 
 
 def add_to_db(dictionary):
+    """
+    Check if {nazev: value, odkaz: value} already exists in database. If not exists, it is added to the db.
+
+    :param dictionary: Dict of {nazev: value, odkaz: value} which is checked if already exists in the database
+    :return: 1 if already exists; 2 if pending for update; 0 if not exists (+ adds to the database)
+    """
     with connection.cursor() as cursor:
         cursor.execute("""select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link order by PLATNOST_AUTOOPRAVA asc;""",
                        {"nazev": dictionary["nazev"], "link": dictionary["odkaz"]})
@@ -93,6 +99,9 @@ def add_to_db(dictionary):
 
             if(db_contains[0]["PLATNOST_AUTOOPRAVA"] == 2 or db_contains[0]["PLATNOST_AUTOOPRAVA"] == 0):
                 print("Ceka na zpracovani '{}'".format(dictionary))
+                return 2
+            elif (db_contains[0]["PLATNOST_AUTOOPRAVA"] == None):
+                print("Uz je v databazi, zpracovano '{}'".format(dictionary))
                 return 1
             else:
                 print("v DB uz je'{}'".format(dictionary))
@@ -133,6 +142,11 @@ def add_to_db(dictionary):
     return 1
 
 def get_links_of_posts(cathegory_url):
+    """
+
+    :param cathegory_url: string of source URL address with wordpress posts thumbnails like "https://koronavirus.mzcr.cz/category/mimoradna-opatreni/"
+    :return: list of direct URLs to posts
+    """
     next_page = True
     links_of_posts = []
 
@@ -161,6 +175,7 @@ def get_links_of_posts(cathegory_url):
 
 
 def start():
+
     cathegories_url = ['https://koronavirus.mzcr.cz/category/mimoradna-opatreni/']
     links_of_posts = []
     for cathegory_url in cathegories_url:
@@ -208,4 +223,5 @@ def start():
 
                 except:
                     print("Unable to find text and/or link")
+
     return check_in_db(results)
