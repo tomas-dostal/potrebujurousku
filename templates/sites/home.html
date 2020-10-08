@@ -2,6 +2,8 @@
 {% include 'sites/parts/header.html' %}
 {% endblock %}
 {% block content %}
+{% load my_filters %}
+{% load static %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="main">
 	<div class="tight">
@@ -12,9 +14,24 @@
 			<h1 class="display-4 text-center">Zadejte polohu</h1>
 		</div>
 	</div>
+    <br>
+
+    <div class="tight">
+			<!-- Actual search box -->
+			<div class="form-group has-search">
+				<span class="fa fa-search form-control-feedback searchbox"></span>
+				<input type="text" id="main_search" class="form-control"  autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('main_search', 'dropdown-menu')">
+			</div>
+			<div class="d-flex align-items-center justify-content-center" id="spinner" style="visibility: hidden"><span class="spinner-border spinner-border-sm" ></span> Načítání..</div>
+		</div>
+		<div class="wide">
+			<div  class="card-columns" id="dropdown-menu">
+			</div>
+		</div>
+        <br>
+
 	<div class="wide">
-		{% load my_filters %}
-		{% load static %}
+
 		<div class="card-columns" id="info-tab">
 			<div class="card">
 				<!--<img class="card-img-top" src="{% static './city.jpg' %} " alt="Card image cap">-->
@@ -76,20 +93,8 @@
                 </div>
 			</div>
 		</div>
-		<div class="tight">
-			<!-- Actual search box -->
-			<div class="form-group has-search">
-				<span class="fa fa-search form-control-feedback searchbox"></span>
-				<input type="text" id="main_search" class="form-control"  autocomplete="off" placeholder="Praha" aria-describedby="button-addon2" onkeyup="myFunction('main_search', 'dropdown-menu')">
-			</div>
-			<div class="d-flex align-items-center justify-content-center" id="spinner" style="visibility: hidden"><span class="spinner-border spinner-border-sm" ></span> Načítání..</div>
-		</div>
-		<div class="wide">
-			<div  class="card-columns" id="dropdown-menu">
-			</div>
-		</div>
-	</div>
-</div>
+
+    </div>
 </div>
 {% endblock %}
 {%block foot %}

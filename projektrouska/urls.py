@@ -27,6 +27,8 @@ from projektrouska.settings import BETA, DEV
 from projektrouska.aktualnost import kontrola
 from django.db import connection
 
+from projektrouska.views import kontrola_zadaneho
+
 urlpatterns = [
                   # path('admin/', admin.site.urls),
                   path('', views.home, name='home'),
@@ -39,6 +41,7 @@ urlpatterns = [
                   # path('statistiky/', views.stats, name='statistiky'),
                   path('api/search', find_place_by_name, name='najdi_mesto'),
                   path('api/update_stats', get_update_stats, name='update_stats'),
+                  path('admin/kontrola-zadaneho/', kontrola_zadaneho, name='admin_kontrola_zadaneho'),
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 from projektrouska.view.errors import custom_error_view, custom_page_not_found_view, custom_permission_denied_view, \

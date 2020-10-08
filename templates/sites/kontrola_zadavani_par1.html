@@ -1,0 +1,246 @@
+{% load my_filters %}
+{%block header %}
+{% include 'sites/parts/header.html' %}
+{% endblock %}
+{% block content %}
+<div class="jumbotron">
+	<div class="container">
+		<div class="row-fluid">
+
+			<h1>Kontrola vkládaného opatření</h1>
+            <p>Tento nástroj slouží pro kontrolu, je-li vše v zadaném nařízení vloženo správně</p>
+            <!--       "platnost_cr": platnost_cr,
+                       "platnost_kraj": platnost_kraj,
+                       "platnost_okres": platnost_okres,
+                       "platnost_nuts": platnost_nuts,
+                       "platnost_om": platnost_om
+
+                            "pocet_polozek": pocet_polozek,
+                       "pocet_prirazenych_mist": pocet_prirazenych_mist
+                       -->
+
+            <script>
+                $('id_search2form').submit(false);
+
+                function mf2()
+                {
+
+                window.location.replace('./?id_opatreni='+ document.getElementById('id_search2').value);
+                }
+
+            </script>
+            <div class="tight">
+
+                <!-- Actual search box -->
+                <div class="form-inline md-form mr-auto mb-4" id="id_search2form">
+
+                <div class="form-group mb-3 has-search">
+                    <span class="fa fa-search form-control-feedback searchbox"></span>
+                    <input type="number" id="id_search2" class="form-control"  autocomplete="off" placeholder="ID opatření" aria-describedby="button-addon2" onsubmit="mf2()" >
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" onclick="mf2()">Vyhledat</button>
+                      </div>
+
+
+                </div>
+            </div>
+
+
+            </div>
+
+            {% if opatreni_info %}
+
+                <h2>Detaily opatření ID={{opatreni_info.ID_OPATRENI }}</h2>
+
+               <table class="table">
+                    <thead class="thead-dark">
+                    <tr class="table-active">
+                        <th scope="col">Název</th>
+                        <th scope="col">Hodnota</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="table-secondary">
+
+                        <td>ID opatření</td>
+                        <td>{{opatreni_info.ID_OPATRENI }}</td>
+                    </tr>
+                    <tr class="table-secondary">
+
+                        <td>Nábrzev opatření</td>
+                        <td>{{opatreni_info.NAZEV_OPATRENI }}</td>
+                    </tr>
+                    <tr class="table-secondary">
+
+                        <td>Rozsah</td>
+                        <td>
+                            {% if  opatreni_info.ROZSAH == "cr" %}
+                                Česká republika
+                            {% elif  opatreni_info.ROZSAH == "kraj"%}
+                                Kraj
+                            {% elif  opatreni_info.ROZSAH == "obecmesto"%}
+                                Obec/město
+                            {% elif  opatreni_info.ROZSAH == "okres"%}
+                                Okres
+                            {% elif  opatreni_info.ROZSAH == "nuts"%}
+                                Obec s rozšířenou působností
+                            {% else %}
+                                <span class="badge badge-danger">Neznámá hodnota:  {{  opatreni_info.ROZSAH  }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="table-secondary">
+
+                        <td>Platnost od</td>
+                        <td>
+                            {% if  opatreni_info.PLATNOST_OD %}
+                                <span class="badge badge-success">OD {{opatreni_info.PLATNOST_OD }}</span>
+                            {% else %}
+                                <span class="badge badge-danger">Platnost OD není stanovena</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="table-secondary">
+
+                        <td>Platnost do</td>
+                        <td>
+                            {% if  opatreni_info.PLATNOST_DO %}
+                                <span class="badge badge-success">DO {{opatreni_info.PLATNOST_DO }}</span>
+                            {% else %}
+                                <span class="badge badge-warning">Platnost DO není stanovena</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr class="table-secondary">
+
+                        <td>Platnost</td>
+                        <td>
+                             {% if  opatreni_info.JE_PLATNE == 1 %}
+                               <span class="badge badge-success">JE_PLATNE: {{ opatreni_info.JE_PLATNE }}</span>
+                            {% else %}
+                               <span class="badge badge-danger">JE_PLATNE: {{ opatreni_info.JE_PLATNE }}</span><p>1 = platné, v pořádku. 2 = automaticky přidáno systémem, čeká na kontrolu člověkem. 0 = zneplatněno.</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                     <tr class="table-secondary">
+
+                        <td>Platnost autooprava</td>
+                        <td>
+                            {% if not opatreni_info.PLATNOST_AUTOOPRAVA %}
+                               <span class="badge badge-success">PLATNOST_AUTOOPRAVA {{ opatreni_info.PLATNOST_AUTOOPRAVA }}</span>
+                            {% else %}
+                               <span class="badge badge-danger">PLATNOST_AUTOOPRAVA není nastavena na Null</span><p>Díky tohoto pak dokážeme rychle najít změny, když aktualizační skript něco naje</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <tr class="table-secondary">
+
+                        <td>Identifikátor</td>
+                        <td>
+                            {% if  opatreni_info.IDENTIFIKATOR %}
+                               <span class="badge badge-success">{{ opatreni_info.IDENTIFIKATOR }}</span>
+                            {% else %}
+                               <span class="badge badge-danger">IDENTIFIKATOR není nastaven!</span><p>Slouží pro rychlejší dohledání pro případ, že MZR nařízení zruší. </p>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+               </table>
+
+                <br>
+
+                <h2>Lokalita
+                {% if  pocet_prirazenych_mist >= 1  %}
+                    <span class="badge badge-success">nastavena pro {{ pocet_prirazenych_mist }} míst{{ pocet_prirazenych_mist|cz_pluralize:"o,a," }}</span>
+                {% else %}
+                    <span class="badge badge-danger">nastavena pro {{ pocet_prirazenych_mist }} míst</span>
+                {% endif %}
+                    </h2>
+
+                <table class="table">
+                        <thead class="thead-dark">
+                            <tr class="table-active">
+                                <th scope="col">Typ</th>
+                                <th scope="col">Platnost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-secondary">
+
+                                <td>Stát</td>
+                                <td>
+                                    {% for location in platnost_cr %}
+                                    <span class="badge badge-dark">Česká republika</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr class="table-secondary">
+
+                                <td>Kraj</td>
+                                <td>
+                                   {% for location in platnost_kraj %}
+                                        <span class="badge badge-dark">{{ location.NAZEV_KRAJ }} (ID kraj: {{ location.ID_KRAJ }})</span>
+                                   {% endfor %}
+                                </td>
+                            </tr>
+                            <tr class="table-secondary">
+
+                                <td>Okres</td>
+                                <td>
+                                   {% for location in platnost_okres %}
+                                        <span class="badge badge-dark">{{ location.NAZEV_OKRES }} (ID okres: {{ location.ID_OKRES }})</span>
+                                   {% endfor %}
+                                </td>
+                            </tr>
+                            <tr class="table-secondary">
+                                <td>Obec s rozšířenou p.</td>
+                                <td>
+                                   {% for location in platnost_nuts %}
+                                        <span class="badge badge-dark">{{ location.NAZEV_NUTS }} (ID okres: {{ location.ID_NUTS }})</span>
+                                   {% endfor %}
+                                </td>
+                            </tr>
+                            <tr class="table-secondary">
+                                <td>Obec/město</td>
+                                <td>
+                                   {% for location in platnost_om %}
+                                        <span class="badge badge-dark">{{ location.NAZEV_OBECMESTO }} (ID okres: {{ location.ID_OBECMESTO }})</span>
+                                   {% endfor %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <br>
+
+                <h2>Položky opatření (jak se zobrazí uživateli)</h2>
+                {%block blocks %}
+                {% include 'sites/parts/opatreni_bloky.html' %}
+                {% endblock %}
+
+            {% else %}
+
+            <div class="tight">
+
+                <div class="alert alert-danger">
+                    <b>Žádné položky k zobrazení!</b> Určitě
+                    {% if args.id_opatreni %}
+                        máme ID={{ args.id_opatreni }}
+                    {% else %}
+                        máme toto ID
+                    {% endif %} v databázi?
+                </div>
+            </div>
+        {% endif %}
+
+			<br>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{%block foot %}
+{% include 'sites/parts/footer.html' %}
+{% endblock %}

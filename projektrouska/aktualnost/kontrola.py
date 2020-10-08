@@ -45,6 +45,8 @@ def check_in_db(to_check):
                     aktualni.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
                 elif( v == 2 ):
                     cekajici_na_zpracovani.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
+                    chybi.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
+
                 else:
                     chybi.append({"nazev": o["nazev"], "odkaz": o["odkaz"]})
 

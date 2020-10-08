@@ -59,8 +59,8 @@ function myFunction(my_element, result_element) {
                         card = "<div class=\"card  text-white bg-dark \" id=\"obecmesto-obecmesto_id\"style=\"max-width: 18rem;\">\n" +
                             "              <div class=\"card-header h3\">kraj_str</div>\n" +
                             "              <div class=\"card-body\">\n" +
-                            "                <h5 class=\"card-title\">Secondary card title</h5>\n" +
-                            "            <p class=\"card-text\">popisek karty</p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
+                           // "                <h5 class=\"card-title\">Secondary card title</h5>\n" +
+                            "            <p class=\"card-text\"></p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
                             "          </div>\n" +
                             "        </div>";
                         card = card.replace("kraj_id", obj[i]["ID_KRAJ"]);
@@ -76,7 +76,7 @@ function myFunction(my_element, result_element) {
                             "              <div class=\"card-header h3\">okres_str</div>\n" +
                             "              <div class=\"card-body\">\n" +
                             "                <h5 class=\"card-title\">kraj_str</h5>\n" +
-                            "            <p class=\"card-text\">popisek karty</p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
+                            "            <p class=\"card-text\"></p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
                             "          </div>\n" +
                             "        </div>";
                         card = card.replace("okres_id", obj[i]["ID_OKRES"]);
@@ -95,7 +95,7 @@ function myFunction(my_element, result_element) {
                             "              <div class=\"card-header h3\">nuts3_str</div>\n" +
                             "              <div class=\"card-body\">\n" +
                             "                <h5 class=\"card-title\">okres_str, kraj_str</h5>\n" +
-                            "            <p class=\"card-text\">popisek karty</p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
+                            "            <p class=\"card-text\"></p><a href=\"parametry\" class=\"btn btn-primary stretched-link\">Zvolit místo</a>\n" +
                             "          </div>\n" +
                             "        </div>";
                         card = card.replace("nuts_id", obj[i]["ID_NUTS"]);
