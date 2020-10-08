@@ -35,9 +35,14 @@ def return_as_dict(data, description):
         columns.append(col[0])
     dict = {}
     i = 0
-    for row in data:
-        dict[columns[i]] = row
-        i += 1
+    if(data):
+        for row in data:
+            dict[columns[i]] = row
+            i += 1
+    else:
+        for col in columns:
+            dict[columns[i]] = None
+            i += 1
     return dict
 
 def calcmd5(string):

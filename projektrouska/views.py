@@ -803,10 +803,10 @@ def kontrola_zadaneho(request):
                             ) join KATEGORIE on KATEGORIE_ID_KATEGORIE = ID_KATEGORIE
                         order by ID_KATEGORIE;''', {"id_op": id_opatreni})
         polozky_opatreni = return_as_array(cursor.fetchall(), cursor.description)
-        if(len(polozky_opatreni) >= 1):
-            opatreni = polozky_opatreni[0]
-        else:
-            opatreni = None
+
+        cursor.execute('''select *  from opatreni where  ID_OPATRENI = :id_op;''', {"id_op": id_opatreni})
+        opatreni = return_as_dict(cursor.fetchone(), cursor.description)
+
         by_cath = display_by_cath(polozky_opatreni)
         pocet_polozek = len(polozky_opatreni)
 
