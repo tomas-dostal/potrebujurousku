@@ -67,8 +67,13 @@
                     </tr>
                     <tr class="table-secondary">
 
-                        <td>Nábrzev opatření</td>
+                        <td>Název opatření</td>
                         <td>{{opatreni_info.NAZEV_OPATRENI }}</td>
+                    </tr>
+                      <tr class="table-secondary">
+
+                        <td>zdroj opatření</td>
+                        <td>{{opatreni_info.ZDROJ }}</td>
                     </tr>
                     <tr class="table-secondary">
 
@@ -104,8 +109,10 @@
 
                         <td>Platnost do</td>
                         <td>
-                            {% if  opatreni_info.PLATNOST_DO %}
+                            {% if  opatreni_info.PLATNOST_DO  and   opatreni_info.PLATNOST_DO >= opatreni_info.PLATNOST_OD %}
                                 <span class="badge badge-success">DO {{opatreni_info.PLATNOST_DO }}</span>
+                            {% elif  opatreni_info.PLATNOST_DO  and   opatreni_info.PLATNOST_DO <= opatreni_info.PLATNOST_OD %}
+                                <span class="badge badge-danger">DO {{opatreni_info.PLATNOST_DO }} (končí dřív než začne)</span>
                             {% else %}
                                 <span class="badge badge-warning">Platnost DO není stanovena</span>
                             {% endif %}
