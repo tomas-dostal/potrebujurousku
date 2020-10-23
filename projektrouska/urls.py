@@ -31,10 +31,10 @@ from projektrouska.views import kontrola_zadaneho
 
 urlpatterns = [
                   # path('admin/', admin.site.urls),
-                  path('', views.home, name='home'),
+                  path('', views.opaterni_celoplosne, name='home'),
                   path('o-projektu/', views.about, name='about'),
                   path('opatreni/', views.opatreni, name='opatreni'),
-                  path('celostatni-opatreni/', views.opatreni, name='celostatni-opatreni'),
+                  path('celostatni-opatreni/', views.opaterni_celoplosne, name='celostatni-opatreni'),
 
                   path('aktualnost/', views.aktualnost, name='aktualnost'),
                   path("robots.txt", views.robots_txt),

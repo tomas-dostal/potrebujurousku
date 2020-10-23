@@ -61,16 +61,15 @@ p {
     padding:  0.6rem 1rem
 ;
 }
+
 .link-unstyled,  a:focus
 {
-
-    color: #212529 !important;
+    color: #CCC !important;
     text-decoration: none;
 }
-.link-unstyled.a:focus {
-    color: rgb(66 66 66) !important;
+.nav-link:active {
+    color:#CCC !important;
     text-decoration: underline !important;
-
 }
 
 .navbar-dark .navbar-nav .nav-link
@@ -148,6 +147,7 @@ card
         -moz-column-count: 3;
         column-count: 3;
     }
+
 }
 
 @media (min-width: 62em) {

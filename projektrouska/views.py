@@ -669,7 +669,7 @@ def opaterni_celoplosne(request):
     array = opatreni_stat()[0]
 
     # oder by cathegory
-    by_cath = []
+    """by_cath = []
     existing = []
     for col in array:
         if ("NAZEV_KAT" in col):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
@@ -679,9 +679,10 @@ def opaterni_celoplosne(request):
                 existing.append(col["NAZEV_KAT"])
                 tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                 by_cath.append(tmp)
+    """
 
     return render(request, 'sites/celostatni_opatreni.html',
-                  {'query_results': by_cath,
+                  {'query_results': array,
                    "posledni_databaze": posledni_databaze(),
                    'now': datetime.now(),
                    "kontrola": posledni_kontrola(),

@@ -124,7 +124,11 @@
                         <td>Platnost</td>
                         <td>
                              {% if  opatreni_info.JE_PLATNE == 1 %}
-                               <span class="badge badge-success">JE_PLATNE: {{ opatreni_info.JE_PLATNE }}</span>
+                               <span class="badge badge-success">Je platné ({{ opatreni_info.JE_PLATNE }})</span>
+                             {% elif  opatreni_info.JE_PLATNE == 2 %}
+                               <span class="badge badge-warning">Automaticky přidáno, čeká na zpracování ({{ opatreni_info.JE_PLATNE }})</span>
+                             {% elif  opatreni_info.JE_PLATNE == 0 %}
+                               <span class="badge badge-warning">Deaktivované ({{ opatreni_info.JE_PLATNE }})</span>
                             {% else %}
                                <span class="badge badge-danger">JE_PLATNE: {{ opatreni_info.JE_PLATNE }}</span><p>1 = platné, v pořádku. 2 = automaticky přidáno systémem, čeká na kontrolu člověkem. 0 = zneplatněno.</p>
                             {% endif %}
