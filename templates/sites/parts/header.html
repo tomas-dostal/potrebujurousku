@@ -54,7 +54,7 @@
                 Potřebujuroušku.cz
         </a>
         <div class="btn-group" id="update-indicator-mobile">
-            {% block tooltip2 %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
+            {% block tooltip2 %} {% include 'sites/parts/indikator_aktualnost_btn.html' %} {% endblock %}
         </div>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
 
@@ -91,8 +91,11 @@
             </li> -->
             </ul>
             <div class="btn-group" id="update-indicator-pc" >
-                {% block tooltip %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
+                {% block tooltip %} {% include 'sites/parts/indikator_aktualnost_btn.html' %} {% endblock %}
+
             </div>
+            {% block update-modal %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
+
 			<!-- Actual search box -->
 			<div class="form-group has-search searchbox">
 				<span class="fa fa-search form-control-feedback"></span>
