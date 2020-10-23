@@ -1,26 +1,34 @@
-{%block header %}
-{% include 'sites/parts/header.html' %}
-{% endblock %}
+{% extends 'sites/parts/header.html' %}
+
+{% block title %}Potřebujuroušku.cz - Informace o COVID nařízeních: Celostátní opatření{% endblock %}
 {% block content %}
+{% load static %}
+
+<div class="wide d-flex justify-content-center ">
+
+  <div class="row">
+       <h2 class="display-3"><i class="fas fa-map"></i></i> Celostátní opatření</h2>
+    </div>
+</div>
+<div class="wide  d-flex justify-content-center ">
+  <div class="row">
+        {% block legenda %}
+            {% include 'sites/parts/legenda.html' %}
+        {% endblock %}
+      </div>
+</div>
+
 <div class="jumbotron">
 	<div class="container">
 		<div class="row-fluid">
 			{%block opatreni %}
 			{% include 'sites/parts/varovani.html' %}
 			{% endblock %}
-			<h2>Aktuální opatření - celostátní</h2>
 
-			<!--Get your own code at fontawesome.com-->
-			<!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
-			{% block legenda %}
-			{% include 'sites/parts/legenda.html' %}
-			{% endblock %}
-			Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření. Zobrazeny jsou i opatření, které nabydou platnosti během následujících 7 dní.
+            <p class="text-center">Pro zobrazení detailu, odkazu, platnosti, či výjimek klikněte/tapněte na název opatření. <br>Zobrazuji i nařízení, které nabydou platnosti během následujících 7 dní.</p>
+            <br>
+            <hr style="height:2px;border:none;color:#eee;background-color:#eee;" />
 
-        	<div class="alert alert-info">
-                Může se stát, že některá nařízení budou restriktivnější, než jiná. Zpravidla jsou třeba stanoveny nějaké podmínky pro celou republiku, ale v místech, kde je situace horší, vydá krajská hygientická stanice nějaké vlastní nařízení.
-                V tuto chvíli nemáme jak tento problém ošetřit. Buďte tedy při čtení trochu pesimisté a <b>řiďte se informací nejrestriktinvější</b>. <br>Děkujeme za pochopení!
-            </div>
 
             {%block blocks %}
 			{% include 'sites/parts/opatreni_bloky.html' %}

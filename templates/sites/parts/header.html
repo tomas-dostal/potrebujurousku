@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Potřebujuroušku.cz - přehledné informace o nařízeních ohledně COVID-19</title>
+        <title>{% block title %}{% endblock %}</title>
         <script src="https://kit.fontawesome.com/3b11066d11.js" crossorigin="anonymous"></script>
         <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css" rel="stylesheet" />
         <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type="text/css" />
@@ -45,28 +45,33 @@
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     </head>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="/">
                 <img src="{% static './logo/rouska_logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="" />
                 Potřebujuroušku.cz
-            </a>
+        </a>
+        <div class="btn-group" id="update-indicator-mobile">
+            {% block tooltip2 %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
+        </div>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link enabled" href="/"><i class="fas fa-home"></i> <b>Domů</b></a>
+                    <a class="nav-link enabled" href="/home/"><i class="fas fa-home"></i> Domů</a>
+                </li>
+               <li class="nav-item">
+                    <a class="nav-link enabled" href="/celostatni-opatreni/"><i class="fas fa-map"></i></i> Celostátní opatření</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link enabled" href="/opatreni/"><i class="fas fa-search-location"></i> Opatření podle místa</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link enabled" href="/celostatni-opatreni/"><i class="fas fa-map"></i></i> Celostátní opatření</a>
-                </li>
-                <li class="nav-item">
+
+                <!--<li class="nav-item">
                     <a class="nav-link enabled" href="/aktualnost/"><i class="fas fa-sync"></i> Aktuálnost dat</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link enabled" href="/o-projektu/"><i class="fas fa-info-circle"></i> O projektu</a>
                 </li>
@@ -85,12 +90,8 @@
               <a class="nav-link enabled" href="/statistiky/">Počty případů</a>
             </li> -->
             </ul>
-            <div class="btn-group">
-                {%block tooltip %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
-                <!-- <form class="form-inline my-2 my-lg-0">
-            <span class="fa fa-search form-control-feedback"></span><input class="form-control mr-sm-2" type="search" autocomplete="off" placeholder="Praha" aria-label="Najdi město"  id="header_search" onkeyup="myFunction('header_search', 'search_results')">
-         </form>
--->
+            <div class="btn-group" id="update-indicator-pc" >
+                {% block tooltip %} {% include 'sites/parts/indikator_aktualnost.html' %} {% endblock %}
             </div>
 			<!-- Actual search box -->
 			<div class="form-group has-search searchbox">
@@ -106,11 +107,6 @@
     </div>
 
     <noscript>
-        <style>
-            .pagecontainer {
-                display: none;
-            }
-        </style>
         <div class="noscriptmsg">
             <div class="container">
                 <div class="alert alert-danger">
@@ -120,4 +116,5 @@
             </div>
         </div>
     </noscript>
+    {% block content %}{% endblock %}
 </html>

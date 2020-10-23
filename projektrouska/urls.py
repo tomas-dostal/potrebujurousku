@@ -32,6 +32,7 @@ from projektrouska.views import kontrola_zadaneho
 urlpatterns = [
                   # path('admin/', admin.site.urls),
                   path('', views.opaterni_celoplosne, name='home'),
+                  path('home/', views.home, name='home'),
                   path('o-projektu/', views.about, name='about'),
                   path('opatreni/', views.opatreni, name='opatreni'),
                   path('celostatni-opatreni/', views.opaterni_celoplosne, name='celostatni-opatreni'),
@@ -64,6 +65,5 @@ tl = Timeloop()
 def sample_job_every_300s():
     if (not BETA and not DEV):
         requests.get("https://potrebujurousku.cz/aktualnost/")
-
 
 tl.start(block=False)

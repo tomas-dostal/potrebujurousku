@@ -1,66 +1,79 @@
-{%block header %}
-{% include 'sites/parts/header.html' %}
+{% extends 'sites/parts/header.html' %}
+
+
+
+{% block title %}Potřebujuroušku.cz - Informace o COVID nařízeních:
+        {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+             {{location.NAZEV_OBECMESTO}}
+
+        {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+            {{location.NAZEV_NUTS}}
+
+        {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+            {{location.NAZEV_OKRES}}
+
+        {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
+            {{location.NAZEV_KRAJ}}
+        {% endif %}
 {% endblock %}
 {% block content %}
+<div class="wide d-flex justify-content-center ">
+  <div class="row">
+       <h2 class="display-3"><i class="fas fa-search-location"></i></i> Lokální opatření</h2>
+  </div>
+</div>
+<div class="wide d-flex justify-content-center ">
+    <div class="row">
+        <h2>
+            {% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+            <!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
+                    {{location.NAZEV_KRAJ}} > {{location.NAZEV_OKRES}} > {{location.NAZEV_OBECMESTO}}
+
+            {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+            <!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
+                {{location.NAZEV_KRAJ}} > {{location.NAZEV_OKRES}} > {{location.NAZEV_NUTS}}
+
+            {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
+            <!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
+            {{location.NAZEV_KRAJ}} > {{location.NAZEV_OKRES}}
+
+            {% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
+            <!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
+            {{location.NAZEV_KRAJ}}
+            {% endif %}
+        </h2>
+    </div>
+</div>
+
+<div class="wide d-flex justify-content-center ">
+  <div class="row">
+        {% block legenda %}
+            {% include 'sites/parts/legenda.html' %}
+        {% endblock %}
+      </div>
+</div>
+
+
 <div class="jumbotron">
 	<div class="container">
 		<div class="row-fluid">
 			{%block opatreni %}
 			{% include 'sites/parts/varovani.html' %}
 			{% endblock %}
-			<h2>Aktuální opatření</h2>
+
+            <p class="text-center">Pro zobrazení detailu, odkazu, platnosti, či výjimek klikněte/tapněte na název opatření. <br>Zobrazuji i nařízení, které nabydou platnosti během následujících 7 dní.</p>
             <br>
-			<table class="table">
-				<thead class="thead-dark">
-					<tr class="table-active">
-						{% if  location.NAZEV_OBECMESTO != None or  location.NAZEV_NUTS != None  %}
-						<th scope="col">Místo</th>
-						{% endif %}
-						{% if  location.NAZEV_OKRES != None  %}
-						<th scope="col">Okres</th>
-						{% endif %}
-						<th scope="col">Kraj</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="table-secondary">
-						{% if  location.NAZEV_OBECMESTO != None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
-						<td>{{location.NAZEV_OBECMESTO}}</td>
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-						{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS != None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td> -->
-						<td>{{location.NAZEV_NUTS}}</td>
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-						{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES != None and location.NAZEV_KRAJ != None %}
-						<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
-						<td>{{location.NAZEV_OKRES}}</td>
-						<td>{{location.NAZEV_KRAJ}}</td>
-					</tr>
-					{% elif  location.NAZEV_OBECMESTO == None  and location.NAZEV_NUTS == None and location.NAZEV_OKRES == None and location.NAZEV_KRAJ != None %}
-					<!--<td><i class="fas fa-map-marked-alt" aria-hidden="true"></i></td>-->
-					<td>{{location.NAZEV_KRAJ}}</td>
-					{% endif %}
-				</tbody>
-			</table>
-			<!--Get your own code at fontawesome.com-->
-			<!-- t null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, nazev_kraj -->
-			{% block legenda %}
-			{% include 'sites/parts/legenda.html' %}
-			{% endblock %}
-			Pro zobrazení detailu, odkazu, platnosti apod klikněte/tapněte na název opatření. Zobrazeny jsou i opatření, které nabydou platnosti během následujících 7 dní.
-            <br><br>
-        	<div class="alert alert-info">
+            <hr style="height:2px;border:none;color:#eee;background-color:#eee;" />
+            <!--<div class="alert alert-info">
                 Může se stát, že některá nařízení budou restriktivnější, než jiná. Zpravidla jsou třeba stanoveny nějaké podmínky pro celou republiku, ale v místech, kde je situace horší, vydá krajská hygientická stanice nějaké vlastní nařízení.
                 V tuto chvíli nemáme jak tento problém ošetřit. Buďte tedy při čtení trochu pesimisté a <b>řiďte se informací nejrestriktinvější</b>. <br>Děkujeme za pochopení!
-            </div>
+            </div>-->
 			{%block blocks %}
 			{% include 'sites/parts/opatreni_bloky.html' %}
 			{% endblock %}
 
-
+            <br>
+            <hr style="height:2px;border:none;color:#eee;background-color:#eee;" />
 			{%block disclaimer %}
 			{% include 'sites/parts/upozorneni.html' %}
 			{% endblock %}
