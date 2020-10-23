@@ -1,22 +1,25 @@
 {% for kategorie in query_results %}
+
     <!-- 'ID_KATEGORIE', 'NAZEV_KAT', -->
     <br>
     <br>
-    <h3 >{{  kategorie.kategorie }}</h3>
+        <h3 ><i class="{{ queue.KOMENT_KATEGORIE }} fa-2x"></i>{{  kategorie.kategorie }}</h3>
     <hr>
     <!--         # <class 'tuple'>: ('NAZEV_OBECMESTO', 'NAZEV_NUTS', 'NAZEV_KRAJ', 'ID_OPATRENI', 'NAZEV_OPATRENI', 'NAZEV_ZKR', 'ZDROJ', 'PLATNOST_OD', 'ID_POLOZKA', 'NAZEV', 'KOMENTAR', 'KATEGORIE_ID_KATEGORIE', 'TYP', 'OPATRENI_ID_OPATRENI', 'ID_KATEGORIE', 'NAZEV_KAT', 'KOMENT_KATEGORIE')
         -->
+    <div class="card-columns">
+
     {% for queue in kategorie.narizeni %}
 
 
         <!-- #################    Jeste neni aktivni   #################   -->
         {% if queue.PLATNOST_OD > now %}
             {% if  queue.TYP == "doporuceni"  or  queue.TYP == "info"  or  queue.TYP == "narizeni"  %}
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                <button type="button" class="btn card text-white bg-secondary  btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
             {% elif queue.TYP == "narizeninouzovy" %}
-                <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                <button type="button" class="btn card text-white bg-dark  btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
             {% else %}
-                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                <button type="button" class="btn card text-white bg-secondary   btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
             {% endif %}
 
                 {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
@@ -37,33 +40,30 @@
 
         {% else %}
                 {% if queue.TYP == "narizeni" %}
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    <button type="button" class="btn btn-danger  card text-white bg-danger   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
                 {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    <button type="button" class="btn btn-info  card text-white bg-info   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
                 {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    <button type="button" class="btn btn-warning  card text-white bg-warning   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
                 {% elif queue.TYP == "narizeninouzovy" %}
-                    <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    <button type="button" class="btn btn-dark  card text-white bg-dark   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
                 {% else %}
-                    <button type="button" class="btn btn-light dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">
+                    <button type="button" class="btn btn-light  card text-white bg-light   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
                 {% endif %}
-
                 {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
                     <s>{{  queue.NAZEV }}</s>
                  {% else %}
                     {{  queue.NAZEV }}
                 {% endif %}
                 {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
-                    <br><span class="badge badge-secondary dropdown-toggle"> končí {{ queue.PLATNOST_DO}}</span>
+                    <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO }}</span>
                 {% endif %}
 
 
         {% endif %}
             {% if  queue.ROZSAH == "cr" %}
-                <span class="badge badge-light">Celoplošné</span>
-            {% elif  queue.ROZSAH == "kraj" %}
-                <span class="badge badge-secondary">Lokální</span>
-            {% elif  queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
+                <br><span class="badge badge-light">Celoplošné</span>
+            {% elif  queue.ROZSAH == "kraj" or queue.ROZSAH == "obecmesto" or  queue.ROZSAH == "nuts3" %}
                 <span class="badge badge-secondary">Lokální</span>
             {% endif %}
 
@@ -156,6 +156,7 @@
         </div>
 
     {% endfor %}
+    </div>
 {% endfor %}
 <br>
 <br>

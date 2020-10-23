@@ -177,6 +177,14 @@ card
     }
 }*/
 /* please forgive me */
+.dropdown-toggle
+{
+    display: block;
+}
+.fa-2x
+{
+   padding: 10px 0;
+}
 
 @media (max-width: 1463px) and (min-width: 440px){
     #update-indicator-mobile

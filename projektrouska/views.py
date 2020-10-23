@@ -700,10 +700,15 @@ def about(request):
     return render(request, 'sites/o_projektu.html', {"kontrola": posledni_kontrola(),
                                                      "zastarala_data": zastarala_data()})
 def home(request):
-    import requests
-    r = requests.get(url='https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json')
-    result = r.json()["data"][0]
-    data_modified = datetime.fromisoformat(r.json()["modified"])
+    try:
+        import requests
+        r = requests.get(url='https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json')
+        result = r.json()["data"]
+
+        result = result[0]
+        data_modified = datetime.fromisoformat(r.json()["modified"])
+    except:
+        print("MZDR API inforkarta: Něco se pokazilo")
 
     """
         "datum": "2020-09-23",
