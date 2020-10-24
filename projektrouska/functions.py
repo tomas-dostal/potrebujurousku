@@ -1,8 +1,10 @@
 import hashlib
 
+
 def format_num(number):
     import locale
-    locale.setlocale(locale.LC_ALL, '')
+
+    locale.setlocale(locale.LC_ALL, "")
     return str(locale.format_string("%d", number, grouping=True)).replace(" ", "&nbsp;")
 
 
@@ -19,8 +21,9 @@ def return_as_array(data, description):
         columns.append(col[0])
     array = []
     for row in data:
-            array.append(return_as_dict(row, description))
+        array.append(return_as_dict(row, description))
     return array
+
 
 def return_as_dict(data, description):
     """
@@ -35,7 +38,7 @@ def return_as_dict(data, description):
         columns.append(col[0])
     dict = {}
     i = 0
-    if(data):
+    if data:
         for row in data:
             dict[columns[i]] = row
             i += 1
@@ -45,6 +48,7 @@ def return_as_dict(data, description):
             i += 1
     return dict
 
+
 def calcmd5(string):
     # initializing string
     str2hash = string
@@ -53,4 +57,4 @@ def calcmd5(string):
     result = hashlib.md5(str2hash.encode())
 
     # printing the equivalent hexadecimal value.
-    return (result.hexdigest())
+    return result.hexdigest()
