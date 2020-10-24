@@ -38,17 +38,15 @@ def return_as_dict(data, description):
     :return: return dictionary of tuples {desc[0]: data[0], desc[1]: data[1]}
     """
     columns = [column[0] for column in description]
-    dict = {}
+    dictionary = {}
     if data:
-        i = 0
-        for value in data:
-            dict[columns[i]] = value
-            i += 1
+        for i in range(len(data)):
+            dictionary[columns[i]] = data[i]
     else:
         for column in columns:
-            dict[column] = None
+            dictionary[column] = None
 
-    return dict
+    return dictionary
 
 
 def calcmd5(string):
