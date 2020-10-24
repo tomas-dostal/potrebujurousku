@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 from django.db import connection
 
-
 from projektrouska.functions import (
     return_as_dict,
     return_as_array,
@@ -20,9 +19,8 @@ def posledni_kontrola():
     with connection.cursor() as cursor:
         query = """select * from (select * from INFO order by DATE_UPDATED desc) where rownum <= 1;"""
         cursor.execute(query)
-        dict = return_as_dict(cursor.fetchone(), cursor.description)
-        # print(dict)
-        return dict
+        dictionary = return_as_dict(cursor.fetchone(), cursor.description)
+        return dictionary
 
 
 def posledni_databaze():
@@ -32,8 +30,8 @@ def posledni_databaze():
                        union
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni);"""
         cursor.execute(last_qu)
-        last_update = cursor.fetchone()
-        return last_update[0]
+        last_update = cursor.fetchone()[0]
+        return last_update
 
 
 def zastarala_data():
