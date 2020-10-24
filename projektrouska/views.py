@@ -1,11 +1,12 @@
-import json
+# import json
 import requests
 
 from datetime import datetime, timedelta
 
 from django.http import HttpResponse
-from django.views.decorators.http import require_GET
-from django.http import JsonResponse
+
+# from django.views.decorators.http import require_GET
+# from django.http import JsonResponse
 from django.shortcuts import render
 from django.db import connection
 
@@ -13,73 +14,19 @@ from projektrouska.aktualnost import kontrola
 from projektrouska.settings import DEV
 
 # from projektrouska.functions import *
-from projektrouska.functions import return_as_dict, return_as_array, calcmd5, format_num
+from projektrouska.functions import (
+    return_as_dict,
+    return_as_array,
+    calcmd5,
+    format_num,
+    strfdelta,
+)
 from projektrouska.api import *
 
-dni_dopredu = (
-    7  # urcuje v horizontu kolika dni se maji zobrazovat nadchazející opatreni
-)
+from projektrouska.sqls import posledni_kontrola, posledni_databaze
 
-
-# def indikator_aktualnost():
-#     with connection.cursor() as cursor:
-#         # query_results = cursor.fetchall()
-#         # desc = cursor.description
-
-#         cursor.execute(
-#             """
-#             select
-#                 *
-#             from
-#                 (select * from info order by DATE_UPDATED desc)
-#             where
-#                 ROWNUM <= 1
-#             """
-#         )
-
-#         dict = return_as_dict(cursor.fetchone(), cursor.description)
-
-#         if DEV is True:
-#             print(dict)
-
-#         if DEV is True and (datetime.now() - dict["DATE_UPDATED"]) < timedelta(
-#             minutes=10
-#         ):
-#             print("Aktualnost aktualizovana pred mene nez 10 minutami")
-
-
-def posledni_kontrola():
-    with connection.cursor() as cursor:
-        # query_results = cursor.fetchall()
-        # desc = cursor.description
-
-        cursor.execute(
-            """select * from (select * from INFO order by DATE_UPDATED desc ) where rownum <= 1;"""
-        )
-        dict = return_as_dict(cursor.fetchone(), cursor.description)
-        print(dict)
-        return dict
-
-
-def posledni_databaze():
-    with connection.cursor() as cursor:
-        last_qu = """select max(posledni_uprava) from(
-                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
-                       union
-                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni)"""
-        cursor.execute(last_qu)
-        last_update = cursor.fetchone()
-        return last_update[0]
 # urcuje v horizontu kolika dni se maji zobrazovat nadchazející opatreni
 DNI_DOPREDU = 7
-
-
-# source: https://stackoverflow.com/questions/8906926/formatting-timedelta-objects
-def strfdelta(tdelta, fmt):
-    d = {"days": tdelta.days}
-    d["hours"], rem = divmod(tdelta.seconds, 3600)
-    d["minutes"], d["seconds"] = divmod(rem, 60)
-    return fmt.format(**d)
 
 
 def zastarala_data():
@@ -767,7 +714,8 @@ def opatreni(request):
     )
 
 
-def opaterni_celoplosne(request):
+# /celostatni-opatreni
+def opatreni_celoplosne(request):
     array = opatreni_stat()[0]
 
     # oder by cathegory
@@ -797,13 +745,14 @@ def opaterni_celoplosne(request):
 
 
 # @require_GET
+# /robots.txt
 def robots_txt(request):
-    lines = [
+    headers = [
         "User-Agent: *",
         "Disallow: /private/",
         "Disallow: /junk/",
     ]
-    return HttpResponse("\n".join(lines), content_type="text/plain")
+    return HttpResponse("\n".join(headers), content_type="text/plain")
 
 
 def about(request):
@@ -872,6 +821,7 @@ def home(request):
     )
 
 
+# /statistiky
 def stats(request):
     return render(request, "sites/statistiky.html")
 
