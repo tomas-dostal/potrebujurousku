@@ -6,16 +6,17 @@ Nainstaluj si závislosti:
 	- buď `pip install -r requirements.txt`
 	- nebo (doporučuju) `pipenv install`
 
+##Doplň kód
+Přejmenuj `secret.py.example` na `secret.py`
+
 ##Připoj databázi
 Projekt aktuálně běží na oracle databázi.
 Pro používání si musíš zařídit přihlašovací údaje.
+Doplň přístupové údaje k databázi do `secret.py`
 
 Pokud nemáš, nainstaluj si oracle client
 	- Linux - [návod zde](https://help.ubuntu.com/community/Oracle Instant Client)
 
-Nastav si u sebe v Djangu parametry připojení k databázi:
-	- buď v `base_settings.py` (ale pak pozor, abys změny nepřidal veřejně)
-	- nebo přes `.env` soubor
 
 ##Spusť projekt
 Spusť pomocí
