@@ -1,11 +1,14 @@
 import json
+import requests
+
+from datetime import datetime, timedelta
+
 from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 from django.http import JsonResponse
-from datetime import datetime, timedelta
-
 from django.shortcuts import render
 from django.db import connection
+
 from projektrouska.aktualnost import kontrola
 from projektrouska.settings import DEV
 
@@ -67,6 +70,8 @@ def posledni_databaze():
         cursor.execute(last_qu)
         last_update = cursor.fetchone()
         return last_update[0]
+# urcuje v horizontu kolika dni se maji zobrazovat nadchazející opatreni
+DNI_DOPREDU = 7
 
 
 # source: https://stackoverflow.com/questions/8906926/formatting-timedelta-objects
@@ -113,7 +118,7 @@ def opatreni_stat():
                 ) join polozka on id_opatreni=opatreni_id_opatreni
             ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"zobrazit_dopredu": dni_dopredu})
+        cursor.execute(qu, {"zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
         location = {}
         return display_by_cath(array), location
@@ -198,7 +203,7 @@ def opatreni_nuts(id_nuts):
                    ) join kraj using(id_kraj);"""
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_nuts": id_nuts, "zobrazit_dopredu": dni_dopredu})
+        cursor.execute(qu, {"id_nuts": id_nuts, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_nuts": id_nuts})
@@ -236,7 +241,7 @@ def opatreni_kraj(id_kraj):
               select * from kraj  where id_kraj=:id_k) """
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_k": id_kraj, "zobrazit_dopredu": dni_dopredu})
+        cursor.execute(qu, {"id_k": id_kraj, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_k": id_kraj})
@@ -287,7 +292,7 @@ def opatreni_okres(id_okres):
                               );"""
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_okr": id_okres, "zobrazit_dopredu": dni_dopredu})
+        cursor.execute(qu, {"id_okr": id_okres, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_okr": id_okres})
@@ -484,7 +489,7 @@ def opatreni_om(id_obecmesto):
                    )join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
                  ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj;"""
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_ob": id_obecmesto, "zobrazit_dopredu": dni_dopredu})
+        cursor.execute(qu, {"id_ob": id_obecmesto, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_ob": id_obecmesto})
@@ -811,8 +816,6 @@ def about(request):
 
 def home(request):
     try:
-        import requests
-
         r = requests.get(
             url="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json"
         )
