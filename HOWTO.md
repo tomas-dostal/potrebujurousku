@@ -8,6 +8,7 @@ Nainstaluj si závislosti:
 
 ##Doplň kód
 Přejmenuj `secret.py.example` na `secret.py`
+V souboru `settings.py` si nastav `socket.gethostname() == "jmeno-meho-pocitace"`
 
 ##Připoj databázi
 Projekt aktuálně běží na oracle databázi.
