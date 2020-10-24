@@ -18,16 +18,8 @@ DNI_DOPREDU = 7
 
 def posledni_kontrola():
     with connection.cursor() as cursor:
-        cursor.execute(
-            """
-            SELECT
-                *
-            FROM
-                (select * from INFO order by DATE_UPDATED desc )
-            WHERE
-                rownum <= 1;
-            """
-        )
+        query = """select * from (select * from INFO order by DATE_UPDATED desc) where rownum <= 1;"""
+        cursor.execute(query)
         dict = return_as_dict(cursor.fetchone(), cursor.description)
         # print(dict)
         return dict
@@ -38,7 +30,7 @@ def posledni_databaze():
         last_qu = """select max(posledni_uprava) from(
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
                        union
-                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni)"""
+                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni);"""
         cursor.execute(last_qu)
         last_update = cursor.fetchone()
         return last_update[0]
@@ -71,7 +63,7 @@ def opatreni_stat():
 
 
                 ) join polozka on id_opatreni=opatreni_id_opatreni
-            ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+            ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie) order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc;"""
     with connection.cursor() as cursor:
         cursor.execute(qu, {"zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
