@@ -27,25 +27,27 @@ def return_as_array(data, description):
 
 def return_as_dict(data, description):
     """
-
     :param data: return value of  cursor.execute.fetchone (single row only!)
+    example:
+        ('355e8aa9b2f3d0be96a75b028815c80a', datetime.datetime(2020, 10, 24, 22, 54), 'Všechna data jsou aktuální!', 100, 0, '[]', 0, '[]', 0, '[]', 0, 41825)
+
     :param description:  value of cursor.description
+    example:
+        [('CHECKSUM', <cx_Oracle.DbType DB_TYPE_VARCHAR>, 50, 50, None, None, 1), ('DATE_UPDATED', <cx_Oracle.DbType DB_TYPE_DATE>, 23, None, None, None, 1), ('POZNAMKA', <cx_Oracle.DbType DB_TYPE_VARCHAR>, 500, 500, None, None, 1), ('AKTUALNOST', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 1), ('CHYBI_POCET', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 0), ('CHYBI_POLE', <cx_Oracle.DbType DB_TYPE_VARCHAR>, 4000, 4000, None, None, 1), ('ZMENA_LINK_POCET', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 1), ('ZMENA_LINK_POLE', <cx_Oracle.DbType DB_TYPE_VARCHAR>, 4000, 4000, None, None, 1), ('ODSTRANIT_POCET', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 1), ('ODSTRANIT_POLE', <cx_Oracle.DbType DB_TYPE_VARCHAR>, 4000, 4000, None, None, 1), ('CELK_ZMEN', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 1), ('ID', <cx_Oracle.DbType DB_TYPE_NUMBER>, 39, None, 38, 0, 0)]
+
     :return: return dictionary of tuples {desc[0]: data[0], desc[1]: data[1]}
     """
-    desc = description  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-    columns = []
-    for col in desc:
-        columns.append(col[0])
+    columns = [column[0] for column in description]
     dict = {}
-    i = 0
     if data:
-        for row in data:
-            dict[columns[i]] = row
+        i = 0
+        for value in data:
+            dict[columns[i]] = value
             i += 1
     else:
-        for col in columns:
-            dict[columns[i]] = None
-            i += 1
+        for column in columns:
+            dict[column] = None
+
     return dict
 
 
@@ -80,4 +82,5 @@ def display_by_cath(array):
                 existing.append(col["NAZEV_KAT"])
                 tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
                 by_cath.append(tmp)
+
     return by_cath

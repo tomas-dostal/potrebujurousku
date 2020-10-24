@@ -20,7 +20,7 @@ def check_in_db(to_check):
     zmena_odkazu = []
     cekajici_na_zpracovani = []
 
-    print("Kotrnoluju soubor déky {}: \n{}".format(len(to_check), str(to_check)))
+    print("Kontroluju soubor dékly {}: \n{}".format(len(to_check), str(to_check)))
     # na jednom linku muze byt i vice narizeni, tak projed pro kazde
     for o in to_check:
         if o["odkaz"] in blacklist:
