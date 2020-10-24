@@ -59,9 +59,25 @@ def calcmd5(string):
     # printing the equivalent hexadecimal value.
     return result.hexdigest()
 
+
 # source: https://stackoverflow.com/questions/8906926/formatting-timedelta-objects
 def strfdelta(tdelta, fmt):
     d = {"days": tdelta.days}
     d["hours"], rem = divmod(tdelta.seconds, 3600)
     d["minutes"], d["seconds"] = divmod(rem, 60)
     return fmt.format(**d)
+
+
+def display_by_cath(array):
+    by_cath = []
+    existing = []
+    for col in array:
+        if "NAZEV_KAT" in col:
+            # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
+            if col["NAZEV_KAT"] in existing:
+                by_cath[len(by_cath) - 1]["narizeni"].append(col)
+            else:
+                existing.append(col["NAZEV_KAT"])
+                tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
+                by_cath.append(tmp)
+    return by_cath
