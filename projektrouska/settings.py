@@ -3,7 +3,7 @@ import socket
 
 BETA = True
 
-if 'DEV' in locals() and DEV is True:
+if "DEV" in locals() and DEV is True:
     from projektrouska.local_settings import *
 else:
     DEV = False
