@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.db import connection
 from projektrouska.aktualnost import kontrola
 from projektrouska.settings import DEV
+
 # from projektrouska.functions import *
 from projektrouska.functions import return_as_dict, return_as_array, calcmd5, format_num
 from projektrouska.api import *
@@ -17,28 +18,31 @@ dni_dopredu = (
 )
 
 
-def indikator_aktualnost():
-    with connection.cursor() as cursor:
-        # query_results = cursor.fetchall()
-        # desc = cursor.description
+# def indikator_aktualnost():
+#     with connection.cursor() as cursor:
+#         # query_results = cursor.fetchall()
+#         # desc = cursor.description
 
-        cursor.execute(
-            """select *
-                        from
-                        (select * from info order by DATE_UPDATED desc)
-                        where
-                        ROWNUM <= 1"""
-        )
+#         cursor.execute(
+#             """
+#             select
+#                 *
+#             from
+#                 (select * from info order by DATE_UPDATED desc)
+#             where
+#                 ROWNUM <= 1
+#             """
+#         )
 
-        dict = return_as_dict(cursor.fetchone(), cursor.description)
+#         dict = return_as_dict(cursor.fetchone(), cursor.description)
 
-        if DEV is True:
-            print(dict)
+#         if DEV is True:
+#             print(dict)
 
-        if DEV is True and (datetime.now() - dict["DATE_UPDATED"]) < timedelta(
-            minutes=10
-        ):
-            print("Aktualnost aktualizovana pred mene nez 10 minutami")
+#         if DEV is True and (datetime.now() - dict["DATE_UPDATED"]) < timedelta(
+#             minutes=10
+#         ):
+#             print("Aktualnost aktualizovana pred mene nez 10 minutami")
 
 
 def posledni_kontrola():
@@ -58,7 +62,7 @@ def posledni_databaze():
     with connection.cursor() as cursor:
         last_qu = """select max(posledni_uprava) from(
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
-                       union 
+                       union
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni)"""
         cursor.execute(last_qu)
         last_update = cursor.fetchone()
@@ -91,6 +95,7 @@ def aktualnost_v_case(request):
     """select min(DATE_UPDATED) as DATE_UPDATED, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN from info
 group by CHECKSUM, POZNAMKA, AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE, CELK_ZMEN
 order by  DATE_UPDATED"""
+    pass
 
 
 def opatreni_stat():
@@ -185,6 +190,7 @@ def opatreni_nuts(id_nuts):
 
                        ) join polozka on opatreni_id_opatreni = id_opatreni
                    ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+
     misto_qu = """select null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
                  select * from (
                               select ID_NUTS, NAZEV_NUTS, KRAJ_ID_KRAJ as id_kraj from nuts3 where ID_NUTS=:id_nuts
@@ -692,9 +698,8 @@ def display_by_cath(array):
     by_cath = []
     existing = []
     for col in array:
-        if (
-            "NAZEV_KAT" in col
-        ):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
+        if "NAZEV_KAT" in col:
+            # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
             if col["NAZEV_KAT"] in existing:
                 by_cath[len(by_cath) - 1]["narizeni"].append(col)
             else:
