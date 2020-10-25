@@ -40,11 +40,11 @@ from projektrouska.view.errors import (
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path("", views.opaterni_celoplosne, name="home"),
+    path("", views.opatreni_celoplosne, name="home"),
     path("home/", views.home, name="home"),
     path("o-projektu/", views.about, name="about"),
     path("opatreni/", views.opatreni, name="opatreni"),
-    path("celostatni-opatreni/", views.opaterni_celoplosne, name="celostatni-opatreni"),
+    path("celostatni-opatreni/", views.opatreni_celoplosne, name="celostatni-opatreni"),
     path("aktualnost/", views.aktualnost, name="aktualnost"),
     path("robots.txt", views.robots_txt),
     # path('statistiky/', views.stats, name='statistiky'),
