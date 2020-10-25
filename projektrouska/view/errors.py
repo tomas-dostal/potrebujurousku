@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from datetime import datetime
-from projektrouska.views import posledni_databaze
-from projektrouska.views import posledni_kontrola
+from projektrouska.sqls import posledni_databaze
+from projektrouska.sqls import posledni_kontrola
 
 
 def custom_page_not_found_view(request, exception):
