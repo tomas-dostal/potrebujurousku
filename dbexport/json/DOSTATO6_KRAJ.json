@@ -1,0 +1,72 @@
+[
+  {
+    "ID_KRAJ": 1,
+    "NAZEV_KRAJ": "Hlavní město Praha",
+    "KOD_KRAJ": 3018
+  },
+  {
+    "ID_KRAJ": 2,
+    "NAZEV_KRAJ": "Středočeský kraj",
+    "KOD_KRAJ": 3026
+  },
+  {
+    "ID_KRAJ": 3,
+    "NAZEV_KRAJ": "Jihočeský kraj",
+    "KOD_KRAJ": 3034
+  },
+  {
+    "ID_KRAJ": 4,
+    "NAZEV_KRAJ": "Plzeňský kraj",
+    "KOD_KRAJ": 3042
+  },
+  {
+    "ID_KRAJ": 5,
+    "NAZEV_KRAJ": "Karlovarský kraj",
+    "KOD_KRAJ": 3051
+  },
+  {
+    "ID_KRAJ": 6,
+    "NAZEV_KRAJ": "Ústecký kraj",
+    "KOD_KRAJ": 3069
+  },
+  {
+    "ID_KRAJ": 7,
+    "NAZEV_KRAJ": "Liberecký kraj",
+    "KOD_KRAJ": 3077
+  },
+  {
+    "ID_KRAJ": 8,
+    "NAZEV_KRAJ": "Královéhradecký kraj",
+    "KOD_KRAJ": 3085
+  },
+  {
+    "ID_KRAJ": 9,
+    "NAZEV_KRAJ": "Pardubický kraj",
+    "KOD_KRAJ": 3093
+  },
+  {
+    "ID_KRAJ": 10,
+    "NAZEV_KRAJ": "Kraj Vysočina",
+    "KOD_KRAJ": 3107
+  },
+  {
+    "ID_KRAJ": 11,
+    "NAZEV_KRAJ": "Jihomoravský kraj",
+    "KOD_KRAJ": 3115
+  },
+  {
+    "ID_KRAJ": 12,
+    "NAZEV_KRAJ": "Olomoucký kraj",
+    "KOD_KRAJ": 3123
+  },
+  {
+    "ID_KRAJ": 13,
+    "NAZEV_KRAJ": "Zlínský kraj",
+    "KOD_KRAJ": 3131
+  },
+  {
+    "ID_KRAJ": 14,
+    "NAZEV_KRAJ": "Moravskoslezský kraj",
+    "KOD_KRAJ": 3140
+  }
+]

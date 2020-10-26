@@ -1,0 +1,1238 @@
+[
+  {
+    "ID_OKRES": 1,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Benešov",
+    "NUTS3_ID_NUTS": "2"
+  },
+  {
+    "ID_OKRES": 1,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Benešov",
+    "NUTS3_ID_NUTS": "26"
+  },
+  {
+    "ID_OKRES": 1,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Benešov",
+    "NUTS3_ID_NUTS": "27"
+  },
+  {
+    "ID_OKRES": 2,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Beroun",
+    "NUTS3_ID_NUTS": "3"
+  },
+  {
+    "ID_OKRES": 2,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Beroun",
+    "NUTS3_ID_NUTS": "9"
+  },
+  {
+    "ID_OKRES": 3,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Blansko",
+    "NUTS3_ID_NUTS": "138"
+  },
+  {
+    "ID_OKRES": 3,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Blansko",
+    "NUTS3_ID_NUTS": "139"
+  },
+  {
+    "ID_OKRES": 4,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Břeclav",
+    "NUTS3_ID_NUTS": "141"
+  },
+  {
+    "ID_OKRES": 4,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Břeclav",
+    "NUTS3_ID_NUTS": "144"
+  },
+  {
+    "ID_OKRES": 4,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Břeclav",
+    "NUTS3_ID_NUTS": "148"
+  },
+  {
+    "ID_OKRES": 5,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-město",
+    "NUTS3_ID_NUTS": "140"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "145"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "146"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "150"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "151"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "153"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "154"
+  },
+  {
+    "ID_OKRES": 6,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Brno-venkov",
+    "NUTS3_ID_NUTS": "158"
+  },
+  {
+    "ID_OKRES": 7,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Bruntál",
+    "NUTS3_ID_NUTS": "187"
+  },
+  {
+    "ID_OKRES": 7,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Bruntál",
+    "NUTS3_ID_NUTS": "198"
+  },
+  {
+    "ID_OKRES": 7,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Bruntál",
+    "NUTS3_ID_NUTS": "204"
+  },
+  {
+    "ID_OKRES": 8,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Česká Lípa",
+    "NUTS3_ID_NUTS": "83"
+  },
+  {
+    "ID_OKRES": 8,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Česká Lípa",
+    "NUTS3_ID_NUTS": "88"
+  },
+  {
+    "ID_OKRES": 9,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres České Budějovice",
+    "NUTS3_ID_NUTS": "29"
+  },
+  {
+    "ID_OKRES": 9,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres České Budějovice",
+    "NUTS3_ID_NUTS": "40"
+  },
+  {
+    "ID_OKRES": 9,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres České Budějovice",
+    "NUTS3_ID_NUTS": "42"
+  },
+  {
+    "ID_OKRES": 10,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Český Krumlov",
+    "NUTS3_ID_NUTS": "30"
+  },
+  {
+    "ID_OKRES": 10,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Český Krumlov",
+    "NUTS3_ID_NUTS": "33"
+  },
+  {
+    "ID_OKRES": 11,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Cheb",
+    "NUTS3_ID_NUTS": "60"
+  },
+  {
+    "ID_OKRES": 11,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Cheb",
+    "NUTS3_ID_NUTS": "61"
+  },
+  {
+    "ID_OKRES": 11,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Cheb",
+    "NUTS3_ID_NUTS": "64"
+  },
+  {
+    "ID_OKRES": 12,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Chomutov",
+    "NUTS3_ID_NUTS": "69"
+  },
+  {
+    "ID_OKRES": 12,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Chomutov",
+    "NUTS3_ID_NUTS": "70"
+  },
+  {
+    "ID_OKRES": 13,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Chrudim",
+    "NUTS3_ID_NUTS": "109"
+  },
+  {
+    "ID_OKRES": 13,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Chrudim",
+    "NUTS3_ID_NUTS": "111"
+  },
+  {
+    "ID_OKRES": 14,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Děčín",
+    "NUTS3_ID_NUTS": "68"
+  },
+  {
+    "ID_OKRES": 14,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Děčín",
+    "NUTS3_ID_NUTS": "78"
+  },
+  {
+    "ID_OKRES": 14,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Děčín",
+    "NUTS3_ID_NUTS": "81"
+  },
+  {
+    "ID_OKRES": 15,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Domažlice",
+    "NUTS3_ID_NUTS": "46"
+  },
+  {
+    "ID_OKRES": 15,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Domažlice",
+    "NUTS3_ID_NUTS": "48"
+  },
+  {
+    "ID_OKRES": 16,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Frýdek-Místek",
+    "NUTS3_ID_NUTS": "190"
+  },
+  {
+    "ID_OKRES": 16,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Frýdek-Místek",
+    "NUTS3_ID_NUTS": "191"
+  },
+  {
+    "ID_OKRES": 16,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Frýdek-Místek",
+    "NUTS3_ID_NUTS": "194"
+  },
+  {
+    "ID_OKRES": 16,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Frýdek-Místek",
+    "NUTS3_ID_NUTS": "205"
+  },
+  {
+    "ID_OKRES": 17,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Havlíčkův Brod",
+    "NUTS3_ID_NUTS": "124"
+  },
+  {
+    "ID_OKRES": 17,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Havlíčkův Brod",
+    "NUTS3_ID_NUTS": "126"
+  },
+  {
+    "ID_OKRES": 17,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Havlíčkův Brod",
+    "NUTS3_ID_NUTS": "133"
+  },
+  {
+    "ID_OKRES": 18,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Hodonín",
+    "NUTS3_ID_NUTS": "143"
+  },
+  {
+    "ID_OKRES": 18,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Hodonín",
+    "NUTS3_ID_NUTS": "147"
+  },
+  {
+    "ID_OKRES": 18,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Hodonín",
+    "NUTS3_ID_NUTS": "155"
+  },
+  {
+    "ID_OKRES": 19,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Hradec Králové",
+    "NUTS3_ID_NUTS": "97"
+  },
+  {
+    "ID_OKRES": 19,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Hradec Králové",
+    "NUTS3_ID_NUTS": "104"
+  },
+  {
+    "ID_OKRES": 20,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Jablonec nad Nisou",
+    "NUTS3_ID_NUTS": "85"
+  },
+  {
+    "ID_OKRES": 20,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Jablonec nad Nisou",
+    "NUTS3_ID_NUTS": "90"
+  },
+  {
+    "ID_OKRES": 20,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Jablonec nad Nisou",
+    "NUTS3_ID_NUTS": "92"
+  },
+  {
+    "ID_OKRES": 21,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Jeseník",
+    "NUTS3_ID_NUTS": "160"
+  },
+  {
+    "ID_OKRES": 22,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Jičín",
+    "NUTS3_ID_NUTS": "96"
+  },
+  {
+    "ID_OKRES": 22,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Jičín",
+    "NUTS3_ID_NUTS": "99"
+  },
+  {
+    "ID_OKRES": 22,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Jičín",
+    "NUTS3_ID_NUTS": "102"
+  },
+  {
+    "ID_OKRES": 23,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Jihlava",
+    "NUTS3_ID_NUTS": "127"
+  },
+  {
+    "ID_OKRES": 23,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Jihlava",
+    "NUTS3_ID_NUTS": "134"
+  },
+  {
+    "ID_OKRES": 24,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Jindřichův Hradec",
+    "NUTS3_ID_NUTS": "31"
+  },
+  {
+    "ID_OKRES": 24,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Jindřichův Hradec",
+    "NUTS3_ID_NUTS": "32"
+  },
+  {
+    "ID_OKRES": 24,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Jindřichův Hradec",
+    "NUTS3_ID_NUTS": "41"
+  },
+  {
+    "ID_OKRES": 25,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Karlovy Vary",
+    "NUTS3_ID_NUTS": "62"
+  },
+  {
+    "ID_OKRES": 25,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Karlovy Vary",
+    "NUTS3_ID_NUTS": "65"
+  },
+  {
+    "ID_OKRES": 26,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Karviná",
+    "NUTS3_ID_NUTS": "186"
+  },
+  {
+    "ID_OKRES": 26,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Karviná",
+    "NUTS3_ID_NUTS": "188"
+  },
+  {
+    "ID_OKRES": 26,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Karviná",
+    "NUTS3_ID_NUTS": "192"
+  },
+  {
+    "ID_OKRES": 26,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Karviná",
+    "NUTS3_ID_NUTS": "195"
+  },
+  {
+    "ID_OKRES": 26,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Karviná",
+    "NUTS3_ID_NUTS": "202"
+  },
+  {
+    "ID_OKRES": 27,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kladno",
+    "NUTS3_ID_NUTS": "10"
+  },
+  {
+    "ID_OKRES": 27,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kladno",
+    "NUTS3_ID_NUTS": "25"
+  },
+  {
+    "ID_OKRES": 28,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Klatovy",
+    "NUTS3_ID_NUTS": "47"
+  },
+  {
+    "ID_OKRES": 28,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Klatovy",
+    "NUTS3_ID_NUTS": "49"
+  },
+  {
+    "ID_OKRES": 28,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Klatovy",
+    "NUTS3_ID_NUTS": "58"
+  },
+  {
+    "ID_OKRES": 29,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kolín",
+    "NUTS3_ID_NUTS": "7"
+  },
+  {
+    "ID_OKRES": 29,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kolín",
+    "NUTS3_ID_NUTS": "11"
+  },
+  {
+    "ID_OKRES": 30,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Kroměříž",
+    "NUTS3_ID_NUTS": "172"
+  },
+  {
+    "ID_OKRES": 30,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Kroměříž",
+    "NUTS3_ID_NUTS": "173"
+  },
+  {
+    "ID_OKRES": 30,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Kroměříž",
+    "NUTS3_ID_NUTS": "174"
+  },
+  {
+    "ID_OKRES": 31,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kutná Hora",
+    "NUTS3_ID_NUTS": "5"
+  },
+  {
+    "ID_OKRES": 31,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Kutná Hora",
+    "NUTS3_ID_NUTS": "13"
+  },
+  {
+    "ID_OKRES": 32,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Liberec",
+    "NUTS3_ID_NUTS": "84"
+  },
+  {
+    "ID_OKRES": 32,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Liberec",
+    "NUTS3_ID_NUTS": "87"
+  },
+  {
+    "ID_OKRES": 33,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Litoměřice",
+    "NUTS3_ID_NUTS": "71"
+  },
+  {
+    "ID_OKRES": 33,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Litoměřice",
+    "NUTS3_ID_NUTS": "74"
+  },
+  {
+    "ID_OKRES": 33,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Litoměřice",
+    "NUTS3_ID_NUTS": "77"
+  },
+  {
+    "ID_OKRES": 34,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Louny",
+    "NUTS3_ID_NUTS": "73"
+  },
+  {
+    "ID_OKRES": 34,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Louny",
+    "NUTS3_ID_NUTS": "76"
+  },
+  {
+    "ID_OKRES": 34,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Louny",
+    "NUTS3_ID_NUTS": "82"
+  },
+  {
+    "ID_OKRES": 35,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Mělník",
+    "NUTS3_ID_NUTS": "12"
+  },
+  {
+    "ID_OKRES": 35,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Mělník",
+    "NUTS3_ID_NUTS": "15"
+  },
+  {
+    "ID_OKRES": 35,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Mělník",
+    "NUTS3_ID_NUTS": "18"
+  },
+  {
+    "ID_OKRES": 36,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Mladá Boleslav",
+    "NUTS3_ID_NUTS": "16"
+  },
+  {
+    "ID_OKRES": 36,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Mladá Boleslav",
+    "NUTS3_ID_NUTS": "17"
+  },
+  {
+    "ID_OKRES": 37,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Most",
+    "NUTS3_ID_NUTS": "72"
+  },
+  {
+    "ID_OKRES": 37,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Most",
+    "NUTS3_ID_NUTS": "75"
+  },
+  {
+    "ID_OKRES": 38,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Náchod",
+    "NUTS3_ID_NUTS": "93"
+  },
+  {
+    "ID_OKRES": 38,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Náchod",
+    "NUTS3_ID_NUTS": "98"
+  },
+  {
+    "ID_OKRES": 38,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Náchod",
+    "NUTS3_ID_NUTS": "101"
+  },
+  {
+    "ID_OKRES": 38,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Náchod",
+    "NUTS3_ID_NUTS": "103"
+  },
+  {
+    "ID_OKRES": 39,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Nový Jičín",
+    "NUTS3_ID_NUTS": "185"
+  },
+  {
+    "ID_OKRES": 39,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Nový Jičín",
+    "NUTS3_ID_NUTS": "189"
+  },
+  {
+    "ID_OKRES": 39,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Nový Jičín",
+    "NUTS3_ID_NUTS": "196"
+  },
+  {
+    "ID_OKRES": 39,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Nový Jičín",
+    "NUTS3_ID_NUTS": "199"
+  },
+  {
+    "ID_OKRES": 39,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Nový Jičín",
+    "NUTS3_ID_NUTS": "200"
+  },
+  {
+    "ID_OKRES": 40,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Nymburk",
+    "NUTS3_ID_NUTS": "14"
+  },
+  {
+    "ID_OKRES": 40,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Nymburk",
+    "NUTS3_ID_NUTS": "19"
+  },
+  {
+    "ID_OKRES": 40,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Nymburk",
+    "NUTS3_ID_NUTS": "20"
+  },
+  {
+    "ID_OKRES": 41,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Olomouc",
+    "NUTS3_ID_NUTS": "163"
+  },
+  {
+    "ID_OKRES": 41,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Olomouc",
+    "NUTS3_ID_NUTS": "165"
+  },
+  {
+    "ID_OKRES": 41,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Olomouc",
+    "NUTS3_ID_NUTS": "168"
+  },
+  {
+    "ID_OKRES": 41,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Olomouc",
+    "NUTS3_ID_NUTS": "170"
+  },
+  {
+    "ID_OKRES": 42,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Opava",
+    "NUTS3_ID_NUTS": "193"
+  },
+  {
+    "ID_OKRES": 42,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Opava",
+    "NUTS3_ID_NUTS": "197"
+  },
+  {
+    "ID_OKRES": 42,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Opava",
+    "NUTS3_ID_NUTS": "201"
+  },
+  {
+    "ID_OKRES": 42,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Opava",
+    "NUTS3_ID_NUTS": "206"
+  },
+  {
+    "ID_OKRES": 43,
+    "KRAJ_ID_KRAJ": "14",
+    "NAZEV_OKRES": "Okres Ostrava-město",
+    "NUTS3_ID_NUTS": "203"
+  },
+  {
+    "ID_OKRES": 44,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Pardubice",
+    "NUTS3_ID_NUTS": "110"
+  },
+  {
+    "ID_OKRES": 44,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Pardubice",
+    "NUTS3_ID_NUTS": "116"
+  },
+  {
+    "ID_OKRES": 44,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Pardubice",
+    "NUTS3_ID_NUTS": "118"
+  },
+  {
+    "ID_OKRES": 45,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Pelhřimov",
+    "NUTS3_ID_NUTS": "125"
+  },
+  {
+    "ID_OKRES": 45,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Pelhřimov",
+    "NUTS3_ID_NUTS": "131"
+  },
+  {
+    "ID_OKRES": 45,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Pelhřimov",
+    "NUTS3_ID_NUTS": "132"
+  },
+  {
+    "ID_OKRES": 46,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Písek",
+    "NUTS3_ID_NUTS": "34"
+  },
+  {
+    "ID_OKRES": 46,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Písek",
+    "NUTS3_ID_NUTS": "35"
+  },
+  {
+    "ID_OKRES": 47,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-jih",
+    "NUTS3_ID_NUTS": "45"
+  },
+  {
+    "ID_OKRES": 47,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-jih",
+    "NUTS3_ID_NUTS": "51"
+  },
+  {
+    "ID_OKRES": 47,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-jih",
+    "NUTS3_ID_NUTS": "54"
+  },
+  {
+    "ID_OKRES": 47,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-jih",
+    "NUTS3_ID_NUTS": "56"
+  },
+  {
+    "ID_OKRES": 48,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-město",
+    "NUTS3_ID_NUTS": "53"
+  },
+  {
+    "ID_OKRES": 49,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-sever",
+    "NUTS3_ID_NUTS": "50"
+  },
+  {
+    "ID_OKRES": 49,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Plzeň-sever",
+    "NUTS3_ID_NUTS": "52"
+  },
+  {
+    "ID_OKRES": 50,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Prachatice",
+    "NUTS3_ID_NUTS": "36"
+  },
+  {
+    "ID_OKRES": 50,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Prachatice",
+    "NUTS3_ID_NUTS": "43"
+  },
+  {
+    "ID_OKRES": 51,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Praha-východ",
+    "NUTS3_ID_NUTS": "4"
+  },
+  {
+    "ID_OKRES": 51,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Praha-východ",
+    "NUTS3_ID_NUTS": "23"
+  },
+  {
+    "ID_OKRES": 52,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Praha-západ",
+    "NUTS3_ID_NUTS": "6"
+  },
+  {
+    "ID_OKRES": 53,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Přerov",
+    "NUTS3_ID_NUTS": "159"
+  },
+  {
+    "ID_OKRES": 53,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Přerov",
+    "NUTS3_ID_NUTS": "162"
+  },
+  {
+    "ID_OKRES": 53,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Přerov",
+    "NUTS3_ID_NUTS": "167"
+  },
+  {
+    "ID_OKRES": 54,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Příbram",
+    "NUTS3_ID_NUTS": "8"
+  },
+  {
+    "ID_OKRES": 54,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Příbram",
+    "NUTS3_ID_NUTS": "21"
+  },
+  {
+    "ID_OKRES": 54,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Příbram",
+    "NUTS3_ID_NUTS": "24"
+  },
+  {
+    "ID_OKRES": 55,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Prostějov",
+    "NUTS3_ID_NUTS": "161"
+  },
+  {
+    "ID_OKRES": 55,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Prostějov",
+    "NUTS3_ID_NUTS": "166"
+  },
+  {
+    "ID_OKRES": 56,
+    "KRAJ_ID_KRAJ": "2",
+    "NAZEV_OKRES": "Okres Rakovník",
+    "NUTS3_ID_NUTS": "22"
+  },
+  {
+    "ID_OKRES": 57,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Rokycany",
+    "NUTS3_ID_NUTS": "55"
+  },
+  {
+    "ID_OKRES": 58,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Rychnov nad Kněžnou",
+    "NUTS3_ID_NUTS": "94"
+  },
+  {
+    "ID_OKRES": 58,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Rychnov nad Kněžnou",
+    "NUTS3_ID_NUTS": "100"
+  },
+  {
+    "ID_OKRES": 58,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Rychnov nad Kněžnou",
+    "NUTS3_ID_NUTS": "105"
+  },
+  {
+    "ID_OKRES": 59,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Semily",
+    "NUTS3_ID_NUTS": "86"
+  },
+  {
+    "ID_OKRES": 59,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Semily",
+    "NUTS3_ID_NUTS": "89"
+  },
+  {
+    "ID_OKRES": 59,
+    "KRAJ_ID_KRAJ": "7",
+    "NAZEV_OKRES": "Okres Semily",
+    "NUTS3_ID_NUTS": "91"
+  },
+  {
+    "ID_OKRES": 60,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Sokolov",
+    "NUTS3_ID_NUTS": "63"
+  },
+  {
+    "ID_OKRES": 60,
+    "KRAJ_ID_KRAJ": "5",
+    "NAZEV_OKRES": "Okres Sokolov",
+    "NUTS3_ID_NUTS": "66"
+  },
+  {
+    "ID_OKRES": 61,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Strakonice",
+    "NUTS3_ID_NUTS": "28"
+  },
+  {
+    "ID_OKRES": 61,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Strakonice",
+    "NUTS3_ID_NUTS": "38"
+  },
+  {
+    "ID_OKRES": 61,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Strakonice",
+    "NUTS3_ID_NUTS": "44"
+  },
+  {
+    "ID_OKRES": 62,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Šumperk",
+    "NUTS3_ID_NUTS": "164"
+  },
+  {
+    "ID_OKRES": 62,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Šumperk",
+    "NUTS3_ID_NUTS": "169"
+  },
+  {
+    "ID_OKRES": 62,
+    "KRAJ_ID_KRAJ": "12",
+    "NAZEV_OKRES": "Okres Šumperk",
+    "NUTS3_ID_NUTS": "171"
+  },
+  {
+    "ID_OKRES": 63,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Svitavy",
+    "NUTS3_ID_NUTS": "114"
+  },
+  {
+    "ID_OKRES": 63,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Svitavy",
+    "NUTS3_ID_NUTS": "115"
+  },
+  {
+    "ID_OKRES": 63,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Svitavy",
+    "NUTS3_ID_NUTS": "117"
+  },
+  {
+    "ID_OKRES": 63,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Svitavy",
+    "NUTS3_ID_NUTS": "119"
+  },
+  {
+    "ID_OKRES": 64,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Tábor",
+    "NUTS3_ID_NUTS": "37"
+  },
+  {
+    "ID_OKRES": 64,
+    "KRAJ_ID_KRAJ": "3",
+    "NAZEV_OKRES": "Okres Tábor",
+    "NUTS3_ID_NUTS": "39"
+  },
+  {
+    "ID_OKRES": 65,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Tachov",
+    "NUTS3_ID_NUTS": "57"
+  },
+  {
+    "ID_OKRES": 65,
+    "KRAJ_ID_KRAJ": "4",
+    "NAZEV_OKRES": "Okres Tachov",
+    "NUTS3_ID_NUTS": "59"
+  },
+  {
+    "ID_OKRES": 66,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Teplice",
+    "NUTS3_ID_NUTS": "67"
+  },
+  {
+    "ID_OKRES": 66,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Teplice",
+    "NUTS3_ID_NUTS": "79"
+  },
+  {
+    "ID_OKRES": 67,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Třebíč",
+    "NUTS3_ID_NUTS": "128"
+  },
+  {
+    "ID_OKRES": 67,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Třebíč",
+    "NUTS3_ID_NUTS": "129"
+  },
+  {
+    "ID_OKRES": 67,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Třebíč",
+    "NUTS3_ID_NUTS": "135"
+  },
+  {
+    "ID_OKRES": 68,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Trutnov",
+    "NUTS3_ID_NUTS": "95"
+  },
+  {
+    "ID_OKRES": 68,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Trutnov",
+    "NUTS3_ID_NUTS": "106"
+  },
+  {
+    "ID_OKRES": 68,
+    "KRAJ_ID_KRAJ": "8",
+    "NAZEV_OKRES": "Okres Trutnov",
+    "NUTS3_ID_NUTS": "107"
+  },
+  {
+    "ID_OKRES": 69,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Uherské Hradiště",
+    "NUTS3_ID_NUTS": "178"
+  },
+  {
+    "ID_OKRES": 69,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Uherské Hradiště",
+    "NUTS3_ID_NUTS": "179"
+  },
+  {
+    "ID_OKRES": 70,
+    "KRAJ_ID_KRAJ": "6",
+    "NAZEV_OKRES": "Okres Ústí nad Labem",
+    "NUTS3_ID_NUTS": "80"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "108"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "112"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "113"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "120"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "121"
+  },
+  {
+    "ID_OKRES": 71,
+    "KRAJ_ID_KRAJ": "9",
+    "NAZEV_OKRES": "Okres Ústí nad Orlicí",
+    "NUTS3_ID_NUTS": "122"
+  },
+  {
+    "ID_OKRES": 72,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Vsetín",
+    "NUTS3_ID_NUTS": "177"
+  },
+  {
+    "ID_OKRES": 72,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Vsetín",
+    "NUTS3_ID_NUTS": "181"
+  },
+  {
+    "ID_OKRES": 72,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Vsetín",
+    "NUTS3_ID_NUTS": "183"
+  },
+  {
+    "ID_OKRES": 73,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Vyškov",
+    "NUTS3_ID_NUTS": "142"
+  },
+  {
+    "ID_OKRES": 73,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Vyškov",
+    "NUTS3_ID_NUTS": "152"
+  },
+  {
+    "ID_OKRES": 73,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Vyškov",
+    "NUTS3_ID_NUTS": "156"
+  },
+  {
+    "ID_OKRES": 74,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Žďár nad Sázavou",
+    "NUTS3_ID_NUTS": "123"
+  },
+  {
+    "ID_OKRES": 74,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Žďár nad Sázavou",
+    "NUTS3_ID_NUTS": "130"
+  },
+  {
+    "ID_OKRES": 74,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Žďár nad Sázavou",
+    "NUTS3_ID_NUTS": "136"
+  },
+  {
+    "ID_OKRES": 74,
+    "KRAJ_ID_KRAJ": "10",
+    "NAZEV_OKRES": "Okres Žďár nad Sázavou",
+    "NUTS3_ID_NUTS": "137"
+  },
+  {
+    "ID_OKRES": 75,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Zlín",
+    "NUTS3_ID_NUTS": "175"
+  },
+  {
+    "ID_OKRES": 75,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Zlín",
+    "NUTS3_ID_NUTS": "176"
+  },
+  {
+    "ID_OKRES": 75,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Zlín",
+    "NUTS3_ID_NUTS": "180"
+  },
+  {
+    "ID_OKRES": 75,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Zlín",
+    "NUTS3_ID_NUTS": "182"
+  },
+  {
+    "ID_OKRES": 75,
+    "KRAJ_ID_KRAJ": "13",
+    "NAZEV_OKRES": "Okres Zlín",
+    "NUTS3_ID_NUTS": "184"
+  },
+  {
+    "ID_OKRES": 76,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Znojmo",
+    "NUTS3_ID_NUTS": "149"
+  },
+  {
+    "ID_OKRES": 76,
+    "KRAJ_ID_KRAJ": "11",
+    "NAZEV_OKRES": "Okres Znojmo",
+    "NUTS3_ID_NUTS": "157"
+  },
+  {
+    "ID_OKRES": 77,
+    "KRAJ_ID_KRAJ": "1",
+    "NAZEV_OKRES": "Praha",
+    "NUTS3_ID_NUTS": "1"
+  }
+]
