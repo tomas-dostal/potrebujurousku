@@ -16,6 +16,9 @@ DNI_DOPREDU = 7
 
 
 def posledni_kontrola():
+    """
+    :return: DICT: Nejnovější záznam z tabulky INFO (všechny sloupce) {"CHECKSUM": "value", "DATE_UPDATED": "value" ... }
+    """
     with connection.cursor() as cursor:
         query = """select * from (select * from INFO order by DATE_UPDATED desc) where rownum <= 1;"""
         cursor.execute(query)
@@ -23,7 +26,12 @@ def posledni_kontrola():
         return dictionary
 
 
+# TODO: Nějak rozumně přejmenovat?
 def posledni_databaze():
+    """
+
+    :return: Datum a čas nejnovější změny z některé z tabulek {POLOZKA, OPATRENI}
+    """
     with connection.cursor() as cursor:
         last_qu = """select max(posledni_uprava) from(
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
@@ -35,6 +43,15 @@ def posledni_databaze():
 
 
 def zastarala_data():
+    """
+    Automaticky co cca 5 min probíhá kontrola aktuálnosti.
+
+    :return: {
+                "zastarala_data": True pokud poslední úspěšná kontrola proběhla před méně jak 60 minutami,
+                "posledni_uspesna_kontrola_timespan": delta od poslední úspěné kontroly (string)
+            }
+
+    """
     posledni_datetime = posledni_kontrola()["DATE_UPDATED"]
     naposledy_provedeno = datetime.now() - posledni_datetime
     str_naposledy = strfdelta(
@@ -49,6 +66,16 @@ def zastarala_data():
 
 
 def opatreni_stat():
+    """
+    Vybere všechny OPATRENI navázané na stát (OP_STAT),
+        které:
+            + mají OPATRENI.PLATNOST = 1
+            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
+                (zobrazují se na :zobrazit_dopredu dní dopředu))
+
+    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+    """
     qu = """ select * from (
             select * from 
             (
@@ -70,76 +97,83 @@ def opatreni_stat():
 
 
 def opatreni_nuts(id_nuts):
+    """
+    Vybere všechny OPATRENI navázané na obce s rozšířenou působností  (OP_NUTS) / okres (OP_OKRES) / kraj (OP_KRAJ) / stát (OP_STAT),
+        které:
+            + mají OPATRENI.PLATNOST = 1
+            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
+                (zobrazují se na :zobrazit_dopredu dní dopředu))
+
+    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+
+    :type id_nuts: ID obce s rozšířenou působností z tabulky NUTS3.ID_NUTS
+    """
     qu = """
-
-
+           select * from
+           (
+               select * from (
+               -- Vybere všechny OPATRENI navázané územní platností na NUTS3 (OP_NUTS)
+               select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
+                      select *
+                      from (
+                               select *
+                               from (
+                                        select *
+                                        from (
+                                                 select *
+                                                 from (
+                                                          select ID_NUTS as NUTS3_ID_NUTS, NAZEV_NUTS, KRAJ_ID_KRAJ as ID_KRAJ
+                                                          from nuts3
+                                                          where id_nuts = :id_nuts
+                                                      )
+                                                          join OKRES using (NUTS3_ID_NUTS)
+                                             )
+                                                 join kraj using (ID_KRAJ)
+                                    )
+                           )join op_nuts using(nuts3_id_nuts)
+               )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+               union
+    
+               -- Vybere všechny OPATRENI navázané územní platností na OKRES (OP_OKRES)
+               select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava   from
+               (
+                   select * from
+                   (
+                       select * from (
+                           select * from
+                           (
+                              select id_nuts, nazev_nuts, kod_nuts, kraj_id_kraj as id_kraj from nuts3 where id_nuts=:id_nuts
+    
+                           ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
+                       ) join kraj using(ID_KRAJ)
+                   )
+                   join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
+               join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+               union
+               -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
+               select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from
+               (
+                   select * from
+                   (
                        select * from
                        (
-                           select * from (
-
-
-                           -- nuts3
-                           select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
-                              select *
-                              from (
-                                       select *
-                                       from (
-                                                select *
-                                                from (
-                                                         select *
-                                                         from (
-                                                                  select ID_NUTS as NUTS3_ID_NUTS, NAZEV_NUTS, KRAJ_ID_KRAJ as ID_KRAJ
-                                                                  from nuts3
-                                                                  where id_nuts = :id_nuts
-                                                              )
-                                                                  join OKRES using (NUTS3_ID_NUTS)
-                                                     )
-                                                         join kraj using (ID_KRAJ)
-                                            )
-                                   )join op_nuts using(nuts3_id_nuts)
-                           )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-                           union
-
-                           -- okres
-                           select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava   from
+                           select * from
                            (
-                               select * from
-                               (
-                                   select * from (
-                                       select * from
-                                       (
-                                          select id_nuts, nazev_nuts, kod_nuts, kraj_id_kraj as id_kraj from nuts3 where id_nuts=:id_nuts
-
-                                       ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
-                                   ) join kraj using(ID_KRAJ)
-                               )
-                               join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-                           join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-                           union
-                           -- kraj
-                           select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from
-                           (
-                               select * from
-                               (
-                                   select * from
-                                   (
-                                       select * from
-                                       (
-                                          select KRAJ_ID_KRAJ as id_kraj, id_nuts, NAZEV_NUTS, kod_nuts from nuts3 where id_nuts=:id_nuts
-
-                                       ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
-                                   ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                               ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-                           ) join kraj using(id_kraj)
-                           -- stat
-                           union
-
-                           select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
-                           select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-                               )
-
-                       ) join polozka on opatreni_id_opatreni = id_opatreni
-                   ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+                              select KRAJ_ID_KRAJ as id_kraj, id_nuts, NAZEV_NUTS, kod_nuts from nuts3 where id_nuts=:id_nuts
+    
+                           ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
+                       ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
+                   ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+               ) join kraj using(id_kraj)
+               -- Vybere všechny celostátní OPATRENI (OP_STAT)
+               union
+               select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
+               select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
+                   )
+    
+           ) join polozka on opatreni_id_opatreni = id_opatreni
+       ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
 
     misto_qu = """select null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
                  select * from (
@@ -157,12 +191,24 @@ def opatreni_nuts(id_nuts):
 
 
 def opatreni_kraj(id_kraj):
+    """
+    Vybere všechny OPATRENI navázané na kraj (OP_KRAJ) / stát (OP_STAT),
+        které:
+            + mají OPATRENI.PLATNOST = 1
+            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
+                (zobrazují se na :zobrazit_dopredu dní dopředu))
+
+    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+
+    :type id_kraj: ID okraje z tabulky KRAJ.ID_KRAJ
+    """
     qu = """ select * from (
             select * from 
             (
                 select * from
                 (
-                    -- kraj 
+                    -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
                     select null as nazev_obecmesto, null as nazev_nuts, null as  nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava  from 
                     (
                         select * from 
@@ -174,7 +220,7 @@ def opatreni_kraj(id_kraj):
                         ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                     )
                     union 
-                    -- stat 
+                    -- Vybere všechny celostátní OPATRENI (OP_STAT)
                     select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava  from (
                     select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                     )
@@ -195,9 +241,21 @@ def opatreni_kraj(id_kraj):
 
 
 def opatreni_okres(id_okres):
+    """
+    Vybere všechny OPATRENI navázané na okres (OP_OKRES) / kraj (OP_KRAJ) / stát (OP_STAT),
+        které:
+            + mají OPATRENI.PLATNOST = 1
+            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
+                (zobrazují se na :zobrazit_dopredu dní dopředu))
+
+    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+
+    :type id_okres: ID okresu z tabulky OKRES.ID_OKRES
+    """
     qu = """select * from (
                   select * from (
-                         -- okres
+                          -- Vybere všechny OPATRENI navázané územní platností na OKRES (OP_OKRES)
                           select  null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava  from (
 
                               select * from
@@ -208,8 +266,8 @@ def opatreni_okres(id_okres):
                               )
                           join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                           union
-                          -- kraj
-
+                          
+                          -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
                           select null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava from (
                           select * from (
                                   select * from
@@ -220,7 +278,8 @@ def opatreni_okres(id_okres):
                               ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                           union
-
+                          
+                          -- Vybere všechny celostátní OPATRENI (OP_STAT)
                           select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava from
                          (
                           select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
@@ -228,6 +287,7 @@ def opatreni_okres(id_okres):
 
                           ) join polozka on id_opatreni=opatreni_id_opatreni
                       ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by  PRIORITA_ZOBRAZENI asc, id_kategorie asc, TYP desc, PLATNOST_OD asc"""
+
     misto_qu = """select distinct null as nazev_obecmesto, null as nazev_nuts, nazev_okres, nazev_kraj from (
                                select * from (
                                         select *
@@ -246,10 +306,22 @@ def opatreni_okres(id_okres):
 
 
 def opatreni_om(id_obecmesto):
+    """
+    Vybere všechny OPATRENI navázané na obecmesto (OP_OM) / obec s rozšířenou působností (OP_NUTS) / okres (OP_OKRES) / kraj (OP_KRAJ) / stát (OP_STAT),
+        které:
+            + mají OPATRENI.PLATNOST = 1
+            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
+                (zobrazují se na :zobrazit_dopredu dní dopředu))
+
+    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+
+    :type id_obecmesto: ID obce/města z tabulky OBECMESTO.ID_OBECMESTO
+    """
     qu = """
-             select * from (
+       select * from (
          select * from (
-                               -- lokalni
+                        -- Vybere všechny OPATRENI navázané územní platností na OBECMESTO (OP_OM)
                                select nazev_obecmesto,
                                       nazev_nuts,
                                       nazev_okres,
@@ -289,7 +361,7 @@ def opatreni_om(id_obecmesto):
                                  and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                                union
-                               -- nuts3
+                        -- Vybere všechny OPATRENI navázané územní platností na obec s rozšřenou působností NUTS3 (OP_NUTS)
                                select nazev_obecmesto,
                                       nazev_nuts,
                                       nazev_okres,
@@ -325,7 +397,7 @@ def opatreni_om(id_obecmesto):
                                  and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                                union
-                               -- okres
+                        -- Vybere všechny OPATRENI navázané územní platností na OKRES (OP_OKRES)
                                select nazev_obecmesto,
                                       nazev_nuts,
                                       nazev_okres,
@@ -361,7 +433,7 @@ def opatreni_om(id_obecmesto):
                                  and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
 
                                union
-                               -- kraj
+                        -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
 
                                select nazev_obecmesto,
                                       nazev_nuts,
@@ -398,7 +470,7 @@ def opatreni_om(id_obecmesto):
                                     )
                                         join kraj on nuts3_kraj_id_kraj = kraj.id_kraj
 
-                                    -- stat
+                        -- Vybere všechny celostatni OPATRENI (OP_STAT)
                                union
 
                                select null as nazev_obecmesto,
