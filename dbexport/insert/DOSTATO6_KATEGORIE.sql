@@ -1,0 +1,14 @@
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (4, 'Školství', 'fas fa-graduation-cap', 5);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (5, 'Restaurace a stravování', 'fas fa-utensils', 2);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (13, 'Kultura', 'fas fa-theater-masks', 6);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (14, 'Sport', 'fas fa-basketball-ball', 7);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (15, 'Lockdown', 'fas fa-house-user', 0);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (10, 'Sociální služby', 'fas fa-bed', 12);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (11, 'Ostatní vnitřní prostory', 'fas fa-building', 4);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (12, 'Testování a karanténa', 'fas fa-info-circle', 13);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (1, 'Zdravotnictví', 'fas fa-user-md', 11);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (2, 'Doprava', 'fas fa-bus-alt', 8);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (3, 'Hromadné akce / Omezení', 'fas fa-users', 1);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (6, 'Přeshraniční pracovníci', 'fas fa-suitcase', 10);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (7, 'Práce', 'fas fa-briefcase', 9);
+insert into DOSTATO6.KATEGORIE (ID_KATEGORIE, NAZEV_KAT, KOMENT_KATEGORIE, PRIORITA_ZOBRAZENI) values (8, 'Obchody', 'fas fa-shopping-basket', 3);

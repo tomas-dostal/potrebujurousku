@@ -1,0 +1,14 @@
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (1, 'Hlavní město Praha', 3018);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (2, 'Středočeský kraj', 3026);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (3, 'Jihočeský kraj', 3034);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (4, 'Plzeňský kraj', 3042);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (5, 'Karlovarský kraj', 3051);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (6, 'Ústecký kraj', 3069);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (7, 'Liberecký kraj', 3077);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (8, 'Královéhradecký kraj', 3085);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (9, 'Pardubický kraj', 3093);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (10, 'Kraj Vysočina', 3107);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (11, 'Jihomoravský kraj', 3115);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (12, 'Olomoucký kraj', 3123);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (13, 'Zlínský kraj', 3131);
+insert into DOSTATO6.KRAJ (ID_KRAJ, NAZEV_KRAJ, KOD_KRAJ) values (14, 'Moravskoslezský kraj', 3140);
