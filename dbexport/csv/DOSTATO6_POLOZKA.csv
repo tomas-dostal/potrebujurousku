@@ -1350,6 +1350,69 @@ hospody a bary).
 <li>V&scaron;ichni &uacute;častn&iacute;ci mus&iacute; m&iacute;t ochrann&yacute; prostředek d&yacute;chac&iacute;ch cest</li>
 </ol>",3,narizeninouzovy,135,NULL,NULL,NULL,modal-lg,fas fa-users-slash
 230,Zákaz příjmu nových osob do sociálních zařízení,"Zakazuje se příjem a návrat osob do domovů pro seniory, domovů se zvláštním režimem, domovů pro osoby se zdravotním postižením a do všech odlehčovacích soc. služeb v pobytové formě vč. zaměstnanců.",10,narizeni,138,"<ul> <li>osoby s negativním testem na covid-19, který není starší než 4 dny</li> </ul>",NULL,NULL,modal-md,fas fa-user-plus
+231,Zákaz vycházení v noci,Zakazuje se volný pohyb osob večer a v noci (mezi 21:00 a 05:00). Výjimek je mnohem méně než přes den...,15,narizeninouzovy,143,"Večer a v noci je povoleno vycházet pouze v těchto důvodech:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>venčení psů, ale jen do 500 metrů od bydliště</li>
+<li>další činnosti a cesty, které slouží k zajištění:
+<ul>
+<li>ochrany života, zdraví nebo majetku</li>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní nebo sociální péče</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+</ul>
+</li>
+</ul>",NULL,NULL,modal-md,fas fa-moon
+232,Zákaz zbytečného pohybu přes den,"Zakazuje se zbytečný volný pohyb osob přes den (mezi 05:00 a 21:00). To znamená, že je zakázáno všechno kromě následujících výjimek...",15,narizeninouzovy,143,"Přes den jsou povoleny pouze:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>nezbytné cesty za rodinou a blízkými osobami</li>
+<li>pobyt v přírodě, parcích a vlastních rekreačních objektech (např. chata) a cesta na tato místa</li>
+<li>obstarání základních životních potřeb (např. nákup potravin, léků či drogerie) pro sebe i pro jiné (tj. včetně dobrovolnictví, sousedské výpomoci apod.)</li>
+<li>nezbytné cesty k zajištění péče o děti a zvířata, zajištění finančních a poštovních služeb, doplnění pohonných hmot a odkládání odpadu</li>
+<li>cesty k lékaři, k veterináři, nebo do zařízení sociálních služeb (tj. např. domov pro seniory, pro osoby s postižením apod.), včetně nezbytného doprovodu</li>
+<li>cesty k vyřízení neodkladných úředních záležitostí, včetně nezbytného doprovodu</li>
+<li>účast na svatbě a pohřbu v maximálním počtu 10 lidí</li>
+<li>návštěvy hřbitova</li>
+<li>další činnosti, které slouží k zajištění:
+<ul>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní, sociální či veterinární péče nebo služeb pro obyvatele (včetně dobrovolnictví)</li>
+<li>individuální duchovní péče a služby</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+</ul>
+</li>
+<li>cesty za účelem vycestování z ČR</li>
+<li>cesty zpět do místa svého bydliště</li>
+</ul>",NULL,NULL,modal-md,fas fa-house-user
+233,Omezení kontaktů a pobytu na veřejnosti,"Nařizuje se omezit kontakt s jinými osobami na nezbytně nutnou míru. Pohyb na veřejně přístupných místech se proto omezuje na dobu nezbytně nutnou a nařizuje se pobývat v místě bydliště. Pobývat na veřejnosti se smí maximálně v počtu 2 osob (s výjimkami viz níže) a při pohybu se zachovává odstup od ostatních na alespoň 2 metry, pokud je to možné.",15,narizeninouzovy,143,"Výjimku z maximálního počtu 2 osob mají:
+<ul>
+<li>členové domácnosti</li>
+<li>zaměstnanci pracující pro stejného zaměstnavatele</li>
+<li>osoby vykonávající podnikatelskou činnost</li>
+<li>osoby, které mají podle zákona povinnost vykonávat určitou činnost</li>
+<li>děti, žáci a studenti ve školách</li>
+</ul>",NULL,NULL,modal-md,fas fa-people-arrows
+234,Nařízený home office,"Nařizuje se zaměstnavatelům využívat práci na dálku, pokud ji zaměstnanci mohou vykonávat z domova (vzhledem k charakteru práce a provozním podmínkám).",7,narizeninouzovy,143,NULL,NULL,NULL,modal-md,fas fa-laptop-house
+235,Omezení demonstrací,"<p>Omezuje se pr&aacute;vo shromažďovac&iacute; (např. demonstrace). Shrom&aacute;žděn&iacute; je možn&eacute; jedině za splněn&iacute; v&scaron;ech těchto podm&iacute;nek:</p>
+<ol>
+<li>Shrom&aacute;žděn&iacute; se může &uacute;častnit maxim&aacute;lně 100 lidí</li>
+<li>&Uacute;častn&iacute;ci přitom mus&iacute; b&yacute;t rozdělen&iacute; do skupin po maxim&aacute;lně 20 lidech</li>
+<li>Mus&iacute; b&yacute;t dodrženy rozestupy mezi skupinami na alespoň 2 metry</li>
+<li>V&scaron;ichni &uacute;častn&iacute;ci mus&iacute; m&iacute;t ochrann&yacute; prostředek d&yacute;chac&iacute;ch cest (úst i nosu!)</li>
+</ol>",3,narizeninouzovy,143,NULL,NULL,NULL,modal-md,fas fa-users-slash
+236,Doporučení pro zaměstnavatele,"Zaměstnavatelům se doporučuje:
+<ul>
+<li>podporovat nyní dovolené, placená volna pro zaměstnance atd.</li>
+<li>omezit výkon méně významných prací</li>
+<li>omezit kontakt se zákazníky</li>
+<li>upřednostňovat bezhotovostní platby</li>
+</ul>",7,doporuceni,143,NULL,NULL,NULL,modal-lg,far fa-credit-card
+237,Doporučení pro nakupující,Při nákupu se doporučuje zachovávat odstupy nejméně 2 metry a upřednosťnovat bezhotovostní platby.,8,doporuceni,143,NULL,NULL,NULL,modal-md,fas fa-shopping-cart
 215,Některé obchody a služby uzavřeny (výjimky po kliknutí) ,"<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
 </p>
 <i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
@@ -1386,14 +1449,14 @@ Dále také nemusí zavřít tyto služby a provozovny:
 <li>sjednávání provádění a odstraňování staveb, projektová činnost ve výstavbě, geologické práce, zeměměřičství, testování, měření a analýza ve stavebnictví</li>
 </ul>
 
-Tento zákaz se nevztahuje na činnosti, které nejsou živností, a dále na vedlejší prodej potravin, pokud je část s potravinami oddělena od ostatních částí provozovny.",NULL,NULL,modal-lg,far fa-times-circle
+Tento zákaz se nevztahuje na činnosti, které nejsou živností, a dále na vedlejší prodej potravin, pokud je část s potravinami oddělena od ostatních částí provozovny.",NULL,NULL,modal-lg,fas fa-shopping-basket
 224,Restaurace a veřejné jídelny uzavřeny,"Zakazuje se přítomnost veřejnosti v provozovnách stravovacích služeb (např. restaurace,
 hospody a bary). Zavřené jsou i provozovny stravovacích služeb uvnitř nákupních center s prodejní plochou nad 5000 m2.
 ",5,narizeninouzovy,136,"<ul>
 	<li>provozovny, které neslouží pro veřejnost (max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
 	<li>provozovny v ubytovacích zařízeních se stravováním pouze pro ubytované (pouze 06:00 - 20:00 hod., max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
 	<li>prodej mimo provozovnu, tedy např. přes okénko (pouze 06:00 - 20:00, odstupy 2 m)</li>
-</ul>",NULL,NULL,modal-md,far fa-times-circle
+</ul>",NULL,NULL,modal-md,fas fa-utensils
 225,"Kulturní a vzdělávací akce, návštěvy a prohlídky zakázány","Zakazuje se:
 <ul>
 	<li>koncerty a jiná hudební, divadelní, filmová a jiná umělecká představení včetně cirkusů a varieté,</li>
@@ -1410,7 +1473,7 @@ hospody a bary). Zavřené jsou i provozovny stravovacích služeb uvnitř náku
 226,"Sportoviště, taneční studia a koupaliště uzavřeny","Zakazuje se provoz a používání sportovišť ve vnitřních prostorech staveb a vnitřních prostor venkovních sportovišť, posiloven, fitness center, tanečních studií, umělých koupališť a wellness zařízení.",14,narizeninouzovy,136,"<ul>
 	<li>poskytování zdravotních služeb poskytovatelem zdravotních služeb</li>
 	<li>tělocvik na prvním stupni základního vzdělávání v základních školách a v mateřských školách</li>
-</ul>",NULL,NULL,modal-md,far fa-times-circle
+</ul>",NULL,NULL,modal-md,fas fa-basketball-ball
 227,"Hudební a taneční kluby, diskotéky uzavřeny","Zakazuje se přítomnost veřejnosti v hudebních, tanečních, herních a podobných společenských klubech a na diskotékách.",13,narizeninouzovy,136,NULL,NULL,NULL,modal-md,fas fa-music
 228,Zakázány vzdělávací akce a prezenční zkoušky,"Dle usnesení vlády č. 1079 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě",4,narizeninouzovy,136,NULL,NULL,NULL,modal-md,fas fa-chalkboard-teacher
 229,Zákaz pití alkoholu na veřejnosti,Konzumace alkoholu na veřejně přístupných místech je zakázána. ,3,narizeninouzovy,136,NULL,NULL,NULL,modal-md,fas fa-glass-cheers
