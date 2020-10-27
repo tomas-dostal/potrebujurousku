@@ -1413,6 +1413,86 @@ hospody a bary).
 <li>upřednostňovat bezhotovostní platby</li>
 </ul>",7,doporuceni,143,NULL,NULL,NULL,modal-lg,far fa-credit-card
 237,Doporučení pro nakupující,Při nákupu se doporučuje zachovávat odstupy nejméně 2 metry a upřednosťnovat bezhotovostní platby.,8,doporuceni,143,NULL,NULL,NULL,modal-md,fas fa-shopping-cart
+238,Některé obchody a služby uzavřeny (výjimky po kliknutí) ,"<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
+</p>
+<i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
+""Jenom"" došlo k omezení na nezbytně nutné provozovny a ať se nám to líbí, či ne, je třeba to repsekovat. 
+<br><p>Dodržujte rozestupy min. 2 metry a používejte dezinfekci. Společně to zvládneme!</i></p>
+",8,narizeninouzovy,144,"Otevřené mohou zůstat prodejny:
+<ul>
+<li>potravin</li>
+<li>drogerie, kosmetiky a hygienického zboží</li>
+<li>novin, časopisů a tabákových výrobků</li>
+<li>pohonných hmot a paliv</li>
+<li>jízdenek</li>
+<li>malých domácích zvířat a krmiva nebo potřeb pro zvířata</li>
+<li>brýlí, kontaktních čoček atd.</li>
+<li>domácích potřeb a železářství (kromě nábytků. koberců a dalších podlahových krytin)</li>
+<li>textilního materiálu a galanterie</li>
+<li>květin a zahrádkářských potřeb (včetně osiva a sadby)</li>
+<li>náhradních dílů k dopravním prostředkům a výrobním technologiím</li>
+</ul>
+
+Dále také nemusí zavřít tyto služby a provozovny:
+<ul>
+<li>lékárny a výdejny a prodejny zdravotnických prostředků</li>
+<li>prádelny a čistírny</li>
+<li>zámečnictví</li>
+<li>květinářství</li>
+<li>servis a instalace elektroniky, techniky a zařízení pro domácnost</li>
+<li>provozovny umožňující vyzvednutí zboží a zásilky zakoupených distančním způsobem (třeba pobočky zásilkovny, nebo vyzvednutí zboží z eshopu na prodejně)</li>
+<li>automyčky</li>
+<li>servis a opravy vozidel, odtahové služby</li>
+<li>sběr a výkup surovin, kompostárny</li>
+<li>účetní poradci, vedení účetnictví a daňové evidence</li>
+<li>pohřební služby (a balzamace, konzervace, zpopelňování a ukládání ostatků do uren)</li>
+<li>sjednávání provádění a odstraňování staveb, projektová činnost ve výstavbě, geologické práce, zeměměřičství, testování, měření a analýza ve stavebnictví</li>
+</ul>
+
+Tento zákaz se nevztahuje na činnosti, které nejsou živností, a dále na vedlejší prodej potravin, pokud je část s potravinami oddělena od ostatních částí provozovny.",NULL,NULL,modal-lg,fas fa-shopping-basket
+239,Restaurace a veřejné jídelny uzavřeny,"Zakazuje se přítomnost veřejnosti v provozovnách stravovacích služeb (např. restaurace,
+hospody a bary). Zavřené jsou i provozovny stravovacích služeb uvnitř nákupních center s prodejní plochou nad 5000 m2.
+",5,narizeninouzovy,144,"<ul>
+	<li>provozovny, které neslouží pro veřejnost (max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>provozovny v ubytovacích zařízeních se stravováním pouze pro ubytované (pouze 06:00 - 20:00 hod., max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>prodej mimo provozovnu, tedy např. přes okénko (pouze 06:00 - 20:00, odstupy 2 m)</li>
+</ul>",NULL,NULL,modal-md,fas fa-utensils
+240,"Kulturní a vzdělávací akce, návštěvy a prohlídky zakázány","Zakazuje se:
+<ul>
+	<li>koncerty a jiná hudební, divadelní, filmová a jiná umělecká představení včetně cirkusů a varieté,</li>
+	<li>společný zpěv více než 5 osob ve vnitřních prostorech staveb, s výjimkou bydliště,
+	a to i když se jedná o výkon práce nebo podnikatelské činnosti, s výjimkou
+	mateřských škol</li>
+	<li>poutě a podobné tradiční akce,</li>
+	<li>kongresy a jiné vzdělávací akce, veletrhy,</li>
+	<li>provoz heren a kasin, <u>sázkových kanceláří</u></li>
+	<li>návštěvy a prohlídky ZOO a botanických zahrad,</li>
+	<li>návštěvy a prohlídky muzeí, galerií, výstavních prostor, hradů, zámků a obdobných
+	historických nebo kulturních objektů, hvězdáren a planetárií.</li>
+</ul>",13,narizeninouzovy,144,NULL,NULL,NULL,modal-md,fas fa-chess-rook
+241,"Sportoviště, taneční studia a koupaliště uzavřeny","Zakazuje se provoz a používání sportovišť ve vnitřních prostorech staveb a vnitřních prostor venkovních sportovišť, posiloven, fitness center, tanečních studií, umělých koupališť a wellness zařízení.",14,narizeninouzovy,144,"<ul>
+	<li>poskytování zdravotních služeb poskytovatelem zdravotních služeb</li>
+	<li>tělocvik na prvním stupni základního vzdělávání v základních školách a v mateřských školách</li>
+</ul>",NULL,NULL,modal-md,fas fa-basketball-ball
+242,"Hudební a taneční kluby, diskotéky uzavřeny","Zakazuje se přítomnost veřejnosti v hudebních, tanečních, herních a podobných společenských klubech a na diskotékách.",13,narizeninouzovy,144,NULL,NULL,NULL,modal-md,fas fa-music
+243,Zakázány vzdělávací akce a prezenční zkoušky,"Dle usnesení vlády č. 1103 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě",4,narizeninouzovy,144,NULL,NULL,NULL,modal-md,fas fa-chalkboard-teacher
+244,Zákaz pití alkoholu na veřejnosti,Konzumace alkoholu na veřejně přístupných místech je zakázána. ,3,narizeninouzovy,144,NULL,NULL,NULL,modal-md,fas fa-glass-cheers
+245,"Zakázán prodej na tržnicích, stáncích (farmářské trhy povoleny)","<p>Zakázán je prodej na tržnicích, ve stáncích, pojizdných prodejnách, pochůzkový prodej a podomní prodej</p>",8,narizeninouzovy,144,"Nadále mohou fungovat:
+<ul>
+<li>Farmářské trhy (produkty nejezte na místě)</li>
+<li>pojizdné prodejny základních potřeb (jídlo, drogerie) v místech, kde není kde jinde to koupit</li>
+</ul>
+",NULL,NULL,modal-lg,fas fa-shopping-basket
+246,Maloobchod a služby v neděli zavřeno,"<p>Zakázán maloobchodní prodej a prodej a poskytování služeb v provozovnách v neděli po celý den
+a v pondělí až v sobotu v čase mezi 20:00 hod. až 04:59 hod. </p>",8,narizeninouzovy,144,"V tyto časy mohou zůstat otevřené jen
+<ul>
+<li>Čerpací stanice</li>
+<li>Lékárny</li>
+<li>Prodejny u letišť, na železničních stanicích, na autobusobých nádražích</li>
+<li>Prodejny ve zdravotnických zařízeních</li>
+<li>Jídelny (ne pro veřejnost, třeba podnikové jídelny)</li>
+</ul>
+",<li>Čerpací stanice</li>,NULL,modal-lg,fas fa-shopping-basket
 215,Některé obchody a služby uzavřeny (výjimky po kliknutí) ,"<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
 </p>
 <i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
