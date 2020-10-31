@@ -43,6 +43,7 @@ urlpatterns = [
     path("", views.opatreni_celoplosne, name="home"),
     path("home/", views.home, name="home"),
     path("o-projektu/", views.about, name="about"),
+    path("FAQ/", views.about, name="about"),
     path("opatreni/", views.opatreni, name="opatreni"),
     path("celostatni-opatreni/", views.opatreni_celoplosne, name="celostatni-opatreni"),
     path("aktualnost/", views.aktualnost, name="aktualnost"),
