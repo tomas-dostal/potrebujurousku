@@ -1342,6 +1342,167 @@ insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 <li>cesty za účelem vycestování z ČR</li>
 <li>cesty zpět do místa svého bydliště</li>
 </ul>', null, null, 'modal-lg', 'fas fa-walking');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (249, 'Zákaz vycházení v noci', 'Zakazuje se volný pohyb osob večer a v noci (mezi 21:00 a 05:00). Výjimek je mnohem méně než přes den...', 15, 'narizeninouzovy', 148, 'Večer a v noci je povoleno vycházet pouze v těchto důvodech:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>venčení psů, ale jen do 500 metrů od bydliště</li>
+<li>další činnosti a cesty, které slouží k zajištění:
+<ul>
+<li>ochrany života, zdraví nebo majetku</li>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní nebo sociální péče</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+</ul>
+</li>
+</ul>', null, null, 'modal-md', 'fas fa-moon');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (250, 'Zákaz zbytečného pohybu přes den', 'Zakazuje se zbytečný volný pohyb osob přes den (mezi 05:00 a 21:00). To znamená, že je zakázáno všechno kromě následujících výjimek...', 15, 'narizeninouzovy', 148, 'Přes den jsou povoleny pouze:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>cesty za účelem vzdělávání, včetně praxí a na zkoušky <strong>(nové)</strong></li>
+<li>nezbytné cesty za rodinou a blízkými osobami</li>
+<li>pobyt v přírodě, parcích a vlastních rekreačních objektech (např. chata) a cesta na tato místa</li>
+<li>obstarání základních životních potřeb (např. nákup potravin, léků či drogerie) pro sebe i pro jiné (tj. včetně dobrovolnictví, sousedské výpomoci apod.)</li>
+<li>nezbytné cesty k zajištění péče o děti a zvířata, zajištění finančních a poštovních služeb, doplnění pohonných hmot a odkládání odpadu</li>
+<li>cesty k lékaři, k veterináři, nebo do zařízení sociálních služeb (tj. např. domov pro seniory, pro osoby s postižením apod.), včetně nezbytného doprovodu</li>
+<li>cesty k vyřízení neodkladných úředních záležitostí, včetně nezbytného doprovodu</li>
+<li>účast na svatbě a pohřbu v maximálním počtu 10 lidí</li>
+<li>návštěvy hřbitova</li>
+<li>další činnosti, které slouží k zajištění:
+<ul>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní, sociální či veterinární péče nebo služeb pro obyvatele (včetně dobrovolnictví)</li>
+<li>individuální duchovní péče a služby</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+</ul>
+</li>
+<li>cesty za účelem vycestování z ČR</li>
+<li>cesty zpět do místa svého bydliště</li>
+<li>cesty za účelem voleb do orgánů zdravotních pojišťoven</li> 
+
+</ul>', 'https://www.diffchecker.com/0Tza4Rp6', 'Změny krizového opatření k omezení volného pohybu s účinností od 4. listopadu 2020', 'modal-md', 'fas fa-house-user');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (256, 'Některé obchody a služby uzavřeny (výjimky po kliknutí) ', '<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
+</p>
+<i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
+"Jenom" došlo k omezení na nezbytně nutné provozovny a ať se nám to líbí, či ne, je třeba to repsekovat. 
+<br><p>Dodržujte rozestupy min. 2 metry a používejte dezinfekci. Společně to zvládneme!</i></p>
+', 8, 'narizeninouzovy', 151, 'Otevřené mohou zůstat prodejny:
+<ul>
+<li>potravin</li>
+<li>drogerie, kosmetiky a hygienického zboží</li>
+<li>novin, časopisů a tabákových výrobků</li>
+<li>pietních věnců, svíček, květin atd. (včetně pojízdných prodejen)</li>
+<li>pohonných hmot a paliv</li>
+<li>jízdenek</li>
+<li>malých domácích zvířat a krmiva nebo potřeb pro zvířata</li>
+<li>brýlí, kontaktních čoček atd.</li>
+<li>domácích potřeb a železářství (kromě nábytků. koberců a dalších podlahových krytin)</li>
+<li>textilního materiálu a galanterie</li>
+<li>květin a zahrádkářských potřeb (včetně osiva a sadby)</li>
+<li>náhradních dílů k dopravním prostředkům a výrobním technologiím</li>
+</ul>
+
+Dále také nemusí zavřít tyto služby a provozovny:
+<ul>
+<li>lékárny a výdejny a prodejny zdravotnických prostředků</li>
+<li>prádelny a čistírny</li>
+<li>zámečnictví</li>
+<li>květinářství</li>
+<li>servis a instalace elektroniky, techniky a zařízení pro domácnost</li>
+<li>provozovny umožňující vyzvednutí zboží a zásilky zakoupených distančním způsobem (třeba pobočky zásilkovny, nebo vyzvednutí zboží z eshopu na prodejně)</li>
+<li>automyčky</li>
+<li>servis a opravy vozidel, odtahové služby</li>
+<li>sběr a výkup surovin, kompostárny</li>
+<li>účetní poradci, vedení účetnictví a daňové evidence</li>
+<li>pohřební služby (a balzamace, konzervace, zpopelňování a ukládání ostatků do uren)</li>
+<li>zpracování kamene, výroba pomníků a náhrobních kamenů</li>
+<li>sjednávání provádění a odstraňování staveb, projektová činnost ve výstavbě, geologické práce, zeměměřičství, testování, měření a analýza ve stavebnictví</li>
+<li>Provozovny zabývající se zpracováním kamene (pomínky, náhrobní kameny)</li><strong>(nové)</strong><li>Provozoven prodávajícíh pietní zboží (věnce, hřbitovní svíčky) včetně mobilních. Tyto prodejny mohou být otevřené i v neděli <strong>(nové)</strong></li></ul>
+
+Tento zákaz se nevztahuje na činnosti, které nejsou živností, a dále na vedlejší prodej potravin, pokud je část s potravinami oddělena od ostatních částí provozovny.', null, null, 'modal-lg', 'fas fa-shopping-basket');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (258, 'Kulturní a vzdělávací akce, návštěvy a prohlídky zakázány', 'Zakazuje se:
+<ul>
+	<li>koncerty a jiná hudební, divadelní, filmová a jiná umělecká představení včetně cirkusů a varieté,</li>
+	<li>společný zpěv více než 5 osob ve vnitřních prostorech staveb, s výjimkou bydliště,
+	a to i když se jedná o výkon práce nebo podnikatelské činnosti, s výjimkou
+	mateřských škol</li>
+	<li>poutě a podobné tradiční akce,</li>
+	<li>kongresy a jiné vzdělávací akce, veletrhy,</li>
+	<li>provoz heren a kasin, <u>sázkových kanceláří</u></li>
+	<li>návštěvy a prohlídky ZOO a botanických zahrad,</li>
+	<li>návštěvy a prohlídky muzeí, galerií, výstavních prostor, hradů, zámků a obdobných
+	historických nebo kulturních objektů, hvězdáren a planetárií.</li>
+</ul>', 13, 'narizeninouzovy', 151, null, null, null, 'modal-md', 'fas fa-chess-rook');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (259, 'Sportoviště, taneční studia a koupaliště uzavřeny', 'Zakazuje se provoz a používání sportovišť ve vnitřních prostorech staveb a vnitřních prostor venkovních sportovišť, posiloven, fitness center, tanečních studií, umělých koupališť a wellness zařízení.', 14, 'narizeninouzovy', 151, '<ul>
+	<li>poskytování zdravotních služeb poskytovatelem zdravotních služeb</li>
+	<li>tělocvik na prvním stupni základního vzdělávání v základních školách a v mateřských školách</li>
+</ul>', null, null, 'modal-md', 'fas fa-basketball-ball');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (260, 'Hudební a taneční kluby, diskotéky uzavřeny', 'Zakazuje se přítomnost veřejnosti v hudebních, tanečních, herních a podobných společenských klubech a na diskotékách.', 13, 'narizeninouzovy', 151, null, null, null, 'modal-md', 'fas fa-music');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (261, 'Zakázány vzdělávací akce a prezenční zkoušky (vyjímky pro zdravotníky - po kliknutí)', 'Dle usnesení vlády č. 1116 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě', 4, 'narizeninouzovy', 151, '<ul><li>TLDR; Medici mohou skládat závěrečné zkoušky a účastnit se praktické výuky. <br><strong>Detailně</strong>: praktická výuka, 
+praxe a zkouška podle zákona č. 95/2004 Sb., o podmínkách získávání a uznávání 
+odborné způsobilosti a specializované způsobilosti k výkonu zdravotnického povolání 
+lékaře, zubního lékaře a farmaceuta, ve znění pozdějších předpisů, a podle zákona 	č. 96/2004   Sb., o  podmínkách  získávání  a  uznávání  způsobilosti  k  výkonu 
+nelékařských   zdravotnických   povolání   a   k   výkonu   činností   souvisejících 
+s poskytováním  zdravotní  péče  a  o  změně  některých  souvisejících  zákonů  (zákon 
+o nelékařských zdravotnických povoláních), ve znění pozdějších předpisů, kterých se 
+smí účastnit nejvýše 10 osob <li> </ul>', null, null, 'modal-md', 'fas fa-chalkboard-teacher');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (262, 'Zákaz pití alkoholu na veřejnosti', 'Konzumace alkoholu na veřejně přístupných místech je zakázána. ', 3, 'narizeninouzovy', 151, null, null, null, 'modal-md', 'fas fa-glass-cheers');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (266, 'Maloobchod a služby přes noc a v neděli zavřeny', '<p>Zakázán maloobchodní prodej a prodej a poskytování služeb v provozovnách v neděli po celý den
+a v pondělí až v sobotu v čase mezi 20:00 hod. až 04:59 hod. </p>', 8, 'narizeninouzovy', 151, 'V tyto časy mohou zůstat otevřené jen
+<ul>
+<li>čerpací stanice</li>
+<li>lékárny</li>
+<li>prodejny pietních věnců, svíček, květin atd. (včetně pojízdných prodejen) v neděli od 05:00 do 20:00</li>
+<li>prodejny u letišť, na železničních stanicích, na autobusobých nádražích</li>
+<li>prodejny ve zdravotnických zařízeních</li>
+<li>jídelny (ne pro veřejnost, třeba podnikové jídelny)</li>
+<li>prodejny pietního zboží (věnce, svíčky, květinová výzdoba atd.). Otevřeno mohou mít 5-20h <strong>(nové)</strong> </ul>
+', null, null, 'modal-lg', 'fas fa-shopping-basket');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (267, 'Zakázán prodej na tržnicích, stáncích (farmářské trhy povoleny)', '<p>Zakázán je prodej na tržnicích, ve stáncích, pojizdných prodejnách, pochůzkový prodej a podomní prodej</p>', 8, 'narizeninouzovy', 151, 'Nadále mohou fungovat:
+<ul>
+<li>farmářské trhy (produkty nejezte na místě)</li>
+<li>pojizdné prodejny základních potřeb (jídlo, drogerie) v místech, kde není kde jinde to koupit</li>
+</ul>
+', null, null, 'modal-lg', 'fas fa-shopping-basket');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (268, 'Datové schánky budou bezplatné po dobu nouzového stavu', 'Vláda projednala a přijala i několik nových opatření. Rozhodla o tom, že po dobu nouzového stavu nebude provozovateli informačního systému datových schránek náležet odměna vyplývající ze zákona o elektronických úkonech a autorizované konverzi dokumentů, tedy že používání datových schránek bude dočasně zdarma.', 15, 'info', 153, null, null, null, 'modal-md', 'fa fa-usd');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (271, 'Preventivní testování pacientů dlouhodobé lůžkové péče', '
+Od 4.11.2020 (se zpožděním nejvýše týden) a pak každých dalších <strong>5 (nově)</strong> dní bude probíhat preventivní vyšetření. Výjimky jsou zmíněny níže. 
+<ul>
+<li>všech pacientů dlouhodobé lůžkové péče</li>
+</ul>
+<br>
+<h5>Jaké že jsou ty testy?</h5>
+<br>
+<strong>POC (antigenní)</strong> nejsou tak přesné, ale jsou rychlé. Výsledky bývají pozitivné od jednoho týdne až konce inkubační doby. Poví nám jestli pacient nákazu nyní prodělává, nebo prodělal. Neříká ale nic o infekčnosti nakaženého.  
+<br><strong>PCR testy</strong> jsou spolehlivější, ale trvají déle (do 48 hodin) a bývají pozitivní i před propuknutím příznaků, tedy je to metoda nejvhodnější k rychlému a spolehlivému odhalení, zda-li člověk není v daný moment nakažen a nešíří virus do svého okolí. Odebírá se vzorek výtěrem z nosohltanu a krku. <a href="https://www.ockovacicentrum.cz/cz/rapid-test-vs-pcr">Zdroj >></a>
+
+<br>
+<br>
+<h5>Algoritmus vyhodnocování</h5>
+<ol>
+	<li>POC test <strong>pozitivní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Izolují vás</li>
+		<li>a <strong>nemáte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky</li> 
+	</ul>
+<li>POC test <strong>negativní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky
+		</li>
+		<li>a <strong>nemáte příznaky</strong> => Jste OK
+		</li> 
+	</ul>
+</ol>
+
+', 1, 'narizeni', 156, 'Testy se neprovádí u osob které:
+<ul>
+<li>Prodělaly COVID-19 a mají <90 dní od ukončení izolace</li>
+<li>Byly v posledních 5 dnech <strong>(nové)</strong> na RT-PCR testu (a skončili negativní)</li>
+<li>jsou v terminálním stádiu onemocnění </li>
+</ul>', 'https://www.diffchecker.com/vo7Qpour', 'Rozdíl oproti předchozímu opatření ze dne 30.10.2020', 'modal-lg', 'fas fa-microscope');
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (223, 'Omezení demonstrací', '<p>Omezuje se pr&aacute;vo shromažďovac&iacute; (tzn. demonstrace). Shrom&aacute;žděn&iacute; je možn&eacute; za splněn&iacute; v&scaron;ech těchto podm&iacute;nek:</p>
 <ol>
 <li>Shrom&aacute;žděn&iacute; se může &uacute;častnit maxim&aacute;lně 100 &uacute;častn&iacute;ků</li>
@@ -1413,6 +1574,66 @@ insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 <li>upřednostňovat bezhotovostní platby</li>
 </ul>', 7, 'doporuceni', 143, null, null, null, 'modal-lg', 'far fa-credit-card');
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (237, 'Doporučení pro nakupující', 'Při nákupu se doporučuje zachovávat odstupy nejméně 2 metry a upřednosťnovat bezhotovostní platby.', 8, 'doporuceni', 143, null, null, null, 'modal-md', 'fas fa-shopping-cart');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (263, 'Distanční výuka na všech školách kromě MŠ (s výjimkami)', 'Zakazuje se osobní přítomnost studentů na výuce na vysokých školách (a účastníků na kurzech celoživotního vzdělávání), konzervatořích, vyšších odborných, středních, základních, uměleckých i jazykových školách. Na jazykových školách je zakázána také účast na státní jazykové zkoušce. Dále se zakazuje osobní přítomnost dětí a studentů na "zájmovém vzdělávání" ve volnočasových střediscích, školních klubech a družinách. Na všech školách kromě mateřských se také zakazuje zpěv a sportovní činnosti jako součást vzdělávání.', 4, 'narizeninouzovy', 152, '<ul>
+   <li>VŠ: Jsou povoleny zkoušky, kterých se účastní najednou max. 10 osob. Je povolena klinická a praktická výuka zdravotnických programů (všeobecné nebo zubní lékařství, farmacie,...) a pedagogická praktická výuka v MŠ, ZŠ a SŠ.</li>
+   <li>SŠ, VOŠ a konzervatoře: Zákaz neplatí pro praktickou výuku zdravotnických oborů (ve zdravotnických nebo sociálních zařízeních) a školy zřízené Ministerstvem spravedlnosti nebo při zařízeních pro výkon ústavní či ochranné výchovy.</li>
+   <li>ZŠ: Zákaz neplatí pro školy zřízené při zdravotnickém zařízení a školy a třídy pro žáky s postižením nebo vývojovými poruchami (podle § 16 odst. 9 školského zákona, viz odkaz níže).</li>
+</ul>', null, null, 'modal-md', 'fas fa-laptop-house');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (264, 'Zákaz ubytování na kolejích', 'Zakazuje se poskytování ubytování studentům, kteří mají v ČR jiné bydliště, ve školských výchovných a ubytovacích zařízeních (na kolejích, internátech a v domovech mládeže).', 4, 'narizeninouzovy', 152, 'Výjimku mají:
+<ul>
+   <li>studenti, jimž byla uložena pracovní povinnost podle krizového zákona (240/2000 Sb., viz odkaz níže)</li>
+   <li>studenti, kteří se účastní klinické nebo praktické výuky zdravotnických programů (všeobecné nebo zubní lékařství, farmacie,...) nebo pedagogické praktické výuky v MŠ, ZŠ a SŠ</li>
+</ul>
+', null, null, 'modal-md', 'fas fa-bed');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (265, 'Zákaz škol v přírodě', 'Omezuje se provoz školských výchovných a ubytovacích zařízení tak, že se zakazují školy v přírodě.', 4, 'narizeninouzovy', 152, null, null, null, 'modal-md', 'fas fa-tree');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (269, 'Zákaz rekreačního ubytování', 'Zakazuje se poskytování ubytovacích služeb (třeba hotelů), kromě zmíněných výjimek.', 11, 'narizeninouzovy', 151, 'Ubytovací služby lze využívat:
+<ul>
+<li>za účelem výkonu povolání či podnikání</li>
+<li>pokud jste jej zahájili před 4.11.2020</li>
+</ul>
+
+Výjimku mají také:
+<ul>
+<li>cizinci do doby opuštění území ČR a cizinci s pracovním povolením v ČR</li>
+<li>ti, kterým byla nařízena izolace, karanténa anebo pracovní povinnost podle krizového zákona </li>
+<li>ti, jejichž ubytování bylo sjednáno státem nebo jinými subjekty za účelem uvolnění kapacit nebo ubytování osob bez domova</li>
+</ul>', null, null, 'modal-md', 'fas fa-hotel');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (270, 'Preventivní testování uživatelů sociálních služeb (např. domovy seniorů, viz detail)', 'Od 4.11.2020 (se zpožděním nejvýše týden) a pak každých dalších <strong>5 (nově)</strong> dní bude probíhat preventivní vyšetření. Výjimky jsou zmíněny níže. 
+<ul>
+<li>sociálních služeb v zařízení domovů pro osoby se zdravotním postižením</li>
+<li>domovů pro seniory</li>
+<li>domovů se zvláštním režimem</li>
+<li>odlehčovacích sociálních služeb v pobytové formě </li>
+</ul>
+<br>
+<h5>Jaké že jsou ty testy?</h5>
+<br>
+<strong>POC (antigenní)</strong> nejsou tak přesné, ale jsou rychlé. Výsledky bývají pozitivné od jednoho týdne až konce inkubační doby. Poví nám jestli pacient nákazu nyní prodělává, nebo prodělal. Neříká ale nic o infekčnosti nakaženého.  
+<br><strong>PCR testy</strong> jsou spolehlivější, ale trvají déle (do 48 hodin) a bývají pozitivní i před propuknutím příznaků, tedy je to metoda nejvhodnější k rychlému a spolehlivému odhalení, zda-li člověk není v daný moment nakažen a nešíří virus do svého okolí. Odebírá se vzorek výtěrem z nosohltanu a krku. <a href="https://www.ockovacicentrum.cz/cz/rapid-test-vs-pcr">Zdroj >></a>
+
+<br>
+<br>
+<h5>Algoritmus vyhodnocování</h5>
+<ol>
+	<li>POC test <strong>pozitivní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Izolují vás</li>
+		<li>a <strong>nemáte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky</li> 
+	</ul>
+<li>POC test <strong>negativní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky
+		</li>
+		<li>a <strong>nemáte příznaky</strong> => Jste OK
+		</li> 
+	</ul>
+</ol>
+', 10, 'narizeni', 156, 'Testy se neprovádí u osob které:
+<ul>
+<li>Prodělaly COVID-19 a mají <90 dní od ukončení izolace</li>
+<li>Byly v posledních 5 dnech <strong>(nové)</strong> na RT-PCR testu (a skončili negativní)</li>
+<li>jsou v terminálním stádiu onemocnění </li>
+</ul>', 'https://www.diffchecker.com/vo7Qpour', 'Rozdíl oproti předchozímu opatření ze dne 30.10.2020', 'modal-lg', 'fas fa-microscope');
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (238, 'Některé obchody a služby uzavřeny (výjimky po kliknutí) ', '<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
 </p>
 <i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
@@ -1423,6 +1644,7 @@ insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 <li>potravin</li>
 <li>drogerie, kosmetiky a hygienického zboží</li>
 <li>novin, časopisů a tabákových výrobků</li>
+<li>pietních věnců, svíček, květin atd. (včetně pojízdných prodejen)</li>
 <li>pohonných hmot a paliv</li>
 <li>jízdenek</li>
 <li>malých domácích zvířat a krmiva nebo potřeb pro zvířata</li>
@@ -1446,6 +1668,7 @@ Dále také nemusí zavřít tyto služby a provozovny:
 <li>sběr a výkup surovin, kompostárny</li>
 <li>účetní poradci, vedení účetnictví a daňové evidence</li>
 <li>pohřební služby (a balzamace, konzervace, zpopelňování a ukládání ostatků do uren)</li>
+<li>zpracování kamene, výroba pomníků a náhrobních kamenů</li>
 <li>sjednávání provádění a odstraňování staveb, projektová činnost ve výstavbě, geologické práce, zeměměřičství, testování, měření a analýza ve stavebnictví</li>
 </ul>
 
@@ -1479,20 +1702,123 @@ insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (244, 'Zákaz pití alkoholu na veřejnosti', 'Konzumace alkoholu na veřejně přístupných místech je zakázána. ', 3, 'narizeninouzovy', 144, null, null, null, 'modal-md', 'fas fa-glass-cheers');
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (245, 'Zakázán prodej na tržnicích, stáncích (farmářské trhy povoleny)', '<p>Zakázán je prodej na tržnicích, ve stáncích, pojizdných prodejnách, pochůzkový prodej a podomní prodej</p>', 8, 'narizeninouzovy', 144, 'Nadále mohou fungovat:
 <ul>
-<li>Farmářské trhy (produkty nejezte na místě)</li>
+<li>farmářské trhy (produkty nejezte na místě)</li>
 <li>pojizdné prodejny základních potřeb (jídlo, drogerie) v místech, kde není kde jinde to koupit</li>
 </ul>
 ', null, null, 'modal-lg', 'fas fa-shopping-basket');
-insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (246, 'Maloobchod a služby v neděli zavřeno', '<p>Zakázán maloobchodní prodej a prodej a poskytování služeb v provozovnách v neděli po celý den
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (246, 'Maloobchod a služby přes noc a v neděli zavřeny', '<p>Zakázán maloobchodní prodej a prodej a poskytování služeb v provozovnách v neděli po celý den
 a v pondělí až v sobotu v čase mezi 20:00 hod. až 04:59 hod. </p>', 8, 'narizeninouzovy', 144, 'V tyto časy mohou zůstat otevřené jen
 <ul>
-<li>Čerpací stanice</li>
-<li>Lékárny</li>
-<li>Prodejny u letišť, na železničních stanicích, na autobusobých nádražích</li>
-<li>Prodejny ve zdravotnických zařízeních</li>
-<li>Jídelny (ne pro veřejnost, třeba podnikové jídelny)</li>
+<li>čerpací stanice</li>
+<li>lékárny</li>
+<li>prodejny pietních věnců, svíček, květin atd. (včetně pojízdných prodejen) v neděli od 05:00 do 20:00</li>
+<li>prodejny u letišť, na železničních stanicích, na autobusobých nádražích</li>
+<li>prodejny ve zdravotnických zařízeních</li>
+<li>jídelny (ne pro veřejnost, třeba podnikové jídelny)</li>
 </ul>
-', '<li>Čerpací stanice</li>', null, 'modal-lg', 'fas fa-shopping-basket');
+', null, null, 'modal-lg', 'fas fa-shopping-basket');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (247, 'Preventivní testování uživatelů sociálních služeb (např. domovy seniorů, viz detail)', 'Od 4.11.2020 (se zpožděním nejvýše týden) a pak každých dalších 7 dní bude probíhat preventivní vyšetření. Výjimky jsou zmíněny níže. 
+<ul>
+<li>sociálních služeb v zařízení domovů pro osoby se zdravotním postižením</li>
+<li>domovů pro seniory</li>
+<li>domovů se zvláštním režimem</li>
+<li>odlehčovacích sociálních služeb v pobytové formě </li>
+</ul>
+<br>
+<h5>Jaké že jsou ty testy?</h5>
+<br>
+<strong>POC (antigenní)</strong> nejsou tak přesné, ale jsou rychlé. Výsledky bývají pozitivné od jednoho týdne až konce inkubační doby. Poví nám jestli pacient nákazu nyní prodělává, nebo prodělal. Neříká ale nic o infekčnosti nakaženého. Odebírá vzorek krve.  
+<br><strong>PCR testy</strong> jsou spolehlivější, ale trvají déle (do 48 hodin) a bývají pozitivní i před propuknutím příznaků, tedy je to metoda nejvhodnější k rychlému a spolehlivému odhalení, zda-li člověk není v daný moment nakažen a nešíří virus do svého okolí. Odebírá se vzorek výtěrem z nosohltanu a krku. <a href="https://www.ockovacicentrum.cz/cz/rapid-test-vs-pcr">Zdroj >></a>
+
+<br>
+<br>
+<h5>Algoritmus vyhodnocování</h5>
+<ol>
+	<li>POC test <strong>pozitivní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Izolují vás</li>
+		<li>a <strong>nemáte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky</li> 
+	</ul>
+<li>POC test <strong>negativní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky
+		</li>
+		<li>a <strong>nemáte příznaky</strong> => Jste OK
+		</li> 
+	</ul>
+</ol>
+', 10, 'narizeni', 146, 'Testy se neprovádí u osob které:
+<ul>
+<li>Prodělaly COVID-19 a mají <90 dní od ukončení izolace</li>
+<li>Byly v posledních 48 hodinách na RT-PCR testu (a skončili negativní)</li>
+<li>jsou v terminálním stádiu onemocnění </li>
+</ul>', null, null, 'modal-lg', 'fas fa-microscope');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (248, 'Preventivní testování pacientů dlouhodobé lůžkové péče', '
+Od 4.11.2020 (se zpožděním nejvýše týden) a pak každých dalších 7 dní bude probíhat preventivní vyšetření. Výjimky jsou zmíněny níže. 
+<ul>
+<li>všech pacientů dlouhodobé lůžkové péče</li>
+</ul>
+<br>
+<h5>Jaké že jsou ty testy?</h5>
+<br>
+<strong>POC (antigenní)</strong> nejsou tak přesné, ale jsou rychlé. Výsledky bývají pozitivné od jednoho týdne až konce inkubační doby. Poví nám jestli pacient nákazu nyní prodělává, nebo prodělal. Neříká ale nic o infekčnosti nakaženého. Odebírá vzorek krve.  
+<br><strong>PCR testy</strong> jsou spolehlivější, ale trvají déle (do 48 hodin) a bývají pozitivní i před propuknutím příznaků, tedy je to metoda nejvhodnější k rychlému a spolehlivému odhalení, zda-li člověk není v daný moment nakažen a nešíří virus do svého okolí. Odebírá se vzorek výtěrem z nosohltanu a krku. <a href="https://www.ockovacicentrum.cz/cz/rapid-test-vs-pcr">Zdroj >></a>
+
+<br>
+<br>
+<h5>Algoritmus vyhodnocování</h5>
+<ol>
+	<li>POC test <strong>pozitivní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Izolují vás</li>
+		<li>a <strong>nemáte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky</li> 
+	</ul>
+<li>POC test <strong>negativní</strong></li>
+	<ul>
+		<li>a <strong>máte příznaky</strong> => Jdete na RT-PCR test a izolují vás než dojdou výsledky
+		</li>
+		<li>a <strong>nemáte příznaky</strong> => Jste OK
+		</li> 
+	</ul>
+</ol>
+
+', 1, 'narizeni', 146, 'Testy se neprovádí u osob které:
+<ul>
+<li>Prodělaly COVID-19 a mají <90 dní od ukončení izolace</li>
+<li>Byly v posledních 48 hodinách na RT-PCR testu (a skončili negativní)</li>
+<li>jsou v terminálním stádiu onemocnění </li>
+</ul>', null, null, 'modal-lg', 'fas fa-microscope');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (251, 'Omezení kontaktů a pobytu na veřejnosti', 'Nařizuje se omezit kontakt s jinými osobami na nezbytně nutnou míru. Pohyb na veřejně přístupných místech se proto omezuje na dobu nezbytně nutnou a nařizuje se pobývat v místě bydliště. Pobývat na veřejnosti se smí maximálně v počtu 2 osob (s výjimkami viz níže) a při pohybu se zachovává odstup od ostatních na alespoň 2 metry, pokud je to možné.', 15, 'narizeninouzovy', 148, 'Výjimku z maximálního počtu 2 osob mají:
+<ul>
+<li>členové domácnosti</li>
+<li>zaměstnanci pracující pro stejného zaměstnavatele</li>
+<li>osoby vykonávající podnikatelskou činnost</li>
+<li>osoby, které mají podle zákona povinnost vykonávat určitou činnost</li>
+<li>děti, žáci a studenti ve školách</li>
+</ul>', null, null, 'modal-md', 'fas fa-people-arrows');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (252, 'Nařízený home office', 'Nařizuje se zaměstnavatelům využívat práci na dálku, pokud ji zaměstnanci mohou vykonávat z domova (vzhledem k charakteru práce a provozním podmínkám).', 7, 'narizeninouzovy', 148, null, null, null, 'modal-md', 'fas fa-laptop-house');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (253, 'Omezení demonstrací', '<p>Omezuje se pr&aacute;vo shromažďovac&iacute; (např. demonstrace). Shrom&aacute;žděn&iacute; je možn&eacute; jedině za splněn&iacute; v&scaron;ech těchto podm&iacute;nek:</p>
+<ol>
+<li>Shrom&aacute;žděn&iacute; se může &uacute;častnit maxim&aacute;lně 100 lidí</li>
+<li>&Uacute;častn&iacute;ci přitom mus&iacute; b&yacute;t rozdělen&iacute; do skupin po maxim&aacute;lně 20 lidech</li>
+<li>Mus&iacute; b&yacute;t dodrženy rozestupy mezi skupinami na alespoň 2 metry</li>
+<li>V&scaron;ichni &uacute;častn&iacute;ci mus&iacute; m&iacute;t ochrann&yacute; prostředek d&yacute;chac&iacute;ch cest (úst i nosu!)</li>
+</ol>', 3, 'narizeninouzovy', 148, null, 'https://www.diffchecker.com/0Tza4Rp6', 'Změny krizového opatření k omezení volného pohybu s účinností od 4. listopadu 2020', 'modal-md', 'fas fa-users-slash');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (254, 'Doporučení pro zaměstnavatele', 'Zaměstnavatelům se doporučuje:
+<ul>
+<li>podporovat nyní dovolené, placená volna pro zaměstnance atd.</li>
+<li>omezit výkon méně významných prací</li>
+<li>omezit kontakt se zákazníky</li>
+<li>upřednostňovat bezhotovostní platby</li>
+</ul>', 7, 'doporuceni', 148, null, null, null, 'modal-lg', 'far fa-credit-card');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (255, 'Doporučení pro nakupující', 'Při nákupu se doporučuje zachovávat odstupy nejméně 2 metry a upřednosťnovat bezhotovostní platby.', 8, 'doporuceni', 148, null, null, null, 'modal-md', 'fas fa-shopping-cart');
+insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (257, 'Restaurace a veřejné jídelny uzavřeny', 'Zakazuje se přítomnost veřejnosti v provozovnách stravovacích služeb (např. restaurace,
+hospody a bary). Zavřené jsou i provozovny stravovacích služeb uvnitř nákupních center s prodejní plochou nad 5000 m2.
+', 5, 'narizeninouzovy', 151, '<ul>
+	<li>provozovny, které neslouží pro veřejnost (max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>provozovny v ubytovacích zařízeních se stravováním pouze pro ubytované (pouze 06:00 - 20:00 hod., max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>prodej mimo provozovnu, tedy např. přes okénko (pouze 06:00 - 20:00, odstupy 2 m)</li>
+</ul>', null, null, 'modal-md', 'fas fa-utensils');
 insert into DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON) values (215, 'Některé obchody a služby uzavřeny (výjimky po kliknutí) ', '<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
 </p>
 <i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
