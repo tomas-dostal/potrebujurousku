@@ -18,8 +18,10 @@
                         <br>
                         <h5>Co se stalo?</h5>
                         <br>
-                        <p>Z nějakého důvodu aktualizační skript nevrátil už nějakou dobu žádná data.
-                            Může za tím být cokoli od toho, že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví provedli až tak rozsáhlé změny, že to náš aktualizační skript nerozdýchal až po problémy s naší databází.</p>
+                        <p>Z nějakého důvodu neprobíhá kontrola aktualizací podle plánz. Může za tím být cokoli od toho,
+                            že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví (zase)
+                            provedli až tak rozsáhlé změny, že už to náš kód "nerozdýchal" až po problémy s naší
+                            databází.</p>
                         <br>
 
                         <p>Možná o chybě ještě nevíme, pomozte nám ji co nejdříve opravit tím, že ji nahlásíte! Děkujeme.</p>
@@ -29,6 +31,7 @@
                         <a href="mailto:admin@potrebujurousku.cz?subject=[ERROR report] chyba kontroly aktuálnosti&body=Dobrý den, Chtěl/a bych nahlásit chybu kotrnoly aktuálnosti. S pozdravem, " class="btn btn-primary active">Nahlásit chybu!</a>
                     </div>
             </div>
+        </div>
         </div>
 
     {% else %}
@@ -52,16 +55,22 @@
                         <span class="badge badge-info">Poslední kontrola {{ kontrola.DATE_UPDATED }}</span>
                         Poslední změny v databázi jsme dělali  {{ posledni_databaze }}.
                         {% if kontrola.CELK_ZMEN == 0 %}
-                        Všechna data jsou aktuální!
+                            Všechna data jsou aktuální!
                         {% else %}
-                        Všechny změny jsme ještě nestihli zpracovat. <br>
-                        Celkem nám ke zpracování zbývá {{  kontrola.CELK_ZMEN }} změn{{ kontrola.CELK_ZMEN|cz_pluralize:"a,y," }}
-                        ({{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a {{ kontrola.ODSTRANIT_POCET }} odebrat.
-                        <br>Zajímá vás, co <a href="/aktualnost/">jsme nestihli zpracovat?</a>
+                            Všechny změny jsme ještě nestihli zpracovat. <br>
+                            Celkem nám ke zpracování zbývá {{ kontrola.CELK_ZMEN }} změn
+                            {{ kontrola.CELK_ZMEN|cz_pluralize:"a,y," }}
+                            ({{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a
+                            {{ kontrola.ODSTRANIT_POCET }} odebrat.
+                            <br><b>Seznam nezpracovaných opatření</b> naleznete <a href="/aktualnost/#">tady</a>
                         {% endif %}
                         <br>
                         <br>
-                        Detailnější informace včetně způsobu, jak tato data získáváme naleznete na stránce <a href="/aktualnost/">Aktuálnost</a>, či kliknutím na tlačíto "Více informací".
+                        Chceme, ať je náš web pokud možno co nejdůvěryhodnější. Ke každé informaci uvádíme zdroj a náš
+                        výklad se snažíme konzultovat s právníky. Způsob, jakým získáváme podkladová data pro naši
+                        stránku naleznete detailně popsaný <a href="/aktualnost/">zde</a>.
+                        Veškeré <a href="https://github.com/tomas-dostal/potrebujurousku">zdrojové kódy</a> k projektu
+                        máme na veřejném repozitáři.
                         <br>
                     </div>
                     <div class="modal-footer">

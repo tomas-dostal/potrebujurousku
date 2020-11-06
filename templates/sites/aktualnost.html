@@ -14,6 +14,7 @@
 				{{ statistika }}
 				<br>Poslední změna v databázi proběhla {{ posledni_databaze }}
 			</p>
+            <br>
 			{% if pridat %}
 			<h3>Nestihli jsme zpracovat</h3>
 			<div class="table-responsive">
@@ -89,11 +90,60 @@
 				</div>
 				{% endif %}
 				<hr>
-				<h5>Jak tato data získáváme?</h5>
-				Data automaticky kontrolujeme oproti serverům <a href="https://koronavirus.mzcr.cz/mapa-webu/">ministerstva zdravotnictví</a>. Pozorujeme, že dříve, či později se zde objeví vše, co je i v tzv. "semaforu".
-				<br><br>
-				<h5>Proč načítání této stránky tak dlouho trvá?</h5>
-				Aby byla data jak se patří čerstvá, provádíme kontrolu při každém požadavku.
+            <br>
+            <h3>Jak tato data získáváme?</h3>
+            Data automaticky každých 5 minut kontrolujeme oproti serverům <a
+                href="https://koronavirus.mzcr.cz/mapa-webu/">ministerstva zdravotnictví</a>. Vydaná opatření se tam s
+            určitým zpožděním (něco mezi 1 hodinou a 7 dny) objevují, konkrétně v sekci "<a
+                href="https://koronavirus.mzcr.cz/category/mimoradna-opatreni/">mimořádná ochranná opatření</a>".
+            Není to nejlepší zdroj a spolehlivost je dosti pochybná, ale je to v tuto chvíli nejjednodušší cesta a
+            řešení je už napsané. Kdybyste věděli o spolehlivějším zdroji inforamcí, neváhejte nám dát vědět.
+            <br>Můžete klidně nahlédnout "pod kapotu" našemu řešení, jelikož jsou zdrojové kódy tohoto projetku veřejné.
+            <a href="https://github.com/tomas-dostal/potrebujurousku">Celý projekt (github)</a>, část která má za úkol
+            <a href="https://github.com/tomas-dostal/potrebujurousku/blob/master/projektrouska/aktualnost/kontrola.py">kontrolu
+                aktualizací</a>.
+
+            <br>
+            <br>
+            <h3>A funguje to vždycky?</h3>
+            Dobrá otázka. Nefunguje. Za dobu provozu webu jsme zaznamenali několik výpadků. Většinou to "přestalo
+            fungovat" z hloupeho důvodu, jako třeba že na <a href="https://koronavirus.mzcr.cz/mapa-webu/">mapě webu
+            mzdr</a> změnili typ odrážkového seznamu, přidali další kategorie a takové věci, které běžný uživatel ani
+            nepozná, ale "natvrdo" napsaný kód je na ně dosti háklivý. To je tak, když si člověk snaží ulehčit práci.
+            Je to smutné, ale nějké API, přes které bychom mohli data jednoduše stahovat <b>prostě není</b>, a tak
+            musíme data z webu scrappovat, což s sebou nese právě tyto problémy. Nyní je již tato část napsaná o něco
+            robustněji a data nebere z relativně často se měnící mapy webu, ale z wordpressem generované sekce <a
+                href="https://koronavirus.mzcr.cz/category/mimoradna-opatreni/">mimořádná ochranná opatření</a>. Toto
+            řešení je už podstatně robustnější. Stále ale nutně nemusí odhalit úplně všechno.
+            <br>
+            <br>
+            <h3>To ty informace zadáváte... ručně?</h3>
+            Ano, bohužel je tomu tak. Kontrola aktualizace nám defacto "jen" předhodí link na PDFko a to je všechno.
+            Veškeré důležité informace musíme vybrat a zadat ručně.
+            Se stylem publikovaných nařízení je to až tak špatné, že mnohdy ani ty PDF, které jsou zveřejnovány jsou
+            publikované ve strojově nečitelné formě (třeba <a
+                href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/09/Rozhodnuti-o-mimoradnem-opatreni-Krajske-hygienicke-stanice-Plzenskeho-kraje-se-sidlem-v-Plzni-k-uzavreni-16-zakladni-a-materske-skoly-Plzen.pdf">tady</a>,
+            <a href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/10/Na%C5%99%C3%ADzen%C3%AD-Krajsk%C3%A9-hygienick%C3%A9-stanice-Plze%C5%88sk%C3%A9ho-kraje-%C4%8D.-7.2020.pdf">tady</a>,
+            <a href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/10/Narizeni-KHS-Libereckeho-kraje-c.-3-2020.pdf">tady</a>
+            a <a
+                href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/10/Na%C5%99%C3%ADzen%C3%AD-Krajsk%C3%A9-hygienick%C3%A9-stanice-Moravskoslezsk%C3%A9ho-kraje-v-Ostrav%C4%9B-%C4%8D.-29.2020.pdf">tady</a>)
+            . Některé KHS prostě stále budou skenovat vytištěné nařízení, jen aby tam byl podpis...
+            <br>To nicméně není až takový problém, pokud při digitalizaci projedou takovýto sken OCR (rozpoznávání
+            textu). Ne vždy to ale dělají. Potom takováto práce připomíná opisování toho, co učitel napsal křídou na
+            tabuli. Nebo to dodatečně můžeme OCR projet my, ale je to jejich práce a věc navíc, co je třeba udělat. A
+            proč je to problém? Protože je nás málo a změny zde fungují tak trochu staromódně - když chtějí udělat
+            změnu, prostě většinou převydají třeba celé 10ti stránkové nařízení.
+            Kdyby si s tím dali tu práci a při digitalizaci zaklikli to jedno tlačítko, tak pak takovéto PDF (přestože
+            naskenované) můžeme dát do diffcheckeru a podívat se na změny oproti předchozí verzi. I tak je to ale možná
+            až zbytečně komplikované.
+            <br>Ještě je na místě se zmínit i o tom, že obsah stejně nakonec bude muset vkládat člověk, protože překlad
+            z právničtiny do češtiny není úplně triviální a zde by to naráželo na limity strojů. Složitě psaný text,
+            jako je nařízení, je prostě mimo jejich možnosti.
+            <br>
+            <br>
+            <h3>Proč načítání této stránky tak dlouho trvá?</h3>
+            Aby byla data jak se patří čerstvá, provádíme kontrolu aktuálnosti při každém požadavku. Není to dobrý
+            nápad, ale se současným zažížením je to stále OK.
 			</div>
 			<br><br>
 			{%block disclaimer %}
