@@ -15,11 +15,20 @@
         <!-- #################    Jeste neni aktivni   #################   -->
         {% if queue.PLATNOST_OD > now %}
             {% if  queue.TYP == "doporuceni"  or  queue.TYP == "info"  or  queue.TYP == "narizeni"  %}
-                <button type="button" class="btn card text-white bg-secondary  btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                <button type="button" class="btn card text-white bg-secondary  btn-secondary dropdown-toggle"
+                        data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
             {% elif queue.TYP == "narizeninouzovy" %}
-                <button type="button" class="btn card text-white bg-dark  btn-dark dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                <button type="button" class="btn card text-white bg-dark  btn-dark dropdown-toggle" data-toggle="modal"
+                        data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
             {% else %}
-                <button type="button" class="btn card text-white bg-secondary   btn-secondary dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                <button type="button" class="btn card text-white bg-secondary   btn-secondary dropdown-toggle"
+                        data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
             {% endif %}
 
                 {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
@@ -29,7 +38,7 @@
                     {% endif %}
                 <br><span class="badge badge-warning"> od {{ queue.PLATNOST_OD}}</span>
 
-            {% if   queue.PLATNOST_DO != None %}
+            {% if   queue.PLATNOST_DO != None and queue.MAM_ZOBRAZOVAT_DO == 1 %}
                 <span class="badge badge-light"> končí {{ queue.PLATNOST_DO}}</span>
             {% endif %}
 
@@ -38,24 +47,41 @@
 
         <!-- #################    JE AKTIVNI   #################   -->
 
+
+
         {% else %}
                 {% if queue.TYP == "narizeni" %}
-                    <button type="button" class="btn btn-danger  card text-white bg-danger   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                    <button type="button" class="btn btn-danger  card text-white bg-danger   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                    <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                    <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
                 {% elif queue.PLATNOST_OD < now  and queue.TYP == "info" %}
-                    <button type="button" class="btn btn-info  card text-white bg-info   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                    <button type="button" class="btn btn-info  card text-white bg-info   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                    <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                    <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
                 {% elif queue.PLATNOST_OD < now  and queue.TYP == "doporuceni" %}
-                    <button type="button" class="btn btn-warning  card text-white bg-warning   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                    <button type="button" class="btn btn-warning  card text-white bg-warning   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                    <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                    <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
                 {% elif queue.TYP == "narizeninouzovy" %}
-                    <button type="button" class="btn btn-dark  card text-white bg-dark   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                    <button type="button" class="btn btn-dark  card text-white bg-dark   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                    <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                    <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
                 {% else %}
-                    <button type="button" class="btn btn-light  card text-white bg-light   dropdown-toggle" data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}"><i class="{{ queue.ICON }} fa-2x"></i><br>
+                    <button type="button" class="btn btn-light  card text-white bg-light   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ queue.ID_POLOZKA }}">{% if queue.IMG_PREVIEW %}
+                    <img class="card-img-top" src="{{ queue.IMG_PREVIEW }}" alt="Náhledový obrázek">{% else %}
+                    <i class="{{ queue.ICON }} fa-2x"></i>{% endif %}<br>
                 {% endif %}
                 {% if  queue.PLATNOST_AUTOOPRAVA == 0 %}
                     <s>{{  queue.NAZEV }}</s>
                  {% else %}
                     {{  queue.NAZEV }}
                 {% endif %}
-                {% if  queue.PLATNOST_DO > queue.PLATNOST_OD %}
+            {% if  queue.PLATNOST_DO > queue.PLATNOST_OD and queue.MAM_ZOBRAZOVAT_DO %}
                     <span class="badge badge-secondary"> končí {{ queue.PLATNOST_DO }}</span>
                 {% endif %}
 
