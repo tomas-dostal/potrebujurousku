@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django import db
 from django.db import connection
 
 from projektrouska.functions import (
@@ -37,8 +38,39 @@ def posledni_databaze():
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
                        union
                        SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni);"""
-        cursor.execute(last_qu)
-        last_update = cursor.fetchone()[0]
+        try:
+
+            cursor.execute(last_qu)
+            last_update = cursor.fetchone()[0]
+        except db.utils.DatabaseError:
+            # something went wrong. Maybe just a db went down, maybe (more likely) we've just reached SCN_TO_TIMESTAMP
+            # conversion limit, which is something like 5 days (https://stackoverflow.com/questions/22681705/how-to-use-timestamp-to-scn-and-scn-to-timestamp-in-oracle)
+            # We were just too lazy and did not inserted anything to the db...
+            # Possible solution: Insert a row to POLOZKA and OPATRENI to bypass that LOL
+            # better solution: Just give there try - catch, or pass
+
+            """
+            insert into OPATRENI(ID_OPATRENI, NAZEV_OPATRENI, PLATNOST_OD, JE_PLATNE, ZDROJ, NAZEV_ZKR, ROZSAH, PLATNOST_DO, ZDROJ_AUTOOPRAVA, IDENTIFIKATOR, PLATNOST_AUTOOPRAVA, NAZEV_AUTOOPRAVA)
+            values (99999, 'Nazev', trunc(sysdate), 1, 'asdf', '', null, null, null, null, 42, null);
+            commit;
+            delete from OPATRENI
+            where ID_OPATRENI=99999 and PLATNOST_AUTOOPRAVA=42;
+            commit;
+            
+            insert into POLOZKA(ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON)
+            values (99999, 'nazev', 'komentar', 1, '42', 100, null, null, null, 'modal-lg', null);
+            commit;
+            delete from POLOZKA
+            where ID_POLOZKA=99999 and TYP='42';
+            commit;
+            """
+
+            last_qu = """select 'před nějakou dobou'  as posledni_uprava from dual"""
+            # other option is
+            # last_qu = """select  trunc(sysdate)  as posledni_uprava from dual"""
+
+            cursor.execute(last_qu)
+            last_update = cursor.fetchone()[0]
         return last_update
 
 
