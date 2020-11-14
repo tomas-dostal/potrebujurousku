@@ -10,12 +10,13 @@ Nainstaluj si závislosti:
 Přejmenuj `secret.py.example` na `secret.py`
 
 ## Připoj databázi
-Projekt aktuálně běží na oracle databázi.  
-Pro používání si musíš zařídit přihlašovací údaje.  
-Doplň přístupové údaje k databázi do `secret.py`  
+
+1) Projekt aktuálně běží na oracle databázi. 
+2) Pro používání si musíš zařídit přihlašovací údaje, alternativně si můžeš obsah databáze stáhnout jako [insertscript](https://github.com/tomas-dostal/potrebujurousku/blob/master/dbexport/) a vytvořit databázi vlastní. Co je v které tabulce a myšlenka za návrhem databáze [zde](https://github.com/tomas-dostal/potrebujurousku/blob/master/dev_FAQ.md)
+3) Doplň přístupové údaje k databázi do `secret.py`  
 
 Pokud nemáš, nainstaluj si oracle client  
-  - Linux - [návod zde](https://help.ubuntu.com/community/Oracle Instant Client)
+  - Linux - [návod zde](https://help.ubuntu.com/community/Oracle%20Instant%20Client)
 
 
 ## Spusť projekt
