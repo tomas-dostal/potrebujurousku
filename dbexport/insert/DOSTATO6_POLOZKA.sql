@@ -1534,7 +1534,39 @@ Myšlenkouvou mapu, která by snad měla zodpovědět případné dotazy nalezne
 	scrolling="auto" style="width:100%; height: 600px;" >
 	<embed src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Vstup-do-%C4%8CR-od-9.11-link_CZ.pdf" type="application/pdf" />
 </object>
-', 12, 'narizeni', 158, null, 'https://www.diffchecker.com/INTOosgR', 'Rozdíl oproti předchozímu opatření ze dne 2.10.2020', 'modal-lg', 'fas fa-plane-arrival', 'https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Pravidla_pro_prijezd_obcanu_CR_a_cizincu_do_CR-platna_od_09-11-2020.jpg');
+', 12, 'narizeni', 158, null, 'https://www.diffchecker.com/INTOosgR', 'Rozdíl oproti předchozímu opatření ze dne 2.10.2020', 'modal-lg', 'fas fa-plane-arrival', 'static/img/Pravidla_pro_prijezd_obcanu_CR_a_cizincu_do_CR-platna_od_09-11-2020.jpg');
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (308, 'Seznam zemí s mírným rizikem nákazy', 'Zde naleznete aktuální seznam zemí, označených jako "Seznam zemí s nízkým rizikem nákazy".
+<img style="width:100%" src="static/img/zeme_16_11/seznam_zemi_mirne_riziko_od_16_11.png">
+
+<p style="color:#cf2e2e"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href="http://www.prijezdovyformular.cz/">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>
+<p style="color:#ff6900"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>
+<p style="color:#006b44"><strong>Zelená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) mohou přijet bez nutnosti vyplnit příjezdový formulář a absolvovat PCR test nebo karanténu.</p>
+
+
+
+
+<li>Australský svaz</li>
+<li>Dánské království*</li>
+<li>Estonská republika*</li>
+<li>Finská republika*</li>
+<li>Islandská republika*</li>
+<li>Japonsko</li>
+<li><s>Korejská republika</s></li>
+<li><s>Kyperská republika*</s></li>
+<li><s>Litevská republika*</s></li>
+<li>Lotyšská republika*</li>
+<li>Spolková republika Německo*</li>
+<li>Norské království*</li>
+<li>Nový Zéland</li>
+<li>Řecká republika*</li>
+<li>Singapurská republika</li>
+<li><s>Švédské království*</s></li>
+<li>Thajské království</li>
+<li>Vatikánský městský stát</li>
+<li><strong>Přidané:</strong> Azorské ostrovy, Portugalská republika* </li>
+	<li><strong>Přidané:</strong> Kanárské ostrovy, Španělské království*</li>
+	<li><strong>Přidané:</strong> Madeira, Portugalská republika*</li>
+</ul>', 12, 'info', 166, null, 'https://www.diffchecker.com/AIY58EVN', 'Rozdíl oproti verzi platné od 9.11', 'modal-lg', 'fas fa-globe-americas', 'static/img/zeme_16_11/seznam_zemi_mirne_riziko_od_16_11_small.png');
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (223, 'Omezení demonstrací', '<p>Omezuje se pr&aacute;vo shromažďovac&iacute; (tzn. demonstrace). Shrom&aacute;žděn&iacute; je možn&eacute; za splněn&iacute; v&scaron;ech těchto podm&iacute;nek:</p>
 <ol>
 <li>Shrom&aacute;žděn&iacute; se může &uacute;častnit maxim&aacute;lně 100 &uacute;častn&iacute;ků</li>
@@ -1919,7 +1951,7 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (228, 'Zakázány vzdělávací akce a prezenční zkoušky', 'Dle usnesení vlády č. 1079 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě', 4, 'narizeninouzovy', 136, null, null, null, 'modal-md', 'fas fa-chalkboard-teacher', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (229, 'Zákaz pití alkoholu na veřejnosti', 'Konzumace alkoholu na veřejně přístupných místech je zakázána. ', 3, 'narizeninouzovy', 136, null, null, null, 'modal-md', 'fas fa-glass-cheers', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (298, 'Seznam zemí s mírným rizikem nákazy', 'Zde naleznete aktuální seznam zemí, označených jako "Seznam zemí s nízkým rizikem nákazy".
-<img style="width:100%" src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png">
+<img style="width:100%" src="static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png">
 
 <p style="color:#cf2e2e"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href="http://www.prijezdovyformular.cz/">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>
 <p style="color:#ff6900"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>
@@ -1946,4 +1978,4 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 <li>Švédské království*</li>
 <li>Thajské království</li>
 <li>Vatikánský městský stát</li>
-</ul>', 12, 'info', 161, null, null, null, 'modal-lg', 'fas fa-globe-americas', 'https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png');
+</ul>', 12, 'info', 161, null, null, null, 'modal-lg', 'fas fa-globe-americas', 'static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png');

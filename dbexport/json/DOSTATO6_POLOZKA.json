@@ -3273,7 +3273,21 @@
     "EXTRA_POPIS": "Rozdíl oproti předchozímu opatření ze dne 2.10.2020",
     "MODAL_SIZE": "modal-lg",
     "ICON": "fas fa-plane-arrival",
-    "IMG_PREVIEW": "https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Pravidla_pro_prijezd_obcanu_CR_a_cizincu_do_CR-platna_od_09-11-2020.jpg"
+    "IMG_PREVIEW": "static/img/Pravidla_pro_prijezd_obcanu_CR_a_cizincu_do_CR-platna_od_09-11-2020.jpg"
+  },
+  {
+    "ID_POLOZKA": 308,
+    "NAZEV": "Seznam zemí s mírným rizikem nákazy",
+    "KOMENTAR": "Zde naleznete aktuální seznam zemí, označených jako \"Seznam zemí s nízkým rizikem nákazy\".\n<img style=\"width:100%\" src=\"static/img/zeme_16_11/seznam_zemi_mirne_riziko_od_16_11.png\">\n\n<p style=\"color:#cf2e2e\"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href=\"http://www.prijezdovyformular.cz/\">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>\n<p style=\"color:#ff6900\"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>\n<p style=\"color:#006b44\"><strong>Zelená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) mohou přijet bez nutnosti vyplnit příjezdový formulář a absolvovat PCR test nebo karanténu.</p>\n\n\n\n\n<li>Australský svaz</li>\n<li>Dánské království*</li>\n<li>Estonská republika*</li>\n<li>Finská republika*</li>\n<li>Islandská republika*</li>\n<li>Japonsko</li>\n<li><s>Korejská republika</s></li>\n<li><s>Kyperská republika*</s></li>\n<li><s>Litevská republika*</s></li>\n<li>Lotyšská republika*</li>\n<li>Spolková republika Německo*</li>\n<li>Norské království*</li>\n<li>Nový Zéland</li>\n<li>Řecká republika*</li>\n<li>Singapurská republika</li>\n<li><s>Švédské království*</s></li>\n<li>Thajské království</li>\n<li>Vatikánský městský stát</li>\n<li><strong>Přidané:</strong> Azorské ostrovy, Portugalská republika* </li>\n\t<li><strong>Přidané:</strong> Kanárské ostrovy, Španělské království*</li>\n\t<li><strong>Přidané:</strong> Madeira, Portugalská republika*</li>\n</ul>",
+    "KATEGORIE_ID_KATEGORIE": 12,
+    "TYP": "info",
+    "OPATRENI_ID_OPATRENI": 166,
+    "VYJIMKA": null,
+    "EXTRA_LINK": "https://www.diffchecker.com/AIY58EVN",
+    "EXTRA_POPIS": "Rozdíl oproti verzi platné od 9.11",
+    "MODAL_SIZE": "modal-lg",
+    "ICON": "fas fa-globe-americas",
+    "IMG_PREVIEW": "static/img/zeme_16_11/seznam_zemi_mirne_riziko_od_16_11_small.png"
   },
   {
     "ID_POLOZKA": 223,
@@ -3810,7 +3824,7 @@
   {
     "ID_POLOZKA": 298,
     "NAZEV": "Seznam zemí s mírným rizikem nákazy",
-    "KOMENTAR": "Zde naleznete aktuální seznam zemí, označených jako \"Seznam zemí s nízkým rizikem nákazy\".\n<img style=\"width:100%\" src=\"https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png\">\n\n<p style=\"color:#cf2e2e\"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href=\"http://www.prijezdovyformular.cz/\">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>\n<p style=\"color:#ff6900\"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>\n<p style=\"color:#006b44\"><strong>Zelená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) mohou přijet bez nutnosti vyplnit příjezdový formulář a absolvovat PCR test nebo karanténu.</p>\n\n\n\n\n<li>Australský svaz</li>\n<li>Dánské království*</li>\n<li>Estonská republika*</li>\n<li>Finská republika*</li>\n<li>Islandská republika*</li>\n<li>Japonsko</li>\n<li>Korejská republika</li>\n<li>Kyperská republika*</li>\n<li>Litevská republika*</li>\n<li>Lotyšská republika*</li>\n<li>Spolková republika Německo*</li>\n<li>Norské království*</li>\n<li>Nový Zéland</li>\n<li>Řecká republika*</li>\n<li>Singapurská republika</li>\n<li>Švédské království*</li>\n<li>Thajské království</li>\n<li>Vatikánský městský stát</li>\n</ul>",
+    "KOMENTAR": "Zde naleznete aktuální seznam zemí, označených jako \"Seznam zemí s nízkým rizikem nákazy\".\n<img style=\"width:100%\" src=\"static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png\">\n\n<p style=\"color:#cf2e2e\"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href=\"http://www.prijezdovyformular.cz/\">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>\n<p style=\"color:#ff6900\"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>\n<p style=\"color:#006b44\"><strong>Zelená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) mohou přijet bez nutnosti vyplnit příjezdový formulář a absolvovat PCR test nebo karanténu.</p>\n\n\n\n\n<li>Australský svaz</li>\n<li>Dánské království*</li>\n<li>Estonská republika*</li>\n<li>Finská republika*</li>\n<li>Islandská republika*</li>\n<li>Japonsko</li>\n<li>Korejská republika</li>\n<li>Kyperská republika*</li>\n<li>Litevská republika*</li>\n<li>Lotyšská republika*</li>\n<li>Spolková republika Německo*</li>\n<li>Norské království*</li>\n<li>Nový Zéland</li>\n<li>Řecká republika*</li>\n<li>Singapurská republika</li>\n<li>Švédské království*</li>\n<li>Thajské království</li>\n<li>Vatikánský městský stát</li>\n</ul>",
     "KATEGORIE_ID_KATEGORIE": 12,
     "TYP": "info",
     "OPATRENI_ID_OPATRENI": 161,
@@ -3819,6 +3833,6 @@
     "EXTRA_POPIS": null,
     "MODAL_SIZE": "modal-lg",
     "ICON": "fas fa-globe-americas",
-    "IMG_PREVIEW": "https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png"
+    "IMG_PREVIEW": "static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png"
   }
 ]
