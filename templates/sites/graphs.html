@@ -1,0 +1,190 @@
+{% load my_filters %}
+{%block header %}
+{% include 'sites/parts/header.html' %}
+{% endblock %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+<!-- Časem to opravím, ať to není takhle na prasáka -->
+<script type="text/javascript">
+   $(document).ready(function () {
+
+   fetch("/api/update_stats?days_old=14")
+       .then(function (response) {
+       //$('#dropdown-menu').fadeOut(50);
+           return response.json();
+
+       })
+       .then(function (myJson) {
+           var obj = JSON.parse(myJson);
+
+           // Specify the JSON data to be displayed
+           var mydata = obj["data"];
+           $('table').bootstrapTable({
+                   data: mydata
+           });
+           $('.loading-wrap').css("display", "none");
+       });
+   });
+
+</script>
+<script>
+   $(document).ready(function () {
+
+   fetch("/api/all_update_stats?days_old=30")
+       .then(function (response) {
+           return response.json();
+       })
+       .then(function (myJson) {
+           var obj = JSON.parse(myJson);
+           // Specify the JSON data to be displayed
+           var mydata = obj["data"];
+
+           var i = 0;
+           var datum = [];
+           var aktualnost = [];
+           var chybi = [];
+           var zmeny_celk = [];
+           var odstranit_pocet = [];
+           while(i < mydata.length) {
+               datum.push(mydata[i]["DATE_UPDATED"].toString().replace("T", " ").replace("-", "."));
+               aktualnost.push(mydata[i]["AKTUALNOST"]);
+               chybi.push(mydata[i]["CHYBI_POCET"]);
+               zmeny_celk.push(mydata[i]["CELK_ZMEN"]);
+               odstranit_pocet.push(mydata[i]["ODSTRANIT_POCET"]);
+               i+= 1;
+           }
+
+           // chart colors
+           var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d', '#FF0000',  '#FF8800'];
+
+           /* large line chart */
+           var chLine = document.getElementById("chLine");
+           var chartData = {
+             labels: datum ,
+             datasets: [
+             {
+               data: aktualnost,
+               label: "Aktuálnost",
+
+               //backgroundColor: colors[3],
+               borderColor: colors[1],
+               borderWidth: 2,
+               pointBackgroundColor: colors[1],
+               fill: false,
+
+             },
+             {
+               data: zmeny_celk,
+               label: "Celkem změn",
+               fill: false,
+
+               //backgroundColor: colors[6],
+               borderColor:  colors[7],
+               borderWidth: 2,
+               pointBackgroundColor: colors[7]
+             },
+             {
+               data: chybi,
+               label: "Chybí",
+               fill: false,
+
+               //backgroundColor: colors[6],
+               borderColor:  colors[6],
+               borderWidth: 2,
+               pointBackgroundColor: colors[6]
+             },
+             ]
+           };
+
+           if (chLine) {
+             new Chart(chLine, {
+             type: 'line',
+             data: chartData,
+             options: {
+               scales: {
+                 yAxes: [{
+                   ticks: {
+                     beginAtZero: true
+                   }
+                 }]
+               },
+               legend: {
+                 display: true
+               }
+             }
+             });
+           }
+       });
+   });
+</script>
+<div class="jumbotron">
+     <div class="container min-vh-100 d-flex flex-column justify-content-center">
+
+            <h1 class="text  text-center ">
+               Aktuálnost
+            </h1>
+            <h6 class="text text-center">
+               Kdy jsme detekovali změny za posledních 14 dní
+            </h6>
+            <!--            select min(DATE_UPDATED) as DATE_UPDATED, CHECKSUM, POZNAMKA, AKTUALNOST, CHYBI_POCET, ZMENA_LINK_POCET, ODSTRANIT_POCET, CELK_ZMEN from info -->
+            <table class="table-striped border-success" id="updatestable">
+               <thead>
+                  <tr>
+                     <th data-field="DATE_UPDATED">
+                        <span class="text-success">
+                        DATE_UPDATED
+                        </span>
+                     </th>
+                     <th data-field="AKTUALNOST">
+                        <span class="text-success">
+                        AKTUALNOST
+                        </span>
+                     </th>
+                     <th data-field="CHYBI_POCET">
+                        <span class="text-success">
+                        CHYBI_POCET
+                        </span>
+                     </th>
+                     <th data-field="ZMENA_LINK_POCET">
+                        <span class="text-success">
+                        ZMENA_LINK_POCET
+                        </span>
+                     </th>
+                     <th data-field="ODSTRANIT_POCET">
+                        <span class="text-success">
+                        ODSTRANIT_POCET
+                        </span>
+                     </th>
+                     <th data-field="CELK_ZMEN">
+                        <span class="text-success">
+                        CELK_ZMEN
+                        </span>
+                     </th>
+                  </tr>
+               </thead>
+            </table>
+            <div class="row my-3">
+               <div class="col">
+                  <h4>Graf aktuálnosti v čase</h4>
+                   <p>Za posledních 30 dní</p>
+               </div>
+            </div>
+            <div class="row my-2">
+               <div class="col-md-12">
+                  <div class="card shadow-sm">
+                     <div class="card-body">
+                        <canvas id="chLine" height="100"></canvas>
+                     </div>
+                  </div>
+               </div>
+         </div>
+         <br>
+      </div>
+   </div>
+{% endblock %}
+{%block foot %}
+{% include 'sites/parts/footer.html' %}
+{% endblock %}

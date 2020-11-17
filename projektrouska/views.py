@@ -511,3 +511,16 @@ def kontrola_zadaneho(request):
                 "args": args,
             },
         )
+
+def graphs(request):
+    return render(
+        request,
+        "sites/graphs.html",
+        {
+            "posledni_databaze": posledni_databaze(),
+            "now": datetime.now(),
+            "kontrola": posledni_kontrola(),
+            "zastarala_data": zastarala_data(),
+        },
+    )
+
