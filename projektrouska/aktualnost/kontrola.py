@@ -14,6 +14,9 @@ logger = Logger()
 class Update_check():
 
     def __init__(self):
+        self.clear()
+
+    def clear(self):
         self.db_localcopy = None
 
         # define some variables
@@ -25,14 +28,15 @@ class Update_check():
         self.all = []
         self.up_to_date = []
         self.to_be_added = []
-        self.to_be_removed = []  # todo, not checked
+        self.to_be_removed = []
         self.to_be_changed_link = []
         self.to_be_modified = []
 
         self.to_be_reviewed = []  # todo: not implemented in the rest of app
 
     def run(self):
-
+        # set default values to variables
+        self.clear()
         # first we need to fetch and scrapp all links of all posts from self.cathegories_url
         self.scrap_content_from_links()
 
@@ -53,6 +57,10 @@ class Update_check():
 
         self.remove_redundant_from_db(self.to_be_removed)
 
+    def add_to_list(self, list, dict_to_add):
+        if dict_to_add not in list:
+            return list.append(dict_to_add)
+        else: return list
     # this one should be private
     def scrap_posts_links(self, cathegory_url):
         """
@@ -76,8 +84,9 @@ class Update_check():
 
             for a in article:
                 link_to_detail = a.find(attrs={"class": "moreLink"})
-                self.links_to_posts.append(link_to_detail.find("a")["href"])
 
+                if link_to_detail.find("a")["href"] not in self.links_to_posts:
+                    self.links_to_posts.append(link_to_detail.find("a")["href"])
                 next_page = soupData.find("a", attrs={"class": "next page-numbers"})
 
                 if next_page is not None:
@@ -133,12 +142,13 @@ class Update_check():
                         text = line.find("a").text
                         link = line.find("a")["href"]
                         logger.log("Text: {}, link {}".format(text, link))
-                        self.scrapping_results.append(
+                        dict = \
                             {
                                 "name": text.replace("\xa0", " "),
                                 "link": link.replace("\xa0", " "),
                             }
-                        )
+                        if dict not in self.scrapping_results:
+                            self.scrapping_results.append(dict)
 
                 except Exception:
                     logger.error(
@@ -163,6 +173,14 @@ class Update_check():
 
                     except Exception:
                         logger.error("Scrapper: Unable to find text and/or link")
+
+        # now remove duplicates. Not very fast, but works
+        tmp = []
+        for item in self.links_to_posts:
+            if item not in tmp:
+                tmp.append(item)
+        self.links_to_posts = tmp
+
         return
 
     def check_if_can_be_removed(self):
