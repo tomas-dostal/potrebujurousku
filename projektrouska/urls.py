@@ -20,15 +20,16 @@ import requests
 
 from django.conf.urls.static import static
 
-# from django.contrib import admin
-
 from projektrouska.api.search import find_place_by_name
 from projektrouska.api.update_stats import get_update_stats
 from projektrouska.api.update_stats import get_all_update_stats
 from projektrouska.settings import BETA, DEV
 
-# from projektrouska.aktualnost import kontrola
-# from django.db import connection
+# Please forgive me. I did not wanted to do it this way...
+# import time
+from timeloop import Timeloop
+from datetime import timedelta
+
 
 from projektrouska.views import kontrola_zadaneho, graphs
 
@@ -62,13 +63,8 @@ handler500 = custom_error_view
 handler403 = custom_permission_denied_view
 handler400 = custom_bad_request_view
 
-# Please forgive me. I did not wanted to do it this way...
-# import time
-from timeloop import Timeloop
-from datetime import timedelta
 
 tl = Timeloop()
-
 
 @tl.job(interval=timedelta(seconds=300))
 def sample_job_every_300s():
