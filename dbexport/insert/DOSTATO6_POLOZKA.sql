@@ -985,7 +985,6 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
    <li>ti, co se obávají o zdraví osob se kterými bydli; studenti v karanténě taky pryč z kolejí nemusí </li>
 </ul>
 ', 'https://www.zakonyprolidi.cz/cs/2000-240', 'Krizový zákon (č. 240/2000 Sb.)', 'modal-md', 'fas fa-bed', null);
-INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (206, '-', '-', 4, 'narizeninouzovy', 0, null, null, null, 'modal-md', 'far fa-times-circle', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (207, 'Pracovní povinnost pro studenty lékařství', 'Aby fungovaly zdravotní služby a orgány ochrany veřejného zdraví, ukládá vláda pracovní povinnost studentům:
 <ul>
    <li>4. a 5. ročníku prezenční formy programu "všeobecné lékařství" (na lékařských fakultách veřejných VŠ)</li>
@@ -1518,7 +1517,8 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 Zajímá vás hlavně "seznam zemí s mírným rizikem nákazy". 
 
 Orientační mapku umisťujeme i zde, kompletní výčet zemí pak najedete v oddělené kartě. 
-<img style="width:100%" src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_-2048x1425.png">
+<h4>Mapa od 4.11.2020</h4><img style="width:100%" src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-09112020_-2048x1425.png">
+<hr><h4>Mapa od 16.11.2020 </h4><img style="width:100%" src="static/img/zeme_16_11/seznam_zemi_mirne_riziko_od_16_11.png">
 
 <br><br>
 <p style="color:#cf2e2e"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href="http://www.prijezdovyformular.cz/">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu.</p>
@@ -1950,6 +1950,136 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (227, 'Hudební a taneční kluby, diskotéky uzavřeny', 'Zakazuje se přítomnost veřejnosti v hudebních, tanečních, herních a podobných společenských klubech a na diskotékách.', 13, 'narizeninouzovy', 136, null, null, null, 'modal-md', 'fas fa-music', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (228, 'Zakázány vzdělávací akce a prezenční zkoušky', 'Dle usnesení vlády č. 1079 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě', 4, 'narizeninouzovy', 136, null, null, null, 'modal-md', 'fas fa-chalkboard-teacher', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (229, 'Zákaz pití alkoholu na veřejnosti', 'Konzumace alkoholu na veřejně přístupných místech je zakázána. ', 3, 'narizeninouzovy', 136, null, null, null, 'modal-md', 'fas fa-glass-cheers', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (309, 'Roušky všude na veřejnosti', 'Zakazuje se pohyb a pobyt bez ochranných prostředků dýchacích cest (úst i nosu!) proti šíření kapének (rouška, respirátor, šátek,...) ve všech prostorech mimo bydliště nebo místo ubytování (např. hotelový pokoj), s výjimkami viz níže.', 3, 'narizeni', 167, 'Roušku venku mít nemusíte, pokud se nacházíte na veřejnosti nepřístupném místě nebo pokud jste si jisti, že mezi vámi a ostatními osobami zůstane zachován 2 metrový odstup.<br>
+<br>
+Roušku tedy nemusíte mít třeba na pozemku vaší chaty nebo na procházce v lese (pokud vás na cestě nemíjejí další osoby).<br>
+<br>
+Tento zákaz samozřejmě toleruje kontakt členů jedné domácnosti.<br>
+<br>
+Tento zákaz neplatí pro:
+<ul>
+   <li>děti do 2 let (včetně)</li>
+   <li>děti a pracovníky či pečující osoby v MŠ nebo dětské skupině</li>
+   <li><s>ubytované a zaměstnance v internátech a domovech mládeže</s></li>
+   <li>zaměstnance a děti v zařízeních pro děti vyžadující okamžitou pomoc</li>
+   <li>osoby s poruchou intelektu a dalšími poruchami, jejichž stav dodržování neumožňuje</li>
+   <li>hospitalizoavné pacienty v zařízeních lůžkové péče a po nezbytně nutnou dobu i pro zdravotnické pracovníky při poskytování zdravotních služeb</li>
+   <li>uživatele sociálních služeb (tj. stacionáře, domovy pro seniory nebo zdravotně postižené, domovy se zvláštním režimem a zařízení poskytující odlehčovací soc. služby v pobytové formě)</li>
+   <li>další případy hodné zřetele podle poskytovatele zdrav. či soc. služeb nebo podle lékaře</li>
+   <li>zaměstnance, když vykonávají práci na jednom místě, ale s 2metrovými rozestupy</li>
+   <li>osoby, které vykonávají práci ve třetí nebo čtvrté kategorii pro rizikové podmínky</li>
+   <li>většinu účastníků soudního řízení</li>
+   <li>přednášející, účinkující, umělce vykonávající dílo, moderátory a redaktory</li>
+   <li>snoubence a osoby činící prohlášení o vstupu do registrovaného partnerství a osoby přítomné tomuto obřadu, resp. prohlášení</li>
+   <li>osoby, které se fotí, ale jen po nezbytně nutnou dobu</li>
+   <li>sportovce nebo cvičíčí osoby během tréninku, cvičení, zápasu, soutěže apod.</li>
+   <li>osoby v prostorech vnitřních lázeňských a léčebných bazénů a  bazénů a saun</li>
+   <li>několik dalších výjimek ve školách a restauracích, které nejsou nyní příliš relevantní, viz odkaz níže</li>
+   <li>ubytované děti, žáky nebo studenty při pobytu v pokoji (tj. mimo společné prostory) </li>
+
+
+</ul>', null, null, 'modal-lg', 'fas fa-head-side-mask', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (273, 'Testování při příjezdu ze zahraničí', '
+<p>Nařízení upřesňuje pravidla pro příjezd ze zahraničí, cizince, víza, žádosti o pobyt atd.</p>
+
+<p>Toto nařízení je poměrně obsáhlé. <strong>Soustředíme se pouze na případ, že se vracíte ze zahraničí (EU)</strong>. Pokud jedete z/do zemí <strong>mimo EU</strong>, mrkněte <a href="https://www.mzv.cz/jnp/cz/udalosti_a_media/tiskove_zpravy/x2020_04_25_rozcestnik_informaci_k_cestovani.html">sem</a></p>
+Zajímá vás hlavně "seznam zemí s mírným rizikem nákazy". 
+
+Orientační mapku umisťujeme i zde, kompletní výčet zemí pak najedete v oddělené kartě. 
+<hr><h4>Mapa od 16.11.2020 </h4><img style="width:100%" src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-16112020.png">
+
+
+<br>
+<p style="color:#cf2e2e"><strong>Červená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) musí před vstupem do ČR vyplnit <a href="http://www.prijezdovyformular.cz/">příjezdový formulář</a></b> a absolvovat PCR test nebo karanténu. Pochopitelně než dojdou výsledky, tak pokud možno nikam nechoďte a noste roušky. </p>
+<p style="color:#ff6900"><strong>Oranžová</strong> – cestující z těchto zemí mohou přijet bez nutnosti vyplnit příjezdový formulář. Negativní PCR test budou muset před vstupem na pracoviště nebo do vzdělávací instituce v ČR předložit cizinci, které do ČR přijíždějí za prací či studiem. Vztahuje se pouze na cizince.</p>
+<p style="color:#006b44"><strong>Zelená</strong> – cestující z těchto zemí (jak cizinci, tak čeští občané) mohou přijet bez nutnosti vyplnit příjezdový formulář a absolvovat PCR test nebo karanténu.</p>
+
+Myšlenkouvou mapu, která by snad měla zodpovědět případné dotazy naleznete níže: 
+<img style="width:100%" src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Pravidla_pro_prijezd_obcanu_CR_a_cizincu_do_CR-platna_od_09-11-2020.jpg">
+<a  target="_blank" href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Vstup-do-%C4%8CR-od-9.11-link_CZ.pdf">Příliš malé? Klikněte sem!</a>
+
+<br>
+<object data="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Vstup-do-%C4%8CR-od-9.11-link_CZ.pdf" type="application/pdf" frameborder="0" 
+	scrolling="auto" style="width:100%; height: 600px;" >
+	<embed src="https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Vstup-do-%C4%8CR-od-9.11-link_CZ.pdf" type="application/pdf" />
+</object>
+
+<p>Pokud přijedete na území ČR a máte příznaky (zvýšená teplota, kašel, dušnost, zařívací potíže, slabost) -> zavolejte svému všeobecnému lékaři</p>
+
+', 12, 'narizeni', 168, null, 'https://covid.gov.cz/opatreni/zahranici/navrat-ze-zahranici-z-mista-s-vyssim-rizikem-nakazy', 'COVID portál - návrat ze zahraničí', 'modal-lg', 'fas fa-plane-arrival', 'https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Seznam-zemi-podle-miry-rizika-nakazy-16112020.png');
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (310, 'Roušky ve veřejné dopravě', 'Zakazuje se pohyb a pobyt bez ochranných prostředků dýchacích cest (úst i nosu!) proti šíření kapének (rouška, respirátor, šátek,...) v prostředcích veřejné dopravy, s výjimkami viz níže.', 2, 'narizeni', 167, 'Tento zákaz neplatí pro:
+<ul>
+   <li>řidiče veřejné dopravy, když nejsou v kontaktu s cestujícími</li>
+   <li>osoby po dobu nezbytně nutnou ke konzumaci potravin a porkmů včetně nápojů</li>
+   <li>děti do 2 let</li>
+   <li>děti a pečující osoby v dětské skupině</li>
+   <li>osoby s poruchou intelektu a dalšími poruchami, jejichž stav dodržování neumožňuje</li>
+   <li>další případy hodné zřetele podle poskytovatele zdrav. či soc. služeb nebo podle lékaře</li>
+   <li>osoby, které se fotí, ale jen po nezbytně nutnou dobu</li>
+   <li>několik dalších výjimek, které ale ve veřejné dopravě nedávají příliš smysl (soudní jednání, svatby atd.), viz odkaz níže</li>
+</ul>', null, null, 'modal-md', 'fas fa-head-side-mask', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (311, 'Roušky na nástupištích a v čekárnách', 'Zakazuje se pohyb a pobyt bez ochranných prostředků dýchacích cest (úst i nosu!) proti šíření kapének (rouška, respirátor, šátek,...) na nástupišti, v přístřešku a čekárně veřejné dopravy, s výjimkami viz níže.', 2, 'narizeni', 167, 'Tento zákaz neplatí pro:
+<ul>
+   <li>řidiče veřejné dopravy, když nejsou v kontaktu s cestujícími (při jejich odbavení)</li>
+   <li>osoby po dobu nezbytně nutnou ke konzumaci potravin a porkmů včetně nápojů</li>
+   <li>děti do 2 let</li>
+   <li>děti a pečující osoby v dětské skupině</li>
+   <li>osoby s poruchou intelektu a dalšími poruchami, jejichž stav dodržování neumožňuje</li>
+   <li>další případy hodné zřetele podle poskytovatele zdrav. či soc. služeb nebo podle lékaře</li>
+   <li>osoby, které se fotí, ale jen po nezbytně nutnou dobu</li>
+   <li>několik dalších výjimek, které ale na nástupištích a v čekárnách nedávají příliš smysl (soudní jednání, svatby atd.), viz odkaz níže</li>
+</ul>', null, null, 'modal-md', 'fas fa-head-side-mask', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (312, 'Roušky i v motorových vozidlech', 'Zakazuje se pohyb a pobyt bez ochranných prostředků dýchacích cest (úst i nosu!) proti šíření kapének (rouška, respirátor, šátek,...) v motorových vozidlech (třeba auto), s výjimkami viz níže.', 2, 'narizeni', 167, 'Tento zákaz neplatí pro:
+<ul>
+   <li>děti do 2 let</li>
+   <li>členy domácnosti (když v autě nejede nikdo jiný, než osoby z jedné domácnosti)</li>
+   <li>osoby s poruchou intelektu a dalšími poruchami, jejichž stav dodržování neumožňuje</li>
+   <li>další případy hodné zřetele podle poskytovatele zdrav. či soc. služeb nebo podle lékaře</li>
+   <li>osoby, které se fotí, ale jen po nezbytně nutnou dobu</li>
+   <li>několik dalších výjimek, které ale ve veřejné dopravě nedávají příliš smysl (soudní jednání, svatby atd.), viz odkaz níže</li>
+</ul>', null, null, 'modal-md', 'fas fa-head-side-mask', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (299, 'Zákaz vycházení v noci (21:00-05:00)', 'Zakazuje se volný pohyb osob večer a v noci (mezi 21:00 a 05:00). Výjimek je mnohem méně než přes den...', 15, 'narizeninouzovy', 170, 'Večer a v noci je povoleno vycházet pouze v těchto důvodech:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>venčení psů, ale jen do 500 metrů od bydliště</li>
+<li>další činnosti a cesty, které slouží k zajištění:
+<ul>
+<li>ochrany života, zdraví nebo majetku</li>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní nebo sociální péče</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+</ul>
+</li>
+</ul>', 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-md', 'fas fa-moon', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (300, 'Zákaz zbytečného pohybu přes den (05:00-21:00)', 'Zakazuje se zbytečný volný pohyb osob přes den (mezi 05:00 a 21:00). To znamená, že je zakázáno všechno kromě následujících výjimek...', 15, 'narizeninouzovy', 170, 'Přes den jsou povoleny pouze:
+
+<ul>
+<li>cesty do zaměstnání, výkon povolání nebo podnikání, povinnosti veřejných a ústavních činitelů</li>
+<li>cesty za účelem vzdělávání, včetně praxí a na zkoušky <strong>(nové)</strong></li>
+<li>nezbytné cesty za rodinou a blízkými osobami</li>
+<li>pobyt v přírodě, parcích, sportování na venkovních sportovištích a pobyt ve vlastních rekreačních objektech (např. chata) a cesta na tato místa</li>
+<li>obstarání základních životních potřeb (např. nákup potravin, léků či drogerie) pro sebe i pro jiné (tj. včetně dobrovolnictví, sousedské výpomoci apod.)</li>
+<li>nezbytné cesty k zajištění péče o děti a zvířata, zajištění finančních a poštovních služeb, doplnění pohonných hmot a odkládání odpadu</li>
+<li>cesty k lékaři, k veterináři, nebo do zařízení sociálních služeb (tj. např. domov pro seniory, pro osoby s postižením apod.), včetně nezbytného doprovodu</li>
+<li>cesty k vyřízení neodkladných úředních záležitostí, včetně nezbytného doprovodu</li>
+<li>účast na svatbě a pohřbu, <strong>bohoslužbě</strong> v maximálním počtu <strong>15</strong> lidí</li>
+<li>návštěvy hřbitova</li>
+<li>další činnosti, které slouží k zajištění:
+<ul>
+<li>bezpečnosti, vnitřního pořádku a řešení krizové situace</li>
+<li>zdravotní, sociální či veterinární péče nebo služeb pro obyvatele (včetně dobrovolnictví)</li>
+<li>individuální duchovní péče a služby</li>
+<li>veřejné hromadné dopravy a další infrastruktury</li>
+<li>služeb pro obyvatele (zásobování a rozvážka)</li>
+</ul>
+</li>
+<li>cesty za účelem vycestování z ČR</li>
+<li>cesty zpět do místa svého bydliště</li>
+<li>cesty za účelem voleb do orgánů zdravotních pojišťoven</li> 
+
+</ul>', 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-lg', 'fas fa-house-user', null);
 INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (298, 'Seznam zemí s mírným rizikem nákazy', 'Zde naleznete aktuální seznam zemí, označených jako "Seznam zemí s nízkým rizikem nákazy".
 <img style="width:100%" src="static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png">
 
@@ -1979,3 +2109,164 @@ INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORI
 <li>Thajské království</li>
 <li>Vatikánský městský stát</li>
 </ul>', 12, 'info', 161, null, null, null, 'modal-lg', 'fas fa-globe-americas', 'static/img/Seznam-zemi-podle-miry-rizika-nakazy-09112020_.png');
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (301, 'Omezení kontaktů a pobytu na veřejnosti', 'Nařizuje se omezit kontakt s jinými osobami na nezbytně nutnou míru. Pohyb na veřejně přístupných místech se proto omezuje na dobu nezbytně nutnou a nařizuje se pobývat v místě bydliště. Pobývat na veřejnosti se smí maximálně v počtu 2 osob (s výjimkami viz níže) a při pohybu se zachovává odstup od ostatních na alespoň 2 metry, pokud je to možné.', 15, 'narizeninouzovy', 170, 'Výjimku z maximálního počtu 2 osob mají:
+<ul>
+<li>členové domácnosti</li>
+<li>zaměstnanci pracující pro stejného zaměstnavatele</li>
+<li>osoby vykonávající podnikatelskou činnost</li>
+<li>osoby, které mají podle zákona povinnost vykonávat určitou činnost</li>
+<li>děti, žáci a studenti ve školách</li>
+</ul>', 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-md', 'fas fa-people-arrows', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (302, 'Nařízený home office', 'Nařizuje se zaměstnavatelům využívat práci na dálku, pokud ji zaměstnanci mohou vykonávat z domova (vzhledem k charakteru práce a provozním podmínkám).', 7, 'narizeninouzovy', 170, null, 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-md', 'fas fa-laptop-house', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (305, 'Doporučení pro nakupující', 'Při nákupu se doporučuje zachovávat odstupy nejméně 2 metry a upřednosťnovat bezhotovostní platby.', 8, 'doporuceni', 170, null, 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-md', 'fas fa-shopping-cart', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (313, 'Distanční výuka na školách (s výjimkami)', 'Zakazuje se osobní přítomnost studentů na výuce na vysokých školách (a účastníků na kurzech celoživotního vzdělávání), konzervatořích, vyšších odborných, středních, základních, uměleckých i jazykových školách. Na jazykových školách je zakázána také účast na státní jazykové zkoušce. Dále se zakazuje osobní přítomnost dětí a studentů na "zájmovém vzdělávání" ve volnočasových střediscích, školních klubech a družinách. Na všech školách kromě mateřských se také zakazuje zpěv a sportovní činnosti jako součást vzdělávání.', 4, 'narizeninouzovy', 171, '<ul>
+   <li>VŠ: Jsou povoleny zkoušky, kterých se účastní najednou max. 10 osob. Je povolena klinická a praktická výuka zdravotnických programů (všeobecné nebo zubní lékařství, farmacie,...) a pedagogická praktická výuka v MŠ, ZŠ a SŠ.</li>
+   <li>SŠ, VOŠ a konzervatoře: Zákaz neplatí pro praktickou výuku zdravotnických oborů (ve zdravotnických nebo sociálních zařízeních) a školy zřízené Ministerstvem spravedlnosti nebo při zařízeních pro výkon ústavní či ochranné výchovy. Možné individuální konzultace (1 žák + 1 učitel)</li>
+   <li>ZŠ: <ul><li>Zákaz neplatí pro školy zřízené při zdravotnickém zařízení a školy a třídy pro žáky s postižením nebo vývojovými poruchami (podle § 16 odst. 9 školského zákona, viz odkaz níže).</li><li>	d) žáků v oboru vzdělání Praktická škola jednoletá a Praktická škola dvouletá, přičemž 
+prezenční výuka musí probíhat v neměnné třídě, 
+e) individuální  konzultace  (pouze  jeden  žák  nebo  student  a  jeden  pedagogický 
+pracovník)</li></ul></li>
+</ul>', 'https://www.diffchecker.com/8QFLRMKP', 'Rozdíl oproti předchozí verzi od 2.11', 'modal-md', 'fas fa-laptop-house', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (318, 'Prvnáčci a druháčci mohou do školy', 'Tímto nařízením je povolena přítomnost dětí v: 
+
+<ul>
+<li>žáků 1. a 2. ročníků základní školy</li>
+<li>základní školy při zdravotnickém zařízení</li>
+<li>dětí v přípravné třídě</li>
+<li>žáků prvního stupně základní školy, pokud jsou zařazeni do třídy společně se žáky 1. nebo 2. ročníku základní školy</li>
+<li>dětí v přípravném stupni základní školy speciální</li>
+<li>škol zřízených při zařízeních pro výkon ústavní výchovy nebo ochranné výchovy,</li>
+<li>základních škol nebo tříd zřízených podle § 16 odst. 9 školského zákona,</li>
+<li>individuální konzultace (pouze jedno dítě nebo žák, jeden pedagogický pracovník a příp. zákonný zástupce). </li>
+<li>a) Školní družiny a kluby povoleny pouze pro děti, které chodí do školy (právě pro prvňáky a druháky) </li>
+</ul>
+Prezenční výuka musí probíhat v neměnných třídách dětí nebo žáků.
+
+', 4, 'narizeninouzovy', 171, null, 'https://www.diffchecker.com/8QFLRMKP', 'Rozdíl oproti předchozí verzi od 2.11', 'modal-md', 'fas fa-laptop-house', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (303, 'Omezení demonstrací', '<p>Omezuje se pr&aacute;vo shromažďovac&iacute; (např. demonstrace). Shrom&aacute;žděn&iacute; je možn&eacute; jedině za splněn&iacute; v&scaron;ech těchto podm&iacute;nek:</p>
+<ol>
+<li>Shrom&aacute;žděn&iacute; se může &uacute;častnit maxim&aacute;lně 100 lidí</li>
+<li>&Uacute;častn&iacute;ci přitom mus&iacute; b&yacute;t rozdělen&iacute; do skupin po maxim&aacute;lně 20 lidech</li>
+<li>Mus&iacute; b&yacute;t dodrženy rozestupy mezi skupinami na alespoň 2 metry</li>
+<li>V&scaron;ichni &uacute;častn&iacute;ci mus&iacute; m&iacute;t ochrann&yacute; prostředek d&yacute;chac&iacute;ch cest (úst i nosu!)</li>
+</ol>', 3, 'narizeninouzovy', 170, null, 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-md', 'fas fa-users-slash', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (304, 'Doporučení pro zaměstnavatele', 'Zaměstnavatelům se doporučuje:
+<ul>
+<li>podporovat nyní dovolené, placená volna pro zaměstnance atd.</li>
+<li>omezit výkon méně významných prací</li>
+<li>omezit kontakt se zákazníky</li>
+<li>upřednostňovat bezhotovostní platby</li>
+</ul>', 7, 'doporuceni', 170, null, 'https://www.diffchecker.com/82kCYIGh', 'Změny krizového opatření k omezení volného pohybu s účinností od 18. listopadu 2020', 'modal-lg', 'far fa-credit-card', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (330, 'Některé obchody a služby uzavřeny (výjimky po kliknutí) ', '<p>Je zakázán maloobchodní prodej, prodej a poskytování služeb v provozovnách s výjimkami (viz níže). 
+Nově musí na jednoho zákazníka připadat 15m2 prostoru.
+</p>
+<i>Pozn. editora: Neznamená to, že si nenakopíte už ani rohlíky a že vám zavřou i trafiku. 
+"Jenom" došlo k omezení na nezbytně nutné provozovny a ať se nám to líbí, či ne, je třeba to repsekovat. 
+<br><p>Dodržujte rozestupy min. 2 metry a používejte dezinfekci. Společně to zvládneme!</i></p>
+', 8, 'narizeninouzovy', 172, 'Otevřené mohou zůstat prodejny:
+<ul>
+<li>potravin</li>
+<li>drogerie, kosmetiky a hygienického zboží</li>
+<li>novin, časopisů a tabákových výrobků</li>
+<li>pietních věnců, svíček, květin atd. (včetně pojízdných prodejen)</li>
+<li>pohonných hmot a paliv</li>
+<li>jízdenek</li>
+<li>malých domácích zvířat a krmiva nebo potřeb pro zvířata</li>
+<li>brýlí, kontaktních čoček atd.</li>
+<li>domácích potřeb a železářství (kromě nábytků. koberců a dalších podlahových krytin)</li>
+<li>textilního materiálu a galanterie</li>
+<li>květin a zahrádkářských potřeb (včetně osiva a sadby)</li>
+<li>náhradních dílů k dopravním prostředkům a výrobním technologiím</li>
+</ul>
+
+Dále také nemusí zavřít tyto služby a provozovny:
+<ul>
+<li>lékárny a výdejny a prodejny zdravotnických prostředků</li>
+<li>prádelny a čistírny</li>
+<li>zámečnictví</li>
+<li>květinářství</li>
+<li>servis a instalace elektroniky, techniky a zařízení pro domácnost</li>
+<li>provozovny umožňující vyzvednutí zboží a zásilky zakoupených distančním způsobem (třeba pobočky zásilkovny, nebo vyzvednutí zboží z eshopu na prodejně)</li>
+<li>automyčky</li>
+<li>servis a opravy vozidel, odtahové služby</li>
+<li>sběr a výkup surovin, kompostárny</li>
+<li>účetní poradci, vedení účetnictví a daňové evidence</li>
+<li>pohřební služby (a balzamace, konzervace, zpopelňování a ukládání ostatků do uren)</li>
+<li>zpracování kamene, výroba pomníků a náhrobních kamenů</li>
+<li>sjednávání provádění a odstraňování staveb, projektová činnost ve výstavbě, geologické práce, zeměměřičství, testování, měření a analýza ve stavebnictví</li>
+<li>Provozovny zabývající se zpracováním kamene (pomínky, náhrobní kameny)</li><strong>(nové)</strong><li>Provozoven prodávajícíh pietní zboží (věnce, hřbitovní svíčky) včetně mobilních. Tyto prodejny mohou být otevřené i v neděli <strong>(nové)</strong></li></ul>
+
+Tento zákaz se nevztahuje na činnosti, které nejsou živností, a dále na vedlejší prodej potravin, pokud je část s potravinami oddělena od ostatních částí provozovny.', null, null, 'modal-lg', 'fas fa-shopping-basket', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (331, 'Restaurace a veřejné jídelny uzavřeny', 'Zakazuje se přítomnost veřejnosti v provozovnách stravovacích služeb (např. restaurace,
+hospody a bary). Zavřené jsou i provozovny stravovacích služeb uvnitř nákupních center s prodejní plochou nad 5000 m2.
+', 5, 'narizeninouzovy', 172, '<ul>
+
+	<li>provozovny, které neslouží pro veřejnost (max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>provozovny v ubytovacích zařízeních se stravováním pouze pro ubytované (pouze 05:00 - 21:00 hod., max. 4 lidi u stolu, jinak rozestupy alespoň 1.5 m)</li>
+	<li>prodej mimo provozovnu, tedy např. přes okénko (pouze <strong>05:00 - 21:00</strong>, odstupy 2 m)</li>
+	<li>Školní jídelny pro děti a pedagogy, kteří chodí do školy</li>
+
+</ul>', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-utensils', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (332, 'Kulturní a vzdělávací akce, návštěvy a prohlídky zakázány', 'Zakazuje se:
+<ul>
+	<li>koncerty a jiná hudební, divadelní, filmová a jiná umělecká představení včetně cirkusů a varieté,</li>
+	<li>společný zpěv více než 5 osob ve vnitřních prostorech staveb, s výjimkou bydliště,
+	a to i když se jedná o výkon práce nebo podnikatelské činnosti, s výjimkou
+	mateřských škol</li>
+	<li>poutě a podobné tradiční akce,</li>
+	<li>kongresy a jiné vzdělávací akce, veletrhy,</li>
+	<li>provoz heren a kasin, <u>sázkových kanceláří</u></li>
+	<li>návštěvy a prohlídky ZOO a botanických zahrad,</li>
+	<li>návštěvy a prohlídky muzeí, galerií, výstavních prostor, hradů, zámků a obdobných
+	historických nebo kulturních objektů, hvězdáren a planetárií.</li>
+</ul>
+
+Nově: Knížky v knihovnách se smí vracet pouze bezkontaktně', 13, 'narizeninouzovy', 172, null, 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-chess-rook', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (333, 'Sportoviště, taneční studia a koupaliště uzavřeny', 'Zakazuje se provoz a používání sportovišť ve vnitřních prostorech staveb a vnitřních prostor venkovních sportovišť, posiloven, fitness center, tanečních studií, umělých koupališť a wellness zařízení.', 14, 'narizeninouzovy', 172, '<ul>
+	<li>poskytování zdravotních služeb poskytovatelem zdravotních služeb</li>
+	<li>tělocvik na prvním stupni základního vzdělávání v základních školách a v mateřských školách</li>
+	<li>sportovní přípravy, kterou provádí osoby v rámci výkonu zaměstnání,
+výkonu podnikatelské nebo jiné obdobné činnosti jako přípravu pro sportovní akce
+konané v rámci soutěží organizovaných sportovními svazy, a sportovních akcí, které
+nejsou v souladu s bodem VI usnesení vlády ze dne 30. října 2020 č. 1113, vyhlášeného
+pod č. 444/2020 Sb., zakázány<strong>(nově)</strong>§</li>
+</ul>', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-basketball-ball', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (334, 'Hudební a taneční kluby, diskotéky uzavřeny', 'Zakazuje se přítomnost veřejnosti v hudebních, tanečních, herních a podobných společenských klubech a na diskotékách.', 13, 'narizeninouzovy', 172, null, 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-music', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (335, 'Zakázány vzdělávací akce a prezenční zkoušky (vyjímky pro zdravotníky - po kliknutí)', 'Dle usnesení vlády č. 1116 jsou zakázány kongresy, vzdělávací akce a zkoušky v prezenční formě', 4, 'narizeninouzovy', 172, '<ul><li>TLDR; Medici mohou skládat závěrečné zkoušky a účastnit se praktické výuky. <br><strong>Detailně</strong>: praktická výuka, 
+praxe a zkouška podle zákona č. 95/2004 Sb., o podmínkách získávání a uznávání 
+odborné způsobilosti a specializované způsobilosti k výkonu zdravotnického povolání 
+lékaře, zubního lékaře a farmaceuta, ve znění pozdějších předpisů, a podle zákona 	č. 96/2004   Sb., o  podmínkách  získávání  a  uznávání  způsobilosti  k  výkonu 
+nelékařských   zdravotnických   povolání   a   k   výkonu   činností   souvisejících 
+s poskytováním  zdravotní  péče  a  o  změně  některých  souvisejících  zákonů  (zákon 
+o nelékařských zdravotnických povoláních), ve znění pozdějších předpisů, kterých se 
+smí účastnit nejvýše 10 osob <li> </ul>', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-chalkboard-teacher', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (336, 'Zákaz pití alkoholu na veřejnosti', 'Konzumace alkoholu na veřejně přístupných místech je zakázána. ', 3, 'narizeninouzovy', 172, null, 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-glass-cheers', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (339, 'Zákaz rekreačního ubytování', 'Zakazuje se poskytování ubytovacích služeb (třeba hotelů), kromě zmíněných výjimek.', 11, 'narizeninouzovy', 172, 'Ubytovací služby lze využívat:
+<ul>
+<li>za účelem výkonu povolání či podnikání</li>
+<li>pokud jste jej zahájili před 4.11.2020</li>
+</ul>
+
+Výjimku mají také:
+<ul>
+<li>cizinci do doby opuštění území ČR a cizinci s pracovním povolením v ČR</li>
+<li>ti, kterým byla nařízena izolace, karanténa anebo pracovní povinnost podle krizového zákona </li>
+<li>ti, jejichž ubytování bylo sjednáno státem nebo jinými subjekty za účelem uvolnění kapacit nebo ubytování osob bez domova</li>
+</ul>', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-md', 'fas fa-hotel', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (337, 'Maloobchod a služby přes noc a v neděli zavřen', '<p>Zakázán maloobchodní prodej a prodej a poskytování služeb v provozovnách v neděli po celý den
+a v pondělí až v sobotu v čase mezi <strong>21:00 hod.</strong> až 04:59 hod. </p>', 8, 'narizeninouzovy', 172, 'V tyto časy mohou zůstat otevřené jen
+<ul>
+<li>čerpací stanice</li>
+<li>lékárny</li>
+<li>prodejny pietních věnců, svíček, květin atd. (včetně pojízdných prodejen) v neděli od 05:00 do 20:00</li>
+<li>prodejny u letišť, na železničních stanicích, na autobusobých nádražích</li>
+<li>prodejny ve zdravotnických zařízeních</li>
+<li>jídelny (ne pro veřejnost, třeba podnikové jídelny)</li>
+<li>prodejny pietního zboží (věnce, svíčky, květinová výzdoba atd.). Otevřeno mohou mít 5-20h <strong>(nové)</strong> </ul>
+', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-lg', 'fas fa-shopping-basket', null);
+INSERT INTO DOSTATO6.POLOZKA (ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON, IMG_PREVIEW) VALUES (338, 'Zakázán prodej na tržnicích, stáncích (farmářské trhy povoleny)', '<p>Zakázán je prodej na tržnicích, ve stáncích, pojizdných prodejnách, pochůzkový prodej a podomní prodej</p>', 8, 'narizeninouzovy', 172, 'Nadále mohou fungovat:
+<ul>
+<li>farmářské trhy (produkty nejezte na místě)</li>
+<li>pojizdné prodejny základních potřeb (jídlo, drogerie) v místech, kde není kde jinde to koupit</li>
+</ul>
+', 'https://www.diffchecker.com/lSqRDcVy', 'Rozdíl oproti předchozí úpravě', 'modal-lg', 'fas fa-shopping-basket', null);
