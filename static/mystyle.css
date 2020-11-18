@@ -181,6 +181,7 @@ card
 {
     display: block;
 }
+
 .fa-2x
 {
    padding: 10px 0;
@@ -197,6 +198,7 @@ card
         display: none;
     }
 }
+
 @media  (min-width: 1464px){
     #update-indicator-mobile
     {
@@ -208,6 +210,7 @@ card
         display: flex;
     }
 }
+
 @media  (max-width: 439px){
     #update-indicator-mobile
     {

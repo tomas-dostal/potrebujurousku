@@ -35,6 +35,10 @@ from projektrouska.sqls import (
     opatreni_om,
 )
 
+from projektrouska.aktualnost.kontrola import Update_check
+
+update_controller = Update_check()
+
 
 # # TODO Dokoncit seznam narizeni a polozek
 # def seznam_opatreni(request):
@@ -96,7 +100,7 @@ from projektrouska.sqls import (
 
 # /aktualnost/
 def aktualnost(request):
-    dict = {}
+    info_last = {}
     dict2 = {}
 
     with connection.cursor() as cursor:
@@ -104,27 +108,24 @@ def aktualnost(request):
             """select *
                         from
                         (select * from info order by DATE_UPDATED desc)
-                        where
-                        ROWNUM <= 1"""
+                        """
         )
-        dict = return_as_dict(cursor.fetchone(), cursor.description)
-        print(dict)
+        info_last = return_as_dict(cursor.fetchone(), cursor.description)
+        print(info_last)
 
-        cursor.execute(
-            """select count(*) as celk_mame from (select distinct NAZEV_OPATRENI from opatreni);"""
-        )
-        dict2 = return_as_dict(cursor.fetchone(), cursor.description)
+        if (datetime.now() - info_last["DATE_UPDATED"]) < timedelta(minutes=2):
+            print("Aktualnost kontrolovana pred mene nez 2 minutami")
+            if (update_controller.db_localcopy == None):
+                update_controller.run()
+        else:
+            update_controller.run()
 
-        if (datetime.now() - dict["DATE_UPDATED"]) < timedelta(minutes=10):
-            print("Aktualnost kontrolovana pred mene nez 10 minutami")
+    aktualni = update_controller.up_to_date
+    smazali_je = update_controller.to_be_removed
+    zmena_odkazu = update_controller.to_be_changed_link
+    chybi = update_controller.to_be_added + update_controller.to_be_modified + update_controller.to_be_reviewed
 
-    res = kontrola.start()
-    aktualni = res["aktualni"]
-    celkem_mame = dict2["CELK_MAME"]
-    smazali_je = res["smazali"]
-    zmena_odkazu = res["zmena"]
-    chybi = res["chybi"]
-    celkem = len(aktualni) + len(smazali_je) + len(zmena_odkazu) + len(chybi)
+    celkem = len(update_controller.all)
     celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
     try:
         procenta = int(100 - ((celkem_upravit) / (celkem / 100)))
@@ -152,7 +153,7 @@ def aktualnost(request):
                 )
             print("CHYBI")
             for i in chybi:
-                print("CHYBI  nazev {} \nodkaz: {}".format(i["nazev"], i["odkaz"]))
+                print("CHYBI ID {} nazev {} \nodkaz: {}".format(i["ID_OPATRENI"], i["NAZEV_OPATRENI"], i["ZDROJ"]))
 
         except Exception:
             print(
@@ -160,10 +161,8 @@ def aktualnost(request):
             )
 
     if len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0:
-        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} opatření, {} z nich je aktivních, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
-            procenta,
-            celkem_mame,
-            celkem,
+        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} záznamů, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
+            procenta, celkem,
             len(smazali_je),
             len(zmena_odkazu),
             len(chybi),
@@ -176,7 +175,7 @@ def aktualnost(request):
         stat = "Všechna data jsou aktuální!"
 
     str_for_checksum = (
-        "" + str(aktualni) + str(smazali_je) + str(zmena_odkazu) + str(chybi) + stat
+            "" + str(aktualni) + str(smazali_je) + str(zmena_odkazu) + str(chybi) + stat
     )
 
     # m = md5("./projektrouska/aktualnost/v_databazi.txt")
@@ -232,7 +231,7 @@ def aktualnost(request):
             "cas": datetime.now(),
             "kontrola": posledni_kontrola(),
             "posledni_databaze": posledni_databaze(),
-            "celk_mame": celkem_mame,
+            "celk_mame": celkem,
             "zastarala_data": zastarala_data(),
         },
     )
@@ -255,18 +254,18 @@ def opatreni(request):
     res = None
 
     if (
-        id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == ""
+            id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == ""
     ):  # stat
         kraj_id = str(1)
         res = opatreni_stat()
 
     if (
-        id_obecmesto == "" and nuts3_id == "" and kraj_id != "" and okres_id == ""
+            id_obecmesto == "" and nuts3_id == "" and kraj_id != "" and okres_id == ""
     ):  # kraj
         res = opatreni_kraj(kraj_id)
 
     elif (
-        (nuts3_id != "") and (id_obecmesto == "") and (kraj_id == "") and okres_id == ""
+            (nuts3_id != "") and (id_obecmesto == "") and (kraj_id == "") and okres_id == ""
     ):  # nuts
         res = opatreni_nuts(nuts3_id)
 
@@ -512,6 +511,7 @@ def kontrola_zadaneho(request):
             },
         )
 
+
 def graphs(request):
     return render(
         request,
@@ -523,4 +523,3 @@ def graphs(request):
             "zastarala_data": zastarala_data(),
         },
     )
-

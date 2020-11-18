@@ -22,20 +22,24 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
+                            <th scope="col">ID*</th>
 							<th scope="col">Název opatření</th>
 							<th scope="col">Zdroj</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for p in pridat %}
+                    {% for u in pridat %}
 						<tr>
-							<td>{{ p.nazev }}</td>
-							<td class="cell-breakAll"><a href="{{ p.odkaz }}">{{ p.odkaz }}</a></td>
+                            <td>{{ u.ID_OPATRENI }}</td>
+                            <td>{{ u.NAZEV_OPATRENI }}</td>
+                            <td class="cell-breakAll"><a href="{{ u.ZDROJ }}">{{ u.ZDROJ }}</a></td>
 						</tr>
 						{% endfor %}
 					</tbody>
 				</table>
 			</div>
+                *Zmiňované ID slouží pouze pro zjednodušení identifikace pro naši databázi.
+
 			{% endif %}
 			{% if ubrat %}
 			<h3>Máme navíc</h3>
