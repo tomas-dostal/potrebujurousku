@@ -23,6 +23,8 @@ from django.conf.urls.static import static
 from projektrouska.api.search import find_place_by_name
 from projektrouska.api.update_stats import get_update_stats
 from projektrouska.api.update_stats import get_all_update_stats
+
+from projektrouska.api.celostatni_opatreni import celostatni_opatreni
 from projektrouska.settings import BETA, DEV
 
 # Please forgive me. I did not wanted to do it this way...
@@ -54,6 +56,8 @@ urlpatterns = [
     path("api/search", find_place_by_name, name="najdi_mesto"),
     path("api/update_stats", get_update_stats, name="update_stats"),
     path("api/all_update_stats", get_all_update_stats, name="update_stats"),
+    path("api/celostatni_opatreni", celostatni_opatreni, name="celostatni_opatreni"),
+
      path("admin/kontrola-zadaneho/", kontrola_zadaneho, name="admin_kontrola_zadaneho"),
      path("admin/grafiky/", graphs, name="admin_kontrola_zadaneho"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

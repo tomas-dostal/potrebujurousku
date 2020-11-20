@@ -60,7 +60,9 @@ class Update_check():
     def add_to_list(self, list, dict_to_add):
         if dict_to_add not in list:
             return list.append(dict_to_add)
-        else: return list
+        else:
+            return list
+
     # this one should be private
     def scrap_posts_links(self, cathegory_url):
         """
@@ -214,7 +216,7 @@ class Update_check():
                                 """
                 cursor.execute(sql, {"id_opatreni": id, "zdroj": link})
                 """r = return_as_dict(data=cursor.fetchone, description=cursor.description)
-                
+
                 if(r["JE_PLATNE"] == 0)
                     # Lets consider it as removed
                     return True
@@ -364,8 +366,8 @@ class Update_check():
         """
         with connection.cursor() as cursor:
             cursor.execute(
-                """select * from opatreni where NAZEV_OPATRENI = :nazev or ZDROJ=:link order by PLATNOST_AUTOOPRAVA asc;""",
-                {"name": name, "link": link},
+                """select * from DOSTATO6.OPATRENI where (NAZEV_OPATRENI = :nazev or ZDROJ = :odkaz) order by PLATNOST_AUTOOPRAVA;""",
+                {"nazev": name, "odkaz": link},
             )
             query_results = cursor.fetchall()
             desc = (
@@ -432,7 +434,7 @@ class Update_check():
                     },
                 )
 
-                cursor.execute("""select * from DOSTATO6.OPATRENI where ID_OPATRENI=:id""",
+                cursor.execute("""select * from DOSTATO6.OPATRENI where ID_OPATRENI=:id_opatreni""",
                                {
                                    "id_opatreni": max_id + 1,
                                }, )
