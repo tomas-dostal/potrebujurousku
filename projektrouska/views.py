@@ -320,18 +320,6 @@ def opatreni_celoplosne(request):
         },
     )
 
-
-# @require_GET
-# /robots.txt
-def robots_txt(request):
-    headers = [
-        "User-Agent: *",
-        "Disallow: /private/",
-        "Disallow: /junk/",
-    ]
-    return HttpResponse("\n".join(headers), content_type="text/plain")
-
-
 # /o-projektu/
 def about(request):
     return render(

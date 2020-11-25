@@ -49,7 +49,6 @@ urlpatterns = [
     path("opatreni/", views.opatreni, name="opatreni"),
     path("celostatni-opatreni/", views.opatreni_celoplosne, name="celostatni-opatreni"),
     path("aktualnost/", views.aktualnost, name="aktualnost"),
-    path("robots.txt", views.robots_txt),
     # path('statistiky/', views.stats, name='statistiky'),
     path("api/search", find_place_by_name, name="najdi_mesto"),
     path("api/update_stats", get_update_stats, name="update_stats"),
