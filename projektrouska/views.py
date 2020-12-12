@@ -102,6 +102,7 @@ update_controller = Update_check()
 def aktualnost(request):
     info_last = {}
     dict2 = {}
+    global update_controller
 
     with connection.cursor() as cursor:
         cursor.execute(
