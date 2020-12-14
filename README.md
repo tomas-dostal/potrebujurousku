@@ -11,12 +11,11 @@ Přejmenuj `secret.py.example` na `secret.py`
 
 ## Připoj databázi
 
-1) Projekt aktuálně běží na oracle databázi. 
-2) Pro používání si musíš zařídit přihlašovací údaje, alternativně si můžeš obsah databáze stáhnout jako [insertscript](https://github.com/tomas-dostal/potrebujurousku/blob/master/dbexport/) a vytvořit databázi vlastní. Co je v které tabulce a myšlenka za návrhem databáze [zde](https://github.com/tomas-dostal/potrebujurousku/blob/master/dev_FAQ.md)
-3) Doplň přístupové údaje k databázi do `secret.py`  
-
-Pokud nemáš, nainstaluj si oracle client  
-  - Linux - [návod zde](https://help.ubuntu.com/community/Oracle%20Instant%20Client)
+1) Projekt aktuálně běží na PostgreSQL databázi. 
+2) Pro připojení do ostré databáze musíš získat přístupové údaje. Pro lokální vývoj je velmi doporučeno vytvořit si
+ [lokální kopii databáze](lokalni_databaze.md) a naplnit ji [daty](https://github.com/tomas-dostal/potrebujurousku/blob/master/dbexport/). 
+Myšlenka za návrhem databáze [zde](https://github.com/tomas-dostal/potrebujurousku/blob/master/dev_FAQ.md)
+3) Doplň přístupové údaje k databázi do `secret.py`
 
 
 ## Spusť projekt
