@@ -1,0 +1,1 @@
+INSERT INTO public.state (id, name) VALUES (1, 'Česká republika');

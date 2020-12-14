@@ -1,0 +1,14 @@
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (1, 'Hlavní město Praha', 3018, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (2, 'Středočeský kraj', 3026, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (3, 'Jihočeský kraj', 3034, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (4, 'Plzeňský kraj', 3042, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (5, 'Karlovarský kraj', 3051, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (6, 'Ústecký kraj', 3069, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (7, 'Liberecký kraj', 3077, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (8, 'Královéhradecký kraj', 3085, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (9, 'Pardubický kraj', 3093, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (10, 'Kraj Vysočina', 3107, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (11, 'Jihomoravský kraj', 3115, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (12, 'Olomoucký kraj', 3123, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (13, 'Zlínský kraj', 3131, 1);
+INSERT INTO public.region (id, name, code_index, state_id) VALUES (14, 'Moravskoslezský kraj', 3140, 1);
