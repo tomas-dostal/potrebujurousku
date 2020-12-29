@@ -13,8 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
+
 from projektrouska import views
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 import requests
 
@@ -62,6 +64,8 @@ handler500 = custom_error_view
 handler403 = custom_permission_denied_view
 handler400 = custom_bad_request_view
 
+if DEV:
+    urlpatterns += path('__debug__/', include(debug_toolbar.urls)),
 
 tl = Timeloop()
 
