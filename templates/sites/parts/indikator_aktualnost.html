@@ -1,7 +1,7 @@
 {% load my_filters %}
 <div style="margin-right:10px;">
     <!-- Modals only here -->
-	{% if zastarala_data.zastarala_data == True %}
+    {% if last_check.is_outdated == True %}
         <!-- Modals only here -->
         <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -14,11 +14,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Poslední kontrola úspěšně proběhla <span class="badge badge-info">{{ kontrola.DATE_UPDATED }}</span>, což je před <span class="badge badge-danger">{{ zastarala_data.posledni_uspesna_kontrola_timespan }} </span>
+                        Poslední kontrola úspěšně proběhla <span
+                            class="badge badge-info">{{ last_check.last_check_datetime }}</span>, což je před <span
+                            class="badge badge-danger">{{ last_check.last_check_timespan_str }} </span>
                         <br>
+                        <br>
+
                         <h5>Co se stalo?</h5>
-                        <br>
-                        <p>Z nějakého důvodu neprobíhá kontrola aktualizací podle plánz. Může za tím být cokoli od toho,
+                        <p>Z nějakého důvodu neprobíhá kontrola aktualizací podle plánu. Může za tím být cokoli od toho,
                             že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví (zase)
                             provedli až tak rozsáhlé změny, že už to náš kód "nerozdýchal" až po problémy s naší
                             databází.</p>
@@ -40,11 +43,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        {% if kontrola.CELK_ZMEN == 0 %}
+                        {% if last_check.data.total_changes == 0 %}
                         <h5 class="modal-title" id="infoModalLabel">Všechna data jsou aktuální!</h5>
                         {% else %}
-                        <h5 class="modal-title" id="infoModalLabel">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }}
-                            změn{{ kontrola.CELK_ZMEN|cz_pluralize:"u,y," }}
+                            <h5 class="modal-title" id="infoModalLabel">Do systému jsme ještě nestihli
+                                zadat {{ last_check.data.total_changes }}
+                                změn{{ last_check.data.total_changes|cz_pluralize:"u,y," }}
                         </h5>
                         {% endif %}
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -52,16 +56,18 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <span class="badge badge-info">Poslední kontrola {{ kontrola.DATE_UPDATED }}</span>
-                        Poslední změny v databázi jsme dělali  {{ posledni_databaze }}.
-                        {% if kontrola.CELK_ZMEN == 0 %}
+                        <span class="badge badge-info">Poslední kontrola {{ last_check.data.date_updated }}</span>
+                        Poslední změny v databázi jsme dělali {{ last_modified }}.
+                        {% if last_check.data.total_changes == 0 %}
                             Všechna data jsou aktuální!
                         {% else %}
                             Všechny změny jsme ještě nestihli zpracovat. <br>
-                            Celkem nám ke zpracování zbývá {{ kontrola.CELK_ZMEN }} změn
-                            {{ kontrola.CELK_ZMEN|cz_pluralize:"a,y," }}
-                            ({{ kontrola.CHYBI_POCET }} přidat, u {{ kontrola.ZMENA_LINK_POCET }} upravit odkaz a
-                            {{ kontrola.ODSTRANIT_POCET }} odebrat.
+                            Celkem nám ke zpracování zbývá {{ kontrola.last_check.data.total_changes }} změn
+
+                            {{ last_check.data.total_changes|cz_pluralize:"a,y," }}
+                            ({{ last_check.data.missing_count }} přidat, u {{ last_check.data.change_link_count }}
+                            upravit odkaz a
+                            {{ last_check.data.outdated_count }} odebrat.
                             <br><b>Seznam nezpracovaných opatření</b> naleznete <a href="/aktualnost/#">tady</a>
                         {% endif %}
                         <br>
