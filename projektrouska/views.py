@@ -1,18 +1,11 @@
 # import json
-import requests
-
 from datetime import datetime, timedelta
 
-from django.http import HttpResponse
-
-# from django.views.decorators.http import require_GET
-# from django.http import JsonResponse
-from django.shortcuts import render
+import requests
 from django.db import connection
+from django.shortcuts import render
 
-from projektrouska.aktualnost import kontrola
-from projektrouska.settings import DEV
-
+from projektrouska.aktualnost.kontrola import Update_check
 # from projektrouska.functions import *
 from projektrouska.functions import (
     return_as_dict,
@@ -22,12 +15,11 @@ from projektrouska.functions import (
     # strfdelta,
     display_by_cath,
 )
-from projektrouska.api import *
-
+from projektrouska.models import UpdateLogs, State
+from projektrouska.settings import DEV
 from projektrouska.sqls import (
-    posledni_kontrola,
-    posledni_databaze,
-    zastarala_data,
+    last_check,
+    last_modified_date,
     opatreni_stat,
     opatreni_kraj,
     opatreni_nuts,
@@ -35,91 +27,23 @@ from projektrouska.sqls import (
     opatreni_om,
 )
 
-from projektrouska.aktualnost.kontrola import Update_check
-
 update_controller = Update_check()
 
-
-# # TODO Dokoncit seznam narizeni a polozek
-# def seznam_opatreni(request):
-#     with connection.cursor() as cursor:
-
-#         cursor.execute(
-#             """select * from (select * from opatreni ) join polozka on ID_OPATRENI=OPATRENI_ID_OPATRENI join KATEGORIE K on K.ID_KATEGORIE = POLOZKA.KATEGORIE_ID_KATEGORIE order by je_platne desc, PLATNOST_OD desc)"""
-#         )
-
-#         query_results = cursor.fetchall()
-
-#         desc = (
-#             cursor.description
-#         )  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
-
-#         # MAGIC #
-#         columns = []
-#         for col in desc:
-#             columns.append(col[0])
-
-#         a = []
-
-#         for line in query_results:
-#             temp = {}
-#             for i in range(0, len(line)):
-#                 temp[columns[i]] = line[i]
-#             a.append(temp)
-
-#         location = {}
-#         i = 0
-#         # setrizene podle kategorie
-#         by_cath = []
-
-#         existing = []
-#         for col in a:
-#             if (
-#                 "NAZEV_KAT" in col
-#             ):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
-#                 if col["NAZEV_KAT"] in existing:
-#                     by_cath[len(by_cath) - 1]["narizeni"].append(col)
-#                 else:
-#                     existing.append(col["NAZEV_KAT"])
-#                     tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
-#                     by_cath.append(tmp)
-
-#         return render(
-#             request,
-#             "sites/opatreni.html",
-#             {
-#                 "query_results": by_cath,
-#                 "location": location,
-#                 "posledni_databaze": posledni_databaze(),
-#                 "now": datetime.now(),
-#                 "kontrola": posledni_kontrola(),
-#                 "zastarala_data": zastarala_data(),
-#             },
-#         )
-
-
 # /aktualnost/
+# TODO: Work in progress
 def aktualnost(request):
     info_last = {}
     dict2 = {}
     global update_controller
 
-    with connection.cursor() as cursor:
-        cursor.execute(
-            """select *
-                        from
-                        (select * from info order by DATE_UPDATED desc)
-                        """
-        )
-        info_last = return_as_dict(cursor.fetchone(), cursor.description)
-        print(info_last)
+    last_check = UpdateLogs.objects.latest('date_updated').date_updated
 
-        if (datetime.now() - info_last["DATE_UPDATED"]) < timedelta(minutes=2):
-            print("Aktualnost kontrolovana pred mene nez 2 minutami")
-            if (update_controller.db_localcopy == None):
-                update_controller.run()
-        else:
+    if (datetime.now() - last_check.date_updated) < timedelta(minutes=2):
+        print("Aktualnost kontrolovana pred mene nez 2 minutami")
+        if (update_controller.db_localcopy == None):
             update_controller.run()
+    else:
+        update_controller.run()
 
     aktualni = update_controller.up_to_date
     smazali_je = update_controller.to_be_removed
@@ -129,7 +53,7 @@ def aktualnost(request):
     celkem = len(update_controller.all)
     celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
     try:
-        procenta = int(100 - ((celkem_upravit) / (celkem / 100)))
+        procenta = int(100 - (celkem_upravit / (celkem / 100)))
     except Exception:
         procenta = 100
     if DEV:
@@ -184,10 +108,7 @@ def aktualnost(request):
         # query_results = cursor.fetchall()
         # desc = cursor.description
 
-        z = str(zmena_odkazu)[:3000]
-        s = str(smazali_je)[:3000]
-        c = str(chybi)[:3000]
-
+        # todo: migrate to ORM
         cursor.execute(
             """insert into INFO (checksum,  date_updated, poznamka, 
             AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, 
@@ -230,16 +151,16 @@ def aktualnost(request):
             "zmena": zmena_odkazu,
             "statistika": stat,
             "cas": datetime.now(),
-            "kontrola": posledni_kontrola(),
-            "posledni_databaze": posledni_databaze(),
             "celk_mame": celkem,
-            "zastarala_data": zastarala_data(),
+            "last_check": last_check(),
+            "last_modified": last_modified_date(),
         },
     )
 
 
 # /opatreni/
 def opatreni(request):
+    # todo: change paths to something like /precaution/city/123 instead of /opatreni/?obecmesto_id=123
     # ?obecmesto_id=replace"
     # "?nuts3_id=replace"'.
     # "?kraj_id=replace"'
@@ -284,17 +205,18 @@ def opatreni(request):
         {
             "query_results": by_cath,
             "location": location,
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
-            "zastarala_data": zastarala_data(),
+            "last_check": last_check(),
+            "last_modified": last_modified_date(),
         },
     )
 
 
 # /celostatni-opatreni
 def opatreni_celoplosne(request):
-    array = opatreni_stat()[0]
+    array = State.objects.all()[0].precaution_set.all()
+    array = opatreni_stat()
 
     # oder by cathegory
     """by_cath = []
@@ -314,10 +236,10 @@ def opatreni_celoplosne(request):
         "sites/celostatni_opatreni.html",
         {
             "query_results": array,
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
-            "zastarala_data": zastarala_data(),
+            "last_check": last_check(),
+            "last_modified": last_modified_date(),
         },
     )
 
@@ -326,9 +248,11 @@ def about(request):
     return render(
         request,
         "sites/o_projektu.html",
-        {"kontrola": posledni_kontrola(), "zastarala_data": zastarala_data()},
+        {
+            "last_check": last_check(),
+            "last_modified": last_modified_date()
+        },
     )
-
 
 # /
 def home(request):
@@ -364,7 +288,7 @@ def home(request):
         request,
         "sites/home.html",
         {
-            "kontrola": posledni_kontrola(),
+            "kontrola": last_check(),
             "datum": result["datum"],
             "provedene_testy_celkem": format_num(result["provedene_testy_celkem"]),
             "potvrzene_pripady_celkem": format_num(result["potvrzene_pripady_celkem"]),
@@ -383,8 +307,8 @@ def home(request):
                 result["potvrzene_pripady_dnesni_den"]
             ),
             "posledni_update_dat": data_modified.strftime("%d.%m.%Y %H:%M"),
-            "posledni_databaze": posledni_databaze(),
-            "zastarala_data": zastarala_data(),
+            "last_check": last_check(),
+            "last_modified": last_modified_date(),
         },
     )
 
@@ -484,10 +408,10 @@ def kontrola_zadaneho(request):
             "sites/kontrola_zadavani_par1.html",
             {
                 "query_results": by_cath,
-                "posledni_databaze": posledni_databaze(),
+                "posledni_databaze": last_modified_date(),
                 "now": datetime.now(),
-                "kontrola": posledni_kontrola(),
-                "zastarala_data": zastarala_data(),
+                "last_check": last_check(),
+                "last_modified": last_modified_date(),
                 "platnost_cr": platnost_cr,
                 "platnost_kraj": platnost_kraj,
                 "platnost_okres": platnost_okres,
@@ -506,9 +430,9 @@ def graphs(request):
         request,
         "sites/graphs.html",
         {
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
-            "zastarala_data": zastarala_data(),
+            "last_check": last_check(),
+            "last_modified": last_modified_date(),
         },
     )

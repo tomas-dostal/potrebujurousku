@@ -1,102 +1,61 @@
 from datetime import datetime, timedelta
-
-from django import db
 from django.db import connection
 
 from projektrouska.functions import (
     return_as_dict,
     return_as_array,
-    # calcmd5,
-    # format_num,
     strfdelta,
     display_by_cath,
 )
+from projektrouska.models import *
+from django.forms.models import model_to_dict
 
 # urcuje v horizontu kolika dni se maji zobrazovat nadchazející opatreni
 DNI_DOPREDU = 7
 
 
-def posledni_kontrola():
+def last_check():
     """
-    :return: DICT: Nejnovější záznam z tabulky INFO (všechny sloupce) {"CHECKSUM": "value", "DATE_UPDATED": "value" ... }
-    """
-    with connection.cursor() as cursor:
-        query = """select * from (select * from INFO order by DATE_UPDATED desc) where rownum <= 1;"""
-        cursor.execute(query)
-        dictionary = return_as_dict(cursor.fetchone(), cursor.description)
-        return dictionary
-
-
-# TODO: Nějak rozumně přejmenovat?
-def posledni_databaze():
-    """
-
-    :return: Datum a čas nejnovější změny z některé z tabulek {POLOZKA, OPATRENI}
-    """
-    with connection.cursor() as cursor:
-        last_qu = """select max(posledni_uprava) from(
-                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from polozka
-                       union
-                       SELECT SCN_TO_TIMESTAMP(MAX(ora_rowscn)) as posledni_uprava from opatreni);"""
-        try:
-
-            cursor.execute(last_qu)
-            last_update = cursor.fetchone()[0]
-        except db.utils.DatabaseError:
-            # something went wrong. Maybe just a db went down, maybe (more likely) we've just reached SCN_TO_TIMESTAMP
-            # conversion limit, which is something like 5 days (https://stackoverflow.com/questions/22681705/how-to-use-timestamp-to-scn-and-scn-to-timestamp-in-oracle)
-            # We were just too lazy and did not inserted anything to the db...
-            # Possible solution: Insert a row to POLOZKA and OPATRENI to bypass that LOL
-            # better solution: Just give there try - catch, or pass
-
-            """
-            insert into OPATRENI(ID_OPATRENI, NAZEV_OPATRENI, PLATNOST_OD, JE_PLATNE, ZDROJ, NAZEV_ZKR, ROZSAH, PLATNOST_DO, ZDROJ_AUTOOPRAVA, IDENTIFIKATOR, PLATNOST_AUTOOPRAVA, NAZEV_AUTOOPRAVA)
-            values (99999, 'Nazev', trunc(sysdate), 1, 'asdf', '', null, null, null, null, 42, null);
-            commit;
-            delete from OPATRENI
-            where ID_OPATRENI=99999 and PLATNOST_AUTOOPRAVA=42;
-            commit;
-            
-            insert into POLOZKA(ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON)
-            values (99999, 'nazev', 'komentar', 1, '42', 100, null, null, null, 'modal-lg', null);
-            commit;
-            delete from POLOZKA
-            where ID_POLOZKA=99999 and TYP='42';
-            commit;
-            """
-
-            last_qu = """select 'před nějakou dobou'  as posledni_uprava from dual"""
-            # other option is
-            # last_qu = """select  trunc(sysdate)  as posledni_uprava from dual"""
-
-            cursor.execute(last_qu)
-            last_update = cursor.fetchone()[0]
-        return last_update
-
-
-def zastarala_data():
-    """
-    Automaticky co cca 5 min probíhá kontrola aktuálnosti.
+   Automaticky co cca 5 min probíhá kontrola aktuálnosti.
 
     :return: {
-                "zastarala_data": True pokud poslední úspěšná kontrola proběhla před méně jak 60 minutami,
-                "posledni_uspesna_kontrola_timespan": delta od poslední úspěné kontroly (string)
+                "data": {key: value ... as one line from db
+                "is_outdated": True pokud poslední úspěšná kontrola proběhla před méně jak 60 minutami,
+                "last_check_datetime": datetime poslední úspěné kontroly
+                "last_check_timespan": delta od poslední úspěné kontroly
+                "last_check_timespan_str": delta od poslední úspěné kontroly (string)
             }
-
     """
-    posledni_datetime = posledni_kontrola()["DATE_UPDATED"]
-    naposledy_provedeno = datetime.now() - posledni_datetime
-    str_naposledy = strfdelta(
-        naposledy_provedeno, "{days} dny, {hours} hodinami {minutes} minutami"
-    )  # {seconds} vteřinami
-    if (datetime.now() - posledni_datetime) < timedelta(minutes=60):
-        return {
-            "zastarala_data": False,
-            "posledni_uspesna_kontrola_timespan": str_naposledy,
-        }
-    return {"zastarala_data": True, "posledni_uspesna_kontrola_timespan": str_naposledy}
+
+    """ data columns
+     dict_keys(['id', 'checksum', 'date_updated', 'comment', 'up_to_date_percents',
+                            'missing_count', 'missing_json', 'change_link_count', 
+                            'change_link_json', 'outdated_count', 'outdated_json', 'total_changes'])
+    """
+    data = UpdateLogs.objects.values().latest('date_updated')
+    date = data["date_updated"]
+    timespan = datetime.datetime.now() - date.replace(tzinfo=None)
+
+    return {
+        "data": data,
+        "is_outdated": timespan > timedelta(minutes=60),
+        "last_check_datetime": date,
+        "last_check_timespan": timespan,
+        "last_check_timespan_str": strfdelta(timespan, "{days} dny, {hours} hodinami {minutes} minutami")
+    }
 
 
+def last_modified_date():
+    """
+    :return: Datum a čas nejnovější změny z některé z tabulek {POLOZKA, OPATRENI}
+    """
+    return max([
+        Precaution.objects.latest('modified_date').modified_date,
+        Parts.objects.latest('modified_date').modified_date
+    ])
+
+
+# TODO: Work in progress
 def opatreni_stat():
     """
     Vybere všechny OPATRENI navázané na stát (OP_STAT),
@@ -106,6 +65,63 @@ def opatreni_stat():
                 (zobrazují se na :zobrazit_dopredu dní dopředu))
 
     Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+
+    """
+
+    display_within = datetime.datetime.now() + datetime.timedelta(days=7)
+
+    precautions = State.objects.get(pk=1).precaution_set.filter(
+        valid_from__lte=display_within.replace(tzinfo=None),
+        valid_to__lte=datetime.datetime.now().replace(tzinfo=None),
+        status__gt=0)
+
+    test = model_to_dict(precautions)
+
+    precautions = precautions.all().prefetch_related("parts")
+
+    array = []
+    for p in precautions:
+
+        p.parts.all()
+        precautions_external = p.external_contents.all()
+        precautions_pes = p.pes_history_set.values()
+
+        for part in p.parts.all():
+            part_external = []
+            if part.external_contents:
+                part_external = part.external_contents.values()
+            cathegory = part.cathegory
+
+    newlist = sorted(array, key=lambda k: k['priorita'])
+
+    cursor = connection.cursor()
+    # do not look here, it looks much worse than before, I'll do my best to use models instead
+    """ 
+    select * from (
+        select * from (
+                      select *
+                      from (
+                               select *
+                               from (
+                                        select *
+                                        from (
+                                                 select *
+                                                 from (select precaution_id
+                                                       from precaution_state
+                                                       where state_id = 1
+                                                      ) as pr
+                                                          join precaution on precaution.id = pr.precaution_id
+                                             ) as prec
+                                                 join precaution_parts using (precaution_id)
+                                    ) as pa
+                                        join part on part.id = pa.parts_id
+                           ) as parts
+    
+                               join cathegory on cathegory.id = cathegory_id
+                  ) as pwp
+        join precaution_external_contents using (precaution_id)
+        )  as pre
+    join external_content on public.external_content.id=pre.externalcontent_id
 
     """
     qu = """select * from (

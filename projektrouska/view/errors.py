@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from datetime import datetime
-from projektrouska.sqls import posledni_databaze
-from projektrouska.sqls import posledni_kontrola
+from projektrouska.sqls import last_modified_date
+from projektrouska.sqls import last_check
 
 
 def custom_page_not_found_view(request, exception):
@@ -9,9 +9,9 @@ def custom_page_not_found_view(request, exception):
         request,
         "errors/404.html",
         {
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
+            "kontrola": last_check(),
         },
     )
 
@@ -21,9 +21,9 @@ def custom_error_view(request, exception=None):
         request,
         "errors/500.html",
         {
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
+            "kontrola": last_check(),
         },
     )
 
@@ -33,9 +33,9 @@ def custom_permission_denied_view(request, exception=None):
         request,
         "errors/403.html",
         {
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
+            "kontrola": last_check(),
         },
     )
 
@@ -45,8 +45,8 @@ def custom_bad_request_view(request, exception=None):
         request,
         "errors/400.html",
         {
-            "posledni_databaze": posledni_databaze(),
+            "posledni_databaze": last_modified_date(),
             "now": datetime.now(),
-            "kontrola": posledni_kontrola(),
+            "kontrola": last_check(),
         },
     )

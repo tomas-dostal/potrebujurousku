@@ -48,6 +48,7 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path("o-projektu/", views.about, name="about"),
     path("FAQ/", views.about, name="about"),
+                  # todo: change paths to something like /precaution/city/123 instead of /opatreni/?obecmesto_id=123
     path("opatreni/", views.opatreni, name="opatreni"),
     path("celostatni-opatreni/", views.opatreni_celoplosne, name="celostatni-opatreni"),
     path("aktualnost/", views.aktualnost, name="aktualnost"),
