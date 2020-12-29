@@ -157,6 +157,8 @@ class State(models.Model):
     class Meta:
         db_table = 'state'
 
+    def __str__(self):
+        return self.name
 
 # Kraj
 class Region(models.Model):
@@ -170,6 +172,8 @@ class Region(models.Model):
         db_table = 'region'
         unique_together = (('id', 'state'),)
 
+    def __str__(self):
+        return self.name
 
 # nuts4, something like a part of Region that contains Districts
 class Nuts4(models.Model):
@@ -187,7 +191,8 @@ class Nuts4(models.Model):
         db_table = 'nuts4'
         unique_together = (('id', 'region', 'state'))
 
-
+    def __str__(self):
+        return self.name
 # okres
 class District(models.Model):
     id = models.AutoField(primary_key=True)
@@ -203,6 +208,8 @@ class District(models.Model):
         db_table = 'district'
         unique_together = (('id', 'nuts4', 'region', 'state'),)
 
+    def __str__(self):
+        return self.name
 
 # obecmesto
 class City(models.Model):
@@ -220,6 +227,8 @@ class City(models.Model):
         db_table = 'city'
         unique_together = (('id', 'nuts4', 'district', 'region', 'state'),)
 
+    def __str__(self):
+        return self.name
 
 # stores data from Update check
 class UpdateLogs(models.Model):
@@ -246,7 +255,8 @@ class UpdateLogs(models.Model):
     class Meta:
         db_table = 'update_logs'
 
-
+    def __str__(self):
+        return str(self.id) + "_" + self.checksum
 class ExternalContent(models.Model):
     id = models.AutoField(primary_key=True)
 
@@ -301,6 +311,8 @@ class ExternalContent(models.Model):
     class Meta:
         db_table = 'external_content'
 
+    def __str__(self):
+        return str(self.id) + "_" + self.content_type
 class Cathegory(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -311,6 +323,9 @@ class Cathegory(models.Model):
 
     class Meta:
         db_table = 'cathegory'
+
+    def __str__(self):
+        return self.name
 
 class Parts(models.Model):
     id = models.AutoField(primary_key=True)
@@ -362,10 +377,16 @@ class Parts(models.Model):
 
     icon = models.CharField(max_length=40, blank=True, null=True)
 
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'part'
         #unique_together = (('id', 'precaution'),)
+
+    def __str__(self):
+        return "ID={}_{}".format(self.id, self.name[:100])
+
 
 # Opatření
 class Precaution(models.Model):
@@ -389,12 +410,12 @@ class Precaution(models.Model):
 
     # life_situations = models.ManyToManyField(LifeSituations)
 
-    ENABLED_AUTO = '1'
-    DISABLED_AUTO = '0'
-    FORCE_ENABLE = '3'
-    FORCE_DISABLE = '4'
-    CHECK_REQUIRED = '2'
-    MAINTENANCE_IN_PROGRESS = '5'
+    ENABLED_AUTO = 1
+    DISABLED_AUTO = 0
+    FORCE_ENABLE = 3
+    FORCE_DISABLE = -1
+    CHECK_REQUIRED = 2
+    MAINTENANCE_IN_PROGRESS = -2
 
     STATUS_CHOICES = [
         (ENABLED_AUTO, 'Active (auto)'),
@@ -405,8 +426,7 @@ class Precaution(models.Model):
         (MAINTENANCE_IN_PROGRESS, 'Disabled (maintenance in progress)'),
     ]
     # former "je_platne"
-    status = models.CharField(
-        max_length=2,
+    status = models.IntegerField(
         choices=STATUS_CHOICES,
         default=ENABLED_AUTO,
     )
@@ -439,10 +459,15 @@ class Precaution(models.Model):
     district = models.ManyToManyField(District)
     city = models.ManyToManyField(City)
 
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
     class Meta:
         db_table = 'precaution'
         #unique_together = (('id', 'parts'),)
 
+    def __str__(self):
+        return "ID={}_{}".format(self.id, self.short_name[:100])
 
 class PES_general(models.Model):
     degree = models.AutoField(primary_key=True)
@@ -459,7 +484,8 @@ class PES_general(models.Model):
     class Meta:
         db_table = 'pes_general'
 
-
+    def __str__(self):
+        return self.degree
 class PES_history(models.Model):
     id = models.AutoField(primary_key=True)
 
