@@ -115,7 +115,7 @@ def aktualnost(request):
 
         if (datetime.now() - info_last["DATE_UPDATED"]) < timedelta(minutes=2):
             print("Aktualnost kontrolovana pred mene nez 2 minutami")
-            if (update_controller.db_localcopy == None):
+            if (update_controller.db_localcopy is None):
                 update_controller.run()
         else:
             update_controller.run()
@@ -123,7 +123,8 @@ def aktualnost(request):
     aktualni = update_controller.up_to_date
     smazali_je = update_controller.to_be_removed
     zmena_odkazu = update_controller.to_be_changed_link
-    chybi = update_controller.to_be_added + update_controller.to_be_modified + update_controller.to_be_reviewed
+    chybi = update_controller.to_be_added + \
+        update_controller.to_be_modified + update_controller.to_be_reviewed
 
     celkem = len(update_controller.all)
     celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
@@ -153,7 +154,11 @@ def aktualnost(request):
                 )
             print("CHYBI")
             for i in chybi:
-                print("CHYBI ID {} nazev {} \nodkaz: {}".format(i["ID_OPATRENI"], i["NAZEV_OPATRENI"], i["ZDROJ"]))
+                print(
+                    "CHYBI ID {} nazev {} \nodkaz: {}".format(
+                        i["ID_OPATRENI"],
+                        i["NAZEV_OPATRENI"],
+                        i["ZDROJ"]))
 
         except Exception:
             print(
@@ -162,11 +167,7 @@ def aktualnost(request):
 
     if len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0:
         stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} záznamů, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
-            procenta, celkem,
-            len(smazali_je),
-            len(zmena_odkazu),
-            len(chybi),
-        )
+            procenta, celkem, len(smazali_je), len(zmena_odkazu), len(chybi), )
         print("ALERT ne všechny data jsou aktuální")
     elif celkem == 0:
         stat = "Aktuálnost jsme nebyli schopni ověřit. Může to být způsobeno neustálými změnami na webu ministerstva zdravotnictví. Pokusíme se pro to udělat co nejvíce. "
@@ -175,8 +176,12 @@ def aktualnost(request):
         stat = "Všechna data jsou aktuální!"
 
     str_for_checksum = (
-            "" + str(aktualni) + str(smazali_je) + str(zmena_odkazu) + str(chybi) + stat
-    )
+        "" +
+        str(aktualni) +
+        str(smazali_je) +
+        str(zmena_odkazu) +
+        str(chybi) +
+        stat)
 
     # m = md5("./projektrouska/aktualnost/v_databazi.txt")
     with connection.cursor() as cursor:
@@ -188,19 +193,19 @@ def aktualnost(request):
         c = str(chybi)[:3000]
 
         cursor.execute(
-            """insert into INFO (checksum,  date_updated, poznamka, 
-            AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, 
+            """insert into INFO (checksum,  date_updated, poznamka,
+            AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET,
             ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE , CELK_ZMEN) values   (
             :checksum,
-            trunc(sysdate, 'MI'), 
-            :pozn, 
-            :akt, 
-            :chybi_pocet, 
-            :chybi_pole, 
+            trunc(sysdate, 'MI'),
+            :pozn,
+            :akt,
+            :chybi_pocet,
+            :chybi_pole,
             :zmena_link_pocet,
-            :zmena_link_pole, 
-            :odstranit_pocet, 
-            :odstranit_pole, 
+            :zmena_link_pole,
+            :odstranit_pocet,
+            :odstranit_pole,
             :celk_zmen)
             """,
             {
@@ -253,15 +258,13 @@ def opatreni(request):
     location = None
     res = None
 
-    if (
-            id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == ""
-    ):  # stat
+    if (id_obecmesto == "" and nuts3_id ==
+            "" and kraj_id == "" and okres_id == ""):  # stat
         kraj_id = str(1)
         res = opatreni_stat()
 
-    if (
-            id_obecmesto == "" and nuts3_id == "" and kraj_id != "" and okres_id == ""
-    ):  # kraj
+    if (id_obecmesto == "" and nuts3_id ==
+            "" and kraj_id != "" and okres_id == ""):  # kraj
         res = opatreni_kraj(kraj_id)
 
     elif (
@@ -321,6 +324,8 @@ def opatreni_celoplosne(request):
     )
 
 # /o-projektu/
+
+
 def about(request):
     return render(
         request,
@@ -333,8 +338,7 @@ def about(request):
 def home(request):
     try:
         r = requests.get(
-            url="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json"
-        )
+            url="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json")
         result = r.json()["data"]
 
         result = result[0]
@@ -406,9 +410,8 @@ def kontrola_zadaneho(request):
         cursor.execute(
             """select distinct ID_OPATRENI, 1 as ID_STAT, 'Česká Republika' as NAZEV_STAT  from(
                             select * from OPATRENI where ID_OPATRENI = :id_op
-                            )  join OP_STAT using (ID_OPATRENI);""",
-            {"id_op": id_opatreni},
-        )
+                            )  join OP_STAT using (ID_OPATRENI);""", {
+                "id_op": id_opatreni}, )
         platnost_cr = return_as_array(cursor.fetchall(), cursor.description)
         pocet_prirazenych_mist += len(platnost_cr)
 
@@ -467,7 +470,8 @@ def kontrola_zadaneho(request):
                         order by ID_KATEGORIE;""",
             {"id_op": id_opatreni},
         )
-        polozky_opatreni = return_as_array(cursor.fetchall(), cursor.description)
+        polozky_opatreni = return_as_array(
+            cursor.fetchall(), cursor.description)
 
         cursor.execute(
             """select *  from opatreni where  ID_OPATRENI = :id_op;""",

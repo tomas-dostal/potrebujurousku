@@ -1,14 +1,5 @@
 from django.db import models
 
-# Create your models here.
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
-
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150, blank=True, null=True)
@@ -43,7 +34,11 @@ class AuthUser(models.Model):
     password = models.CharField(max_length=128, blank=True, null=True)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150, blank=True, null=True)
+    username = models.CharField(
+        unique=True,
+        max_length=150,
+        blank=True,
+        null=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
     email = models.CharField(max_length=254, blank=True, null=True)
@@ -122,41 +117,6 @@ class DjangoSession(models.Model):
         db_table = "django_session"
 
 
-"""
-class Cast(models.Model):
-    id_cast = models.BigIntegerField(primary_key=True)
-    nazev_cast = models.CharField(max_length=50)
-    obecmesto_id_obecmesto = models.ForeignKey('Obecmesto', models.DO_NOTHING, db_column='obecmesto_id_obecmesto')
-    obecmesto_nuts3_id_nuts = models.ForeignKey('Obecmesto', models.DO_NOTHING, db_column='obecmesto_nuts3_id_nuts')
-    obecmesto_nuts3_kraj_id_kraj = models.ForeignKey('Obecmesto', models.DO_NOTHING, db_column='obecmesto_nuts3_kraj_id_kraj')
-
-    class Meta:
-        managed = False
-        db_table = 'cast'
-        unique_together = (('id_cast', 'obecmesto_id_obecmesto', 'obecmesto_nuts3_id_nuts', 'obecmesto_nuts3_kraj_id_kraj'),)
-"""
-
-
-class Info(models.Model):
-    id = models.BigIntegerField(primary_key=True)
-    checksum = models.CharField(max_length=50, blank=True, null=True)
-    date_updated = models.DateField(blank=True, null=True)
-    poznamka = models.CharField(max_length=200, blank=True, null=True)
-    aktualnost = models.BigIntegerField(blank=True, null=True)
-    chybi_pocet = models.BigIntegerField()
-    chybi_pole = models.CharField(max_length=1000, blank=True, null=True)
-    zmena_link_pocet = models.BigIntegerField(blank=True, null=True)
-    zmena_link_pole = models.CharField(max_length=1000, blank=True, null=True)
-    odstranit_pocet = models.BigIntegerField(blank=True, null=True)
-    odstranit_pole = models.CharField(max_length=1000, blank=True, null=True)
-    celk_zmen = models.BigIntegerField(blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = "info"
-
-
-"""
 class Kategorie(models.Model):
     id_kategorie = models.BigIntegerField(primary_key=True)
     nazev_kat = models.CharField(max_length=50)

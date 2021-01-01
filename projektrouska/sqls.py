@@ -56,7 +56,7 @@ def posledni_databaze():
             delete from OPATRENI
             where ID_OPATRENI=99999 and PLATNOST_AUTOOPRAVA=42;
             commit;
-            
+
             insert into POLOZKA(ID_POLOZKA, NAZEV, KOMENTAR, KATEGORIE_ID_KATEGORIE, TYP, OPATRENI_ID_OPATRENI, VYJIMKA, EXTRA_LINK, EXTRA_POPIS, MODAL_SIZE, ICON)
             values (99999, 'nazev', 'komentar', 1, '42', 100, null, null, null, 'modal-lg', null);
             commit;
@@ -94,7 +94,9 @@ def zastarala_data():
             "zastarala_data": False,
             "posledni_uspesna_kontrola_timespan": str_naposledy,
         }
-    return {"zastarala_data": True, "posledni_uspesna_kontrola_timespan": str_naposledy}
+    return {
+        "zastarala_data": True,
+        "posledni_uspesna_kontrola_timespan": str_naposledy}
 
 
 def opatreni_stat():
@@ -127,7 +129,7 @@ def opatreni_stat():
                                                zdroj_autooprava,
                                                nazev_autooprava,
                                                CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
-    
+
                                from (
                                         select *
                                         from OP_STAT
@@ -185,7 +187,7 @@ def opatreni_nuts(id_nuts):
                            )join op_nuts using(nuts3_id_nuts)
                )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                union
-    
+
                -- Vybere všechny OPATRENI navázané územní platností na OKRES (OP_OKRES)
                select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO   from
                (
@@ -195,7 +197,7 @@ def opatreni_nuts(id_nuts):
                            select * from
                            (
                               select id_nuts, nazev_nuts, kod_nuts, kraj_id_kraj as id_kraj from nuts3 where id_nuts=:id_nuts
-    
+
                            ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                        ) join kraj using(ID_KRAJ)
                    )
@@ -212,7 +214,7 @@ def opatreni_nuts(id_nuts):
                            select * from
                            (
                               select KRAJ_ID_KRAJ as id_kraj, id_nuts, NAZEV_NUTS, kod_nuts from nuts3 where id_nuts=:id_nuts
-    
+
                            ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
                        ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
                    ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
@@ -222,7 +224,7 @@ def opatreni_nuts(id_nuts):
                select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from (
                select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                    )
-    
+
            ) join polozka on opatreni_id_opatreni = id_opatreni
        ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, PLATNOST_OD desc, NAZEV asc, TYP desc"""
 
@@ -233,7 +235,9 @@ def opatreni_nuts(id_nuts):
                    ) join kraj using(id_kraj);"""
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_nuts": id_nuts, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(
+            qu, {
+                "id_nuts": id_nuts, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_nuts": id_nuts})
@@ -255,22 +259,22 @@ def opatreni_kraj(id_kraj):
     :type id_kraj: ID okraje z tabulky KRAJ.ID_KRAJ
     """
     qu = """ select * from (
-            select * from 
+            select * from
             (
                 select * from
                 (
                     -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
-                    select null as nazev_obecmesto, null as nazev_nuts, null as  nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO  from 
+                    select null as nazev_obecmesto, null as nazev_nuts, null as  nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO  from
                     (
-                        select * from 
+                        select * from
                         (
-                            select * from 
+                            select * from
                             (
-                                select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k 
+                                select id_kraj as kraj_id_kraj, nazev_kraj from kraj where id_kraj=:id_k
                             ) join op_kraj using(kraj_id_kraj)
                         ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                     )
-                    union 
+                    union
                     -- Vybere všechny celostátní OPATRENI (OP_STAT)
                     select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO  from (
                     select * from OP_STAT join OPATRENI using(id_opatreni)  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
@@ -317,7 +321,7 @@ def opatreni_okres(id_okres):
                               )
                           join opatreni on opatreni_id_opatreni=opatreni.id_opatreni   where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
                           union
-                          
+
                           -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
                           select null as nazev_obecmesto, null as  nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from (
                           select * from (
@@ -329,7 +333,7 @@ def opatreni_okres(id_okres):
                               ) join kraj on KRAJ_ID_KRAJ=kraj.id_kraj
 
                           union
-                          
+
                           -- Vybere všechny celostátní OPATRENI (OP_STAT)
                           select distinct null as nazev_obecmesto, null as  nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,  ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from
                          (
@@ -348,7 +352,9 @@ def opatreni_okres(id_okres):
                               );"""
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_okr": id_okres, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(
+            qu, {
+                "id_okr": id_okres, "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_okr": id_okres})
@@ -383,8 +389,8 @@ def opatreni_om(id_obecmesto):
                                       zdroj,
                                       ROZSAH,
                                       platnost_od,
-                                      platnost_do, 
-                                      platnost_autooprava, 
+                                      platnost_do,
+                                      platnost_autooprava,
                                       zdroj_autooprava,
                                       nazev_autooprava,
                                       CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
@@ -425,8 +431,8 @@ def opatreni_om(id_obecmesto):
                                       ROZSAH,
                                       platnost_od,
                                       platnost_do,
-                                      platnost_autooprava, 
-                                      zdroj_autooprava, 
+                                      platnost_autooprava,
+                                      zdroj_autooprava,
                                       nazev_autooprava,
                                       CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
                                from (
@@ -462,8 +468,8 @@ def opatreni_om(id_obecmesto):
                                       ROZSAH,
                                       platnost_od,
                                       platnost_do,
-                                      platnost_autooprava, 
-                                      zdroj_autooprava, 
+                                      platnost_autooprava,
+                                      zdroj_autooprava,
                                       nazev_autooprava,
                                       CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
                                from (
@@ -500,8 +506,8 @@ def opatreni_om(id_obecmesto):
                                       ROZSAH,
                                       platnost_od,
                                       platnost_do,
-                                      platnost_autooprava, 
-                                      zdroj_autooprava, 
+                                      platnost_autooprava,
+                                      zdroj_autooprava,
                                       nazev_autooprava,
                                       CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
                                from (
@@ -539,9 +545,9 @@ def opatreni_om(id_obecmesto):
                                       ROZSAH,
                                       platnost_od,
                                       platnost_do,
-                                      platnost_autooprava, 
-                                      zdroj_autooprava, 
-                                      nazev_autooprava, 
+                                      platnost_autooprava,
+                                      zdroj_autooprava,
+                                      nazev_autooprava,
                                       CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
                                from (
                                         select *
@@ -561,7 +567,8 @@ def opatreni_om(id_obecmesto):
                    )join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
                  ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj;"""
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_ob": id_obecmesto, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(qu, {"id_ob": id_obecmesto,
+                            "zobrazit_dopredu": DNI_DOPREDU})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_ob": id_obecmesto})
