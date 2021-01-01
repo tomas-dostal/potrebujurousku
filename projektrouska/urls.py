@@ -49,16 +49,25 @@ urlpatterns = [
     path("o-projektu/", views.about, name="about"),
     path("FAQ/", views.about, name="about"),
     path("opatreni/", views.opatreni, name="opatreni"),
-    path("celostatni-opatreni/", views.opatreni_celoplosne, name="celostatni-opatreni"),
+    path(
+        "celostatni-opatreni/",
+        views.opatreni_celoplosne,
+        name="celostatni-opatreni"),
     path("aktualnost/", views.aktualnost, name="aktualnost"),
     # path('statistiky/', views.stats, name='statistiky'),
     path("api/search", find_place_by_name, name="najdi_mesto"),
     path("api/update_stats", get_update_stats, name="update_stats"),
     path("api/all_update_stats", get_all_update_stats, name="update_stats"),
-    path("api/celostatni_opatreni", celostatni_opatreni, name="celostatni_opatreni"),
+    path(
+        "api/celostatni_opatreni",
+        celostatni_opatreni,
+        name="celostatni_opatreni"),
 
-     path("admin/kontrola-zadaneho/", kontrola_zadaneho, name="admin_kontrola_zadaneho"),
-     path("admin/grafiky/", graphs, name="admin_kontrola_zadaneho"),
+    path(
+        "admin/kontrola-zadaneho/",
+        kontrola_zadaneho,
+        name="admin_kontrola_zadaneho"),
+    path("admin/grafiky/", graphs, name="admin_kontrola_zadaneho"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = custom_page_not_found_view
@@ -68,6 +77,7 @@ handler400 = custom_bad_request_view
 
 
 tl = Timeloop()
+
 
 @tl.job(interval=timedelta(seconds=300))
 def sample_job_every_300s():

@@ -20,8 +20,10 @@ class Update_check():
         self.db_localcopy = None
 
         # define some variables
-        self.cathegories_url = ["https://koronavirus.mzcr.cz/category/mimoradna-opatreni/"]
-        self.blacklist = ["https://eregpublicsecure.ksrzis.cz/jtp/public/ExterniZadost?s=ISIN_SOC"]
+        self.cathegories_url = [
+            "https://koronavirus.mzcr.cz/category/mimoradna-opatreni/"]
+        self.blacklist = [
+            "https://eregpublicsecure.ksrzis.cz/jtp/public/ExterniZadost?s=ISIN_SOC"]
         self.links_to_posts = []
         self.scrapping_results = None
 
@@ -37,7 +39,8 @@ class Update_check():
     def run(self):
         # set default values to variables
         self.clear()
-        # first we need to fetch and scrapp all links of all posts from self.cathegories_url
+        # first we need to fetch and scrapp all links of all posts from
+        # self.cathegories_url
         self.scrap_content_from_links()
 
         self.fetch_db()
@@ -88,8 +91,10 @@ class Update_check():
                 link_to_detail = a.find(attrs={"class": "moreLink"})
 
                 if link_to_detail.find("a")["href"] not in self.links_to_posts:
-                    self.links_to_posts.append(link_to_detail.find("a")["href"])
-                next_page = soupData.find("a", attrs={"class": "next page-numbers"})
+                    self.links_to_posts.append(
+                        link_to_detail.find("a")["href"])
+                next_page = soupData.find(
+                    "a", attrs={"class": "next page-numbers"})
 
                 if next_page is not None:
                     page = requests.get(next_page["href"])
@@ -105,7 +110,8 @@ class Update_check():
             self.scrap_posts_links(cathegory_url)
             # links = self.scrap_posts_links(cathegory_url)  # get links of posts
             # self.links_of_posts[
-            # len(self.links_of_posts): len(links)] = links  # append all links of posts scrapped this run
+            # len(self.links_of_posts): len(links)] = links  # append all links
+            # of posts scrapped this run
         return
 
     def scrap_content_from_links(self):
@@ -116,17 +122,19 @@ class Update_check():
         self.scrapping_results = []
 
         for link in self.links_to_posts:
-            detail_page_soup = BeautifulSoup(requests.get(link).content, "html.parser")
+            detail_page_soup = BeautifulSoup(
+                requests.get(link).content, "html.parser")
 
-            article_posts = detail_page_soup.find_all("article", attrs={"class": "post"})
+            article_posts = detail_page_soup.find_all(
+                "article", attrs={"class": "post"})
 
             for article_post in article_posts:
                 # every item here contains at least one entry like this
                 """
                 <div class="wp-block-file">
-                    <a aria-label="soubor PDF – Nařízení Krajské hygienické stanice Karlovarského kraje č. 4.2020 s účinností od 5. 10. 2020" 
-                    title="soubor PDF – Nařízení Krajské hygienické stanice Karlovarského kraje č. 4.2020 s účinností od 5. 10. 2020" 
-                    href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/10/Na%C5%99%C3%ADzen%C3%AD-Krajsk%C3%A9-hygienick%C3%A9-stanice-Karlovarsk%C3%A9ho-kraje-%C4%8D.-4.2020.pdf" 
+                    <a aria-label="soubor PDF – Nařízení Krajské hygienické stanice Karlovarského kraje č. 4.2020 s účinností od 5. 10. 2020"
+                    title="soubor PDF – Nařízení Krajské hygienické stanice Karlovarského kraje č. 4.2020 s účinností od 5. 10. 2020"
+                    href="https://koronavirus.mzcr.cz/wp-content/uploads/2020/10/Na%C5%99%C3%ADzen%C3%AD-Krajsk%C3%A9-hygienick%C3%A9-stanice-Karlovarsk%C3%A9ho-kraje-%C4%8D.-4.2020.pdf"
                     class="link-file">
                     Nařízení Krajské hygienické stanice Karlovarského kraje č. 4.2020 s&nbsp;účinností od 5.&nbsp;10.&nbsp;2020</a>
                     <a aria-label="soubor PDF – Stáhnout"
@@ -137,9 +145,11 @@ class Update_check():
 
                 try:
 
-                    lines = article_post.find(attrs={"class": "entry"}).find_all(
-                        attrs={"class": "wp-block-file"}
-                    )
+                    lines = article_post.find(
+                        attrs={
+                            "class": "entry"}).find_all(
+                        attrs={
+                            "class": "wp-block-file"})
                     for line in lines:
                         text = line.find("a").text
                         link = line.find("a")["href"]
@@ -154,18 +164,16 @@ class Update_check():
 
                 except Exception:
                     logger.error(
-                        self.__name__ + "Somethig went wrong, maybe 'wp-block-file' or something like that not found"
-                    )
+                        self.__name__ +
+                        "Somethig went wrong, maybe 'wp-block-file' or something like that not found")
                     try:
-                        text = article_post.find(attrs={"class": "entry"}).find("a")[
-                            "title"
-                        ]
-                        link = article_post.find(attrs={"class": "entry"}).find("a")["href"]
+                        text = article_post.find(
+                            attrs={"class": "entry"}).find("a")["title"]
+                        link = article_post.find(
+                            attrs={"class": "entry"}).find("a")["href"]
                         logger.error(
                             "Trying to find at least something: Text: {}, link {}".format(
-                                text, link
-                            )
-                        )
+                                text, link))
                         self.scrapping_results.append(
                             {
                                 "name": text.replace("\xa0", " "),
@@ -174,7 +182,8 @@ class Update_check():
                         )
 
                     except Exception:
-                        logger.error("Scrapper: Unable to find text and/or link")
+                        logger.error(
+                            "Scrapper: Unable to find text and/or link")
 
         # now remove duplicates. Not very fast, but works
         tmp = []
@@ -200,8 +209,9 @@ class Update_check():
                 cursor.execute(
                     """select * from DOSTATO6.OPATRENI order by ID_OPATRENI desc"""
                 )
-                self.db_localcopy = return_as_array(description=cursor.description, data=cursor.fetchall())
-        except:
+                self.db_localcopy = return_as_array(
+                    description=cursor.description, data=cursor.fetchall())
+        except BaseException:
             logger.error("DB communication error")
 
         finally:  # maybe it is ok and still exitst
@@ -265,8 +275,8 @@ class Update_check():
             self.fetch_db()
 
         for line in self.db_localcopy:
-            if line["NAZEV_OPATRENI"] == name or line[
-                "ZDROJ"] == link:  # It is in the db, just check details and cathegorize
+            # It is in the db, just check details and cathegorize
+            if line["NAZEV_OPATRENI"] == name or line["ZDROJ"] == link:
 
                 if line["NAZEV_OPATRENI"] == name and line["ZDROJ"] != link:
 
@@ -278,19 +288,16 @@ class Update_check():
                             "ZDROJ": link
                         }
                     )
-                    self.all.append(line)  # to be able to figure out which ones are redundant
+                    # to be able to figure out which ones are redundant
+                    self.all.append(line)
 
                     logger.log(
                         "Opatření {} nalezeno, ID={}, změnil se odkaz. \nPůvodní:  {} \nAktuální: {}".format(
-                            name,
-                            line["ID_OPATRENI"],
-                            line["ZDROJ"],
-                            link
-                        )
-                    )
+                            name, line["ID_OPATRENI"], line["ZDROJ"], link))
                     return
 
-                # ok, lets skip situation when link remains same, but name is modified, it happends
+                # ok, lets skip situation when link remains same, but name is
+                # modified, it happends
 
                 # Need to fix this one in db
                 elif line["PLATNOST_AUTOOPRAVA"] == 2:
@@ -302,7 +309,8 @@ class Update_check():
                             "ZDROJ": link
                         }
                     )
-                    self.all.append(line)  # to be able to figure out which ones are redundant
+                    # to be able to figure out which ones are redundant
+                    self.all.append(line)
 
                     return
 
@@ -316,7 +324,8 @@ class Update_check():
                             "ZDROJ": link
                         }
                     )
-                    self.all.append(line)  # to be able to figure out which ones are redundant
+                    # to be able to figure out which ones are redundant
+                    self.all.append(line)
 
                     return
 
@@ -330,7 +339,8 @@ class Update_check():
                             "ZDROJ": link
                         }
                     )
-                    self.all.append(line)  # to be able to figure out which ones are redundant
+                    # to be able to figure out which ones are redundant
+                    self.all.append(line)
 
                     return
             else:
@@ -370,9 +380,9 @@ class Update_check():
                 {"nazev": name, "odkaz": link},
             )
             query_results = cursor.fetchall()
-            desc = (
-                cursor.description
-            )  # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz django schrousta
+            # pouzivam dale, kde se z techle dat dela neco jako slovnik, co uz
+            # django schrousta
+            desc = (cursor.description)
 
             db_contains = return_as_array(query_results, desc)
 
@@ -382,65 +392,68 @@ class Update_check():
                         db_contains[0]["PLATNOST_AUTOOPRAVA"] == 2
                         or db_contains[0]["PLATNOST_AUTOOPRAVA"] == 0
                 ):
-                    logger.log("Ceka na zpracovani nazev: {}, link: {}".format(name, link))
+                    logger.log(
+                        "Ceka na zpracovani nazev: {}, link: {}".format(
+                            name, link))
                     return 2
-                elif db_contains[0]["PLATNOST_AUTOOPRAVA"] == None:
-                    logger.log("Uz je v databazi, zpracovano  {}, link: {}".format(name, link))
+                elif db_contains[0]["PLATNOST_AUTOOPRAVA"] is None:
+                    logger.log(
+                        "Uz je v databazi, zpracovano  {}, link: {}".format(
+                            name, link))
                     return 1
                 else:
                     logger.log("v DB uz je  {}, link: {}".format(name, link))
                     return 0
 
             else:
-                cursor.execute("""select max(id_opatreni) as MAX_ID from opatreni;""")
+                cursor.execute(
+                    """select max(id_opatreni) as MAX_ID from opatreni;""")
 
-                # Meh. Next time I'll use autoincrement when creating a db. Sorry guys!
+                # Meh. Next time I'll use autoincrement when creating a db.
+                # Sorry guys!
                 max_id = int(
-                    return_as_dict(cursor.fetchone(), cursor.description)["MAX_ID"]
-                )
+                    return_as_dict(
+                        cursor.fetchone(),
+                        cursor.description)["MAX_ID"])
 
                 nazev_zkr = (
                     name
-                        .replace("Krajské ", "K")
-                        .replace("hygienické stanice", "HS")
-                        .replace(" se sídlem", "")
-                        .replace("s účinností ", "")
-                        .replace("-", " ")
+                    .replace("Krajské ", "K")
+                    .replace("hygienické stanice", "HS")
+                    .replace(" se sídlem", "")
+                    .replace("s účinností ", "")
+                    .replace("-", " ")
                 )
                 nazev_zkr = nazev_zkr[:250]
 
                 cursor.execute(
-                    """insert into opatreni (id_opatreni, nazev_opatreni, platnost_od, je_platne, 
-                zdroj, nazev_zkr, rozsah, platnost_do, zdroj_autooprava, 
+                    """insert into opatreni (id_opatreni, nazev_opatreni, platnost_od, je_platne,
+                zdroj, nazev_zkr, rozsah, platnost_do, zdroj_autooprava,
                 priorita, identifikator, platnost_autooprava, nazev_autooprava)  values   ( :id_opatreni,
-                         :nazev_opatreni, 
+                         :nazev_opatreni,
                          null,  -- platnost_od
                          2,    -- je_platne
-                         :zdroj, 
+                         :zdroj,
                          :nazev_zkr, -- limit 250 chars
                          null, -- rozsah
-                         null, -- platnost_do 
+                         null, -- platnost_do
                          null, -- zdroj_autooprava
                          0, -- priorita
                          null, -- identifikator
                          2, -- platnost_autooprava
                          null -- nazev_autooprava
-                         )""",
-                    {
-                        "id_opatreni": max_id + 1,
-                        "nazev_opatreni": name,
-                        "zdroj": link,
-                        "nazev_zkr": nazev_zkr,
-                    },
-                )
+                         )""", {
+                        "id_opatreni": max_id + 1, "nazev_opatreni": name, "zdroj": link, "nazev_zkr": nazev_zkr, }, )
 
-                cursor.execute("""select * from DOSTATO6.OPATRENI where ID_OPATRENI=:id_opatreni""",
-                               {
-                                   "id_opatreni": max_id + 1,
-                               }, )
+                cursor.execute(
+                    """select * from DOSTATO6.OPATRENI where ID_OPATRENI=:id_opatreni""", {
+                        "id_opatreni": max_id + 1, }, )
 
                 # add to "have in db" not to be marked as "to-remove"
-                self.all.append(return_as_dict(data=cursor.fetchone(), description=cursor.description))
+                self.all.append(
+                    return_as_dict(
+                        data=cursor.fetchone(),
+                        description=cursor.description))
 
                 cursor.execute("""commit;""")
         return 1
@@ -451,7 +464,10 @@ class Update_check():
 
     def remove_redundant_from_db(self, to_be_removed):
 
-        v = [self.remove_from_db(id=to_remove["ID_OPATRENI"], link=to_remove["ZDROJ"]) for to_remove in to_be_removed]
+        v = [
+            self.remove_from_db(
+                id=to_remove["ID_OPATRENI"],
+                link=to_remove["ZDROJ"]) for to_remove in to_be_removed]
         logger.log("remove_redundant_from_db: " + str(v))
         # self.to_be_removed = []
 
