@@ -64,113 +64,44 @@ def last_modified_date():
     return max(filter(lambda x: x is not None, lst)) if any(lst) else None
 
 
-# TODO: Work in progress
-def opatreni_stat():
+def opatreni_stat(id=1):
     """
     Vybere všechny OPATRENI navázané na stát (OP_STAT),
         které:
-            + mají OPATRENI.PLATNOST = 1
+            + mají OPATRENI.PLATNOST > 0
             + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
                 (zobrazují se na :zobrazit_dopredu dní dopředu))
 
     Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
 
     """
-
-    display_within = datetime.datetime.now() + datetime.timedelta(days=7)
-
-    precautions = State.objects.get(pk=1).precaution_set.filter(
-        valid_from__lte=display_within.replace(tzinfo=None),
-        valid_to__lte=datetime.datetime.now().replace(tzinfo=None),
-        status__gt=0)
-
-    test = model_to_dict(precautions)
-
-    precautions = precautions.all().prefetch_related("parts")
-
-    array = []
-    for p in precautions:
-
-        p.parts.all()
-        precautions_external = p.external_contents.all()
-        precautions_pes = p.pes_history_set.values()
-
-        for part in p.parts.all():
-            part_external = []
-            if part.external_contents:
-                part_external = part.external_contents.values()
-            cathegory = part.cathegory
-
-    newlist = sorted(array, key=lambda k: k['priorita'])
-
-    cursor = connection.cursor()
-    # do not look here, it looks much worse than before, I'll do my best to use models instead
-    """ 
-    select * from (
-        select * from (
-                      select *
-                      from (
-                               select *
-                               from (
-                                        select *
-                                        from (
-                                                 select *
-                                                 from (select precaution_id
-                                                       from precaution_state
-                                                       where state_id = 1
-                                                      ) as pr
-                                                          join precaution on precaution.id = pr.precaution_id
-                                             ) as prec
-                                                 join precaution_parts using (precaution_id)
-                                    ) as pa
-                                        join part on part.id = pa.parts_id
-                           ) as parts
-    
-                               join cathegory on cathegory.id = cathegory_id
-                  ) as pwp
-        join precaution_external_contents using (precaution_id)
-        )  as pre
-    join external_content on public.external_content.id=pre.externalcontent_id
-
     """
-    qu = """select * from (
-                select * from (
-                      select * from (
-                               -- stat
-                               select distinct null as nazev_obecmesto,
-                                               null as nazev_nuts,
-                                               null as nazev_okres,
-                                               null as nazev_kraj,
-                                               id_opatreni,
-                                               nazev_opatreni,
-                                               nazev_zkr,
-                                               zdroj,
-                                               ROZSAH,
-                                               platnost_od,
-                                               platnost_do,
-                                               platnost_autooprava,
-                                               zdroj_autooprava,
-                                               nazev_autooprava,
-                                               CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO
-    
-                               from (
-                                        select *
-                                        from OP_STAT
-                                                 join OPATRENI using (id_opatreni)
-                                        where (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null)
-                                          and trunc(sysdate) >= PLATNOST_OD - :zobrazit_dopredu
-                                          and je_platne = 1
-                                    )
-                           )
-                               join polozka on id_opatreni = opatreni_id_opatreni
-                  )
-                      join kategorie on kategorie.id_kategorie = kategorie_id_kategorie)
-        order by PRIORITA_ZOBRAZENI asc, PLATNOST_OD desc, NAZEV asc, TYP desc;"""
-    with connection.cursor() as cursor:
-        cursor.execute(qu, {"zobrazit_dopredu": DNI_DOPREDU})
-        array = return_as_array(cursor.fetchall(), cursor.description)
-        location = {}
-        return display_by_cath(array), location
+
+    p = Precaution.objects.annotate(
+        order_priority=Max('parts__category__priority')).order_by('-order_priority')
+    # select only those valid for state=1
+    p = p.filter(state__id=1)
+
+    # filter valid only
+    p = p.filter(valid_from__lte=datetime.datetime.now().replace(tzinfo=utc),
+                 # valid_to__gte=datetime.datetime.now(),
+                 status__gt=0)
+    """
+    res = []
+
+    for c in Category.objects.order_by("priority").all():
+        parts = c.parts_set.filter(
+            precaution__valid_from__lte=datetime.datetime.now().replace(tzinfo=utc),
+            # precaution__valid_to__gte=datetime.datetime.now(),
+            # uncomment to have right matching data displayed
+            precaution__status__gt=0,
+            precaution__state__id=1).all()
+        parts = parts.prefetch_related(
+            "precaution_set",
+            "external_contents__parts_set",
+            "category")
+        res.append({"category": c, "data": parts})
+    return res
 
 
 def opatreni_nuts(id_nuts):
