@@ -1,4 +1,3 @@
-# import json
 from datetime import datetime, timedelta
 
 import requests
@@ -51,26 +50,22 @@ class SearchView(ListView):
         nuts4 = Nuts4.objects.filter(name__istartswith=query_string)
         cities = City.objects.filter(name__istartswith=query_string)
 
-update_controller = Update_check()
+"""
+
 
 # /aktualnost/
 # TODO: Work in progress
 def aktualnost(request):
-
     global update_controller
     last_db_check = UpdateLogs.objects.latest('date_updated').date_updated
-    if (datetime.datetime.now().replace(tzinfo=pytz.UTC) - last_db_check) < timedelta(minutes=2):
+
+    now = datetime.datetime.now().replace(tzinfo=pytz.UTC)
+    if (now - last_db_check) < timedelta(minutes=2):
         print("Aktualnost kontrolovana pred mene nez 2 minutami")
     else:
         update_controller.run()
 
-    missing = update_controller.to_be_added
-    change_link = update_controller.to_be_changed_link
-    to_review = update_controller.to_be_reviewed
-    to_removed = None  # TODO
-
     up_to_date = update_controller.up_to_date
-
     to_be_modified = update_controller.to_be_modified
     to_be_removed = update_controller.to_be_removed
     to_be_changed_link = update_controller.to_be_changed_link
@@ -114,13 +109,12 @@ def aktualnost(request):
                         i["NAZEV_OPATRENI"],
                         i["ZDROJ"]))
 
-
         except Exception:
-            pass;
+            pass
 
     if len(missing) != 0:
         stat = "Data jsou z {}% kompletní a aktuální. \n"
-    elif len(total) == 0:
+    elif total == 0:
         stat = "Aktuálnost jsme nebyli schopni ověřit"
         print("ALERT neaktuální data")
 
@@ -143,8 +137,8 @@ def aktualnost(request):
         up_to_date_percents=up_to_date_percents,
         missing_count=len(to_be_added),
         missing_json=to_be_added,
-        change_link_count=len(change_link),
-        change_link_json=change_link,
+        change_link_count=len(to_be_changed_link),
+        change_link_json=to_be_changed_link,
         outdated_count=len(to_be_removed),
         outdated_json=to_be_removed,
         total_changes=total_changes
@@ -159,7 +153,7 @@ def aktualnost(request):
             "celkem": total,
             "ubrat": to_be_removed,
             "stejne": up_to_date,
-            "zmena": change_link,
+            "zmena": to_be_changed_link,
             "statistika": stat,
             "celk_mame": total_changes,
             "last_check": last_check(),
@@ -170,7 +164,7 @@ def aktualnost(request):
 
 # /opatreni/
 def opatreni(request):
-    # todo: change paths to something like /precaution/city/123 instead of /opatreni/?obecmesto_id=123
+    # todo: paths to /precaution/city/5 inestead of /opatreni/?obecmesto_id=5
     # ?obecmesto_id=replace"
     # "?nuts3_id=replace"'.
     # "?kraj_id=replace"'
@@ -185,26 +179,23 @@ def opatreni(request):
     location = None
     res = None
 
-    if (
-            id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == ""
-    ):  # stat
+    # stat
+    if id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == "":
         kraj_id = str(1)
         res = opatreni_stat()
 
-    if (
-            id_obecmesto == "" and nuts3_id == "" and kraj_id != "" and okres_id == ""
-    ):  # kraj
+    # kraj
+    if id_obecmesto == "" and nuts3_id == "" and kraj_id != "" and okres_id == "":
         res = opatreni_kraj(kraj_id)
-
-    elif (
-            (nuts3_id != "") and (id_obecmesto == "") and (kraj_id == "") and okres_id == ""
-    ):  # nuts
+    # nuts
+    elif nuts3_id != "" and id_obecmesto == "" and kraj_id == "" and okres_id == "":
         res = opatreni_nuts(nuts3_id)
-
+    # okres
     elif id_obecmesto == "" and nuts3_id == "" and okres_id != "" and kraj_id == "":
         res = opatreni_okres(okres_id)
 
-    elif id_obecmesto != "" and nuts3_id == "" and kraj_id == "":  # obecmesto
+    # obecmesto
+    elif id_obecmesto != "" and nuts3_id == "" and kraj_id == "":
         res = opatreni_om(id_obecmesto)
 
     by_cath = res[0]
@@ -216,7 +207,6 @@ def opatreni(request):
             "query_results": by_cath,
             "location": location,
             "posledni_databaze": last_modified_date(),
-            "now": datetime.now(),
             "last_check": last_check(),
             "last_modified": last_modified_date(),
         },
@@ -225,33 +215,17 @@ def opatreni(request):
 
 # /celostatni-opatreni
 def opatreni_celoplosne(request):
-    array = State.objects.all()[0].precaution_set.all()
-    array = opatreni_stat()
-
-    # oder by cathegory
-    """by_cath = []
-    existing = []
-    for col in array:
-        if ("NAZEV_KAT" in col):  # fajn, ted zkontroluju, jestli uz jsem to vypsal, nebo ne
-            if (col["NAZEV_KAT"] in existing):
-                by_cath[len(by_cath) - 1]["narizeni"].append(col)
-            else:
-                existing.append(col["NAZEV_KAT"])
-                tmp = {"kategorie": col["NAZEV_KAT"], "narizeni": [col]}
-                by_cath.append(tmp)
-    """
-
+    t = opatreni_stat()
     return render(
         request,
-        "sites/celostatni_opatreni.html",
+        "sites/celostatni_opatreni_Test.html",
         {
-            "query_results": array,
-            "posledni_databaze": last_modified_date(),
-            "now": datetime.now(),
+            "query_results": t,
             "last_check": last_check(),
             "last_modified": last_modified_date(),
         },
     )
+
 
 # /o-projektu/
 def about(request):
@@ -264,12 +238,12 @@ def about(request):
         },
     )
 
+
 # /
 def home(request):
     try:
         r = requests.get(
-            url="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json"
-        )
+            url="https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/zakladni-prehled.json")
         result = r.json()["data"]
 
         result = result[0]
@@ -341,9 +315,8 @@ def kontrola_zadaneho(request):
         cursor.execute(
             """select distinct ID_OPATRENI, 1 as ID_STAT, 'Česká Republika' as NAZEV_STAT  from(
                             select * from OPATRENI where ID_OPATRENI = :id_op
-                            )  join OP_STAT using (ID_OPATRENI);""",
-            {"id_op": id_opatreni},
-        )
+                            )  join OP_STAT using (ID_OPATRENI);""", {
+                "id_op": id_opatreni}, )
         platnost_cr = return_as_array(cursor.fetchall(), cursor.description)
         pocet_prirazenych_mist += len(platnost_cr)
 
@@ -387,7 +360,8 @@ def kontrola_zadaneho(request):
                               select * from(
                                 select * from OPATRENI where ID_OPATRENI =  :id_op
                                 )  join OP_OM on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join OBECMESTO on OBECMESTO_ID_OBECMESTO=ID_OBECMESTO order by ID_OBECMESTO;""",
+                            ) join OBECMESTO on OBECMESTO_ID_OBECMESTO=ID_OBECMESTO
+                            order by ID_OBECMESTO;""",
             {"id_op": id_opatreni},
         )
         platnost_om = return_as_array(cursor.fetchall(), cursor.description)
@@ -402,7 +376,8 @@ def kontrola_zadaneho(request):
                         order by ID_KATEGORIE;""",
             {"id_op": id_opatreni},
         )
-        polozky_opatreni = return_as_array(cursor.fetchall(), cursor.description)
+        polozky_opatreni = return_as_array(
+            cursor.fetchall(), cursor.description)
 
         cursor.execute(
             """select *  from opatreni where  ID_OPATRENI = :id_op;""",
