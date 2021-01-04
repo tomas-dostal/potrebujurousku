@@ -1,13 +1,6 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 import datetime
-
 from django.db import models
+from pytz import utc
 
 
 class AuthGroup(models.Model):
@@ -43,7 +36,11 @@ class AuthUser(models.Model):
     password = models.CharField(max_length=128, blank=True, null=True)
     last_login = models.DateTimeField(blank=True, null=True)
     is_superuser = models.BooleanField()
-    username = models.CharField(unique=True, max_length=150, blank=True, null=True)
+    username = models.CharField(
+        unique=True,
+        max_length=150,
+        blank=True,
+        null=True)
     first_name = models.CharField(max_length=150, blank=True, null=True)
     last_name = models.CharField(max_length=150, blank=True, null=True)
     email = models.CharField(max_length=254, blank=True, null=True)
@@ -82,7 +79,11 @@ class DjangoAdminLog(models.Model):
     object_repr = models.CharField(max_length=200, blank=True, null=True)
     action_flag = models.IntegerField()
     change_message = models.TextField(blank=True, null=True)
-    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    content_type = models.ForeignKey(
+        'DjangoContentType',
+        models.DO_NOTHING,
+        blank=True,
+        null=True)
     user = models.ForeignKey(AuthUser, models.DO_NOTHING)
 
     class Meta:
@@ -128,26 +129,15 @@ class DjangoSession(models.Model):
 #     \- City (Vrbno pod Pradědem) # city or village or whatever
 
 
-"""
-class Cast(models.Model):
-    id_cast = models.BigIntegerField(primary_key=True)
-    nazev_cast = models.CharField(max_length=50)
-    obecmesto_id_obecmesto = models.ForeignKey('projektrouska.models.City', models.DO_NOTHING, db_column='obecmesto_id_obecmesto')
-    obecmesto_nuts3_id_nuts = models.ForeignKey('projektrouska.models.City', models.DO_NOTHING, db_column='obecmesto_nuts3_id_nuts')
-    obecmesto_nuts3_kraj_id_kraj = models.ForeignKey('projektrouska.models.City', models.DO_NOTHING, db_column='obecmesto_nuts3_kraj_id_kraj')
-
-    class Meta:
-        managed = False
-        db_table = 'cast'
-        unique_together = (('id_cast', 'obecmesto_id_obecmesto', 'obecmesto_nuts3_id_nuts', 'obecmesto_nuts3_kraj_id_kraj'),)
-"""
-
 # import order
 # 1) state
 # 2) region
 # 3) nuts4
 # 4) district
 # 5) city
+
+# precaution
+# parts
 
 # State
 class State(models.Model):
@@ -159,6 +149,7 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # Kraj
 class Region(models.Model):
@@ -175,12 +166,42 @@ class Region(models.Model):
     def __str__(self):
         return self.name
 
+    def all_regional_precautions(self):
+        return self.precaution_set.all()
+
+    def belongs_to(self, target: State) -> bool:
+        return self.state == target
+
+
+# okres
+class District(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=60, blank=True, null=True)
+    code = models.CharField(max_length=50, null=True)
+
+    # Foreign keys
+    nuts4 = models.ForeignKey('Nuts4', on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+    state = models.ForeignKey(State, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'district'
+        unique_together = (('id', 'nuts4', 'region', 'state'),)
+
+    def __str__(self):
+        return self.name
+
+    def belongs_to(self, target: State) -> bool:
+        return self.region.belongs_to(State)
+
+
 # nuts4, something like a part of Region that contains Districts
 class Nuts4(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
 
-    code_index = models.BigIntegerField(blank=True, null=True)  # another code WTF
+    code_index = models.BigIntegerField(
+        blank=True, null=True)  # another code WTF
     code = models.CharField(max_length=50, null=True)  # CZ032
 
     # Foreign keys
@@ -193,23 +214,10 @@ class Nuts4(models.Model):
 
     def __str__(self):
         return self.name
-# okres
-class District(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=60, blank=True, null=True)
-    code = models.CharField(max_length=50, null=True)
 
-    # Foreign keys
-    nuts4 = models.ForeignKey(Nuts4, on_delete=models.CASCADE)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
-    state = models.ForeignKey(State, on_delete=models.CASCADE)
+    def belongs_to(self, target: District) -> bool:
+        return target in self.district_set.all()
 
-    class Meta:
-        db_table = 'district'
-        unique_together = (('id', 'nuts4', 'region', 'state'),)
-
-    def __str__(self):
-        return self.name
 
 # obecmesto
 class City(models.Model):
@@ -230,12 +238,17 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def belongs_to(self, target: Nuts4) -> bool:
+        return target == self.nuts4
+
+
 # stores data from Update check
 class UpdateLogs(models.Model):
     id = models.AutoField(primary_key=True)
 
     checksum = models.CharField(max_length=50, blank=False, null=True)
-    date_updated = models.DateTimeField(default=datetime.datetime.now,  blank=False, null=False)
+    date_updated = models.DateTimeField(
+        default=datetime.datetime.now, blank=False, null=False)
 
     comment = models.TextField(blank=True, null=True)
 
@@ -257,10 +270,13 @@ class UpdateLogs(models.Model):
 
     def __str__(self):
         return str(self.id) + "_" + self.checksum
+
+
 class ExternalContent(models.Model):
     id = models.AutoField(primary_key=True)
 
-    date_inserted = models.DateTimeField(default=datetime.datetime.now,  blank=False, null=False)
+    date_inserted = models.DateTimeField(
+        default=datetime.datetime.now, blank=False, null=False)
     date_modified = models.DateTimeField(blank=True, null=True)
 
     GENERAL = 'URL'
@@ -296,24 +312,27 @@ class ExternalContent(models.Model):
     preview = models.BooleanField()
 
     # locally stored thumbnail of the content
-    img_thumbnail = models.URLField( blank=True, null=True)
+    img_thumbnail = models.URLField(blank=True, null=True)
 
     # url to external file/content/site/whatever
-    url_external = models.URLField()
+    url_external = models.TextField()
 
     # local copy of the content
     url_local_copy = models.URLField(blank=True, null=True)
     # MD5 hash of local copy - to be able to detect changes
     content_hash = models.CharField(max_length=50, blank=True, null=True)
 
-    # it might be very usefull to implement somehting like linked list of all previos versions
-    #previous_version = models.OneToOneField(ExternalContent)
+    # it might be very usefull to implement somehting like linked
+    # list of all previos versions
+    # previous_version = models.OneToOneField(ExternalContent)
     class Meta:
         db_table = 'external_content'
 
     def __str__(self):
         return str(self.id) + "_" + self.content_type
-class Cathegory(models.Model):
+
+
+class Category(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     fa_icon = models.CharField(max_length=50)
@@ -322,10 +341,18 @@ class Cathegory(models.Model):
     priority = models.IntegerField()
 
     class Meta:
-        db_table = 'cathegory'
+        db_table = 'category'
 
     def __str__(self):
         return self.name
+
+    def get_precautions(self, active=False):
+        return [p.get_parents(active_only=active)
+                for p in self.parts_set.all()]
+
+    def get_parts(self):
+        return self.parts_set.all()
+
 
 class Parts(models.Model):
     id = models.AutoField(primary_key=True)
@@ -336,7 +363,7 @@ class Parts(models.Model):
     # is there anyonw who does not need to fullfill this part of Precaution
     exceptions = models.TextField(blank=True, null=True)
 
-    cathegory = models.ForeignKey(Cathegory, null=True,  on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
 
     INFORMATION = 'info'
     RECOMMENDATION = 'warning'
@@ -372,20 +399,42 @@ class Parts(models.Model):
         choices=MODALS,
         default=MEDIUM,
     )
-    # one to many
-    external_contents = models.ForeignKey(ExternalContent, null=True, on_delete=models.CASCADE)
+    # many to many
+    external_contents = models.ManyToManyField(ExternalContent)
 
     icon = models.CharField(max_length=40, blank=True, null=True)
 
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True)
+    modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         db_table = 'part'
-        #unique_together = (('id', 'precaution'),)
+        # unique_together = (('id', 'precaution'),)
 
     def __str__(self):
         return "ID={}_{}".format(self.id, self.name[:100])
+
+    def get_parents(self, active_only=False):
+        if active_only:
+            return self.precaution_set.all().filter(
+                valid_from__lte=datetime.datetime.now(),
+                valid_to__gte=datetime.datetime.now(),
+                status__gt=0)
+        return self.precaution_set.all()
+
+    def get_category(self):
+        return "%s" % self.category.name
+
+    def get_external(self):
+        return self.external_contents.all()
+
+    def get_thumbnail_if_exists(self):
+        thumbnails = self.external_contents.filter(
+            img_thumbnail__isnull=False).all()
+        if thumbnails.count() > 0:
+            return thumbnails[0].img_thumbnail
+        return
 
 
 # Opatření
@@ -405,7 +454,8 @@ class Precaution(models.Model):
     external_contents = models.ManyToManyField(ExternalContent)
 
     # Precautions are usually divided into several parts.
-    # It is divided here for better orientation. Also, when precautions change, parts are usually just slightly modified.
+    # It is divided here for better orientation. Also, when precautions change,
+    # parts are usually just slightly modified.
     parts = models.ManyToManyField(Parts)
 
     # life_situations = models.ManyToManyField(LifeSituations)
@@ -428,7 +478,7 @@ class Precaution(models.Model):
     # former "je_platne"
     status = models.IntegerField(
         choices=STATUS_CHOICES,
-        default=ENABLED_AUTO,
+        default=CHECK_REQUIRED,
     )
 
     NOT_FILLED = -1  # used when mass imported
@@ -440,7 +490,7 @@ class Precaution(models.Model):
 
     PRIORITY_CHOICES = [
         (NOT_FILLED, 'Not filled'),
-        (REDUNDANT, 'Redundant (it is here just to auto-check to be satisfied)'),
+        (REDUNDANT, 'Redundant (it is here just for auto-check)'),
         (MIGHT_BE_USEFUL, 'It might be useful'),
         (GOOD_TO_KNOW, 'Slightly important information, good to know'),
         (NEED_TO_KNOW, 'Important information, have to know'),
@@ -459,15 +509,49 @@ class Precaution(models.Model):
     district = models.ManyToManyField(District)
     city = models.ManyToManyField(City)
 
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(
+        auto_now_add=True, blank=True, null=True)
+    modified_date = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     class Meta:
         db_table = 'precaution'
-        #unique_together = (('id', 'parts'),)
 
     def __str__(self):
         return "ID={}_{}".format(self.id, self.short_name[:100])
+
+    def get_parts(self):
+        return self.parts.all()
+
+    def get_locations_where_valid(self):
+        """
+        :return: Set of all places where precaution is active.
+        Not recursive - if valid e.g. in Prague region and
+        Moravskoslezský region, it return just those two regions,
+        nothing "smaller"
+        """
+        tmp = list(self.state.all()) + list(self.region.all()) \
+              + list(self.district.all()) + list(self.city.all()) \
+              + list(self.nuts4.all())
+        return tmp
+
+    def is_active(self, now=datetime.datetime.now(), days_to_future=0):
+        now = now.replace(tzinfo=utc)
+        display_within = (
+                now +
+                datetime.timedelta(
+                    days=days_to_future)).replace(
+            tzinfo=utc)
+        return self.status > 0 and self.valid_from <= display_within and self.valid_to and self.valid_to >= now
+
+    # okay, it was a nice try to spicify data types etc. Python does not seems
+    # to care.
+    def is_valid_here(self, re: Region) -> bool:
+        if (isinstance(re, Region)):
+            return re in self.region.all()
+        elif (isinstance(re, State)):
+            return re in self.state.all()
+        # todo
+
 
 class PES_general(models.Model):
     degree = models.AutoField(primary_key=True)
@@ -479,13 +563,16 @@ class PES_general(models.Model):
 
     parts = models.ManyToManyField(Parts)
 
-    external_contents = models.ForeignKey(ExternalContent, on_delete=models.CASCADE)
+    external_contents = models.ForeignKey(
+        ExternalContent, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'pes_general'
 
     def __str__(self):
         return self.degree
+
+
 class PES_history(models.Model):
     id = models.AutoField(primary_key=True)
 
@@ -494,8 +581,7 @@ class PES_history(models.Model):
 
     # current index in selected region/country
     index = models.IntegerField()
-
-    pes_general = models.ForeignKey(PES_general,  on_delete=models.CASCADE)
+    pes_general = models.ForeignKey(PES_general, on_delete=models.CASCADE)
 
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
@@ -504,5 +590,3 @@ class PES_history(models.Model):
 
     class Meta:
         db_table = 'pes_history'
-
-
