@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from projektrouska.models import City, State, Region, District, Nuts4
-from itertools import chain
+
 
 def find_place_by_name(request):
     # misto, ktere hledam je ulozene v args
@@ -18,14 +18,10 @@ def find_place_by_name(request):
     nuts4 = Nuts4.objects.filter(name__istartswith=query_string)
     cities = City.objects.filter(name__istartswith=query_string)
 
-    results = list(chain([s.place_as_dict for s in list(states)],
-                         [r.place_as_dict for r in list(regions)],
-                         [d.place_as_dict for d in list(districts)],
-                         [n.place_as_dict for n in list(nuts4)],
-                         [c.place_as_dict for c in list(cities)]))
+    merged = list(states) + list(regions) + list(districts) + list(nuts4) + list(cities)
 
-    jsonStr = json.dumps(results)
+    json_str = json.dumps([place.place_as_dict() for place in merged])
 
-    if (jsonStr == []):
+    if json_str == "[]":
         return JsonResponse({'data': 'empty'}, safe=False)
-    return JsonResponse(jsonStr, safe=False)
+    return JsonResponse(json_str, safe=False)
