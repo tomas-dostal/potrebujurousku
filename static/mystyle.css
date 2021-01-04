@@ -1,50 +1,49 @@
-body
-{
-    padding:0px;
+body {
+    padding: 0;
     background-color: #fbfbfb;
 }
+
 html,
 body {
-  height: 100%;
-
+    height: 100%;
 }
+
 .cut-text {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 100%;
-  white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
 }
 
 @media (max-width: 768px) {
-
    /* full-width, dropdown-menu, btn-group-vertical{
         width:100%;
     }*/
 }
-#myicon
-{
 
- width: 40px !important;
-height: 40px !important;
+#myicon {
+    width: 40px !important;
+    height: 40px !important;
 }
+
 p {
-  margin-bottom: 1.5em !important;
+    margin-bottom: 1.5em !important;
 }
 
-.btn
-{
+.btn {
     margin-top: 5px !important;
-    margin-bottom:  5px !important;
+    margin-bottom: 5px !important;
     white-space: normal;
     word-break: break-word;
 }
-#dropdown-menu, #search_results
-{
+
+#dropdown-menu,
+#search_results {
     padding: 0 !important;
     display: list-item;
-    column-break-inside: avoid;
     list-style: none;
 }
+
 .cell-breakAll {
    word-break: break-all;
 }
@@ -52,49 +51,45 @@ p {
 .jumbotron {
     padding: 1rem 1rem !important;
     background-color: transparent;
-
 }
 
-.bg-dark
-{
+.bg-dark {
     background-color: #262729 !important;
-    padding:  0.6rem 1rem
-;
+    padding: 0.6rem 1rem;
 }
 
-.link-unstyled,  a:focus
-{
+.link-unstyled,
+a:focus {
     color: #CCC !important;
     text-decoration: none;
 }
+
 .nav-link:active {
-    color:#CCC !important;
+    color: #CCC !important;
     text-decoration: underline !important;
 }
 
-.navbar-dark .navbar-nav .nav-link
-{
-    color:#CCC;
-
+.navbar-dark .navbar-nav .nav-link {
+    color: #CCC;
 }
+
 
 /* Styles for wrapping the search box */
-card
-{
+
+card {
     border-radius: 16px !important;
 }
-.tight
-{
 
+.tight {
     width: 60%;
     margin: 20px auto;
 }
 
-.wide
-{
+.wide {
     width: 90%;
     margin: 20px auto;
 }
+
 
 /* Bootstrap 4 text input with search icon */
 
@@ -114,24 +109,18 @@ card
     color: #aaa;
 }
 
-
 ::placeholder {
-  color: #c4c5c4 !important;
+    color: #c4c5c4 !important;
 }
 
-#spinner
-{
+#spinner {
     margin-top: 15px;
 }
 
-
-.searchbox
-{
+.searchbox {
     margin-top: auto !important;
     margin-bottom: auto !important;
-
 }
-
 
 @media (min-width: 34em) {
     .card-columns {
@@ -147,7 +136,6 @@ card
         -moz-column-count: 3;
         column-count: 3;
     }
-
 }
 
 @media (min-width: 62em) {
@@ -165,6 +153,8 @@ card
         column-count: 5;
     }
 }
+
+
 /* please forgive me
 @media (min-width: 1464px) and (max-width: 439px) {
     #update-indicator-mobile
@@ -176,58 +166,65 @@ card
         display: flex;
     }
 }*/
+
+
 /* please forgive me */
-.dropdown-toggle
-{
+
+.dropdown-toggle {
     display: block;
 }
 
-.fa-2x
-{
+.fa-2x {
    padding: 10px 0;
 }
 
-@media (max-width: 1463px) and (min-width: 440px){
-    #update-indicator-mobile
-    {
+@media (max-width: 1463px) and (min-width: 440px) {
+    #update-indicator-mobile {
         display: flex;
-
     }
-    #update-indicator-pc
-    {
+
+    #update-indicator-pc {
         display: none;
     }
 }
 
-@media  (min-width: 1464px){
-    #update-indicator-mobile
-    {
+@media (min-width: 1464px) {
+    #update-indicator-mobile {
         display: none;
-
     }
-    #update-indicator-pc
-    {
+
+    #update-indicator-pc {
         display: flex;
     }
 }
 
-@media  (max-width: 439px){
-    #update-indicator-mobile
-    {
+@media (max-width: 439px) {
+    #update-indicator-mobile {
         display: none;
-
     }
-    #update-indicator-pc
-    {
+
+    #update-indicator-pc {
         display: flex;
     }
 }
 
-.unselectable
-{
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* IE10+/Edge */
-    user-select: none; /* Standard */
+.unselectable {
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+}
 
+.badge-right {
+    float: right !important;
+    display: flex;
+    margin-left: auto;
+}
+
+.close {
+    margin-left: 0 !important;
 }
