@@ -15,6 +15,7 @@ logger = Logger()
 class UpdateCheck():
 
     def __init__(self):
+
         self.clear()
 
     def clear(self):
@@ -33,6 +34,9 @@ class UpdateCheck():
         self.to_be_modified = []
 
         self.to_be_reviewed = []  # todo: not implemented in the rest of app
+
+        self.all_precautions_from_db = Precaution.objects.prefetch_related(
+            "external_contents", "parts")
 
     def run(self):
         # set default values to variables
@@ -199,7 +203,7 @@ class UpdateCheck():
         # I don't really want to delete it, just set as "inactive"
         # Precaution.objects.filter(id=id).delete()
         try:
-            p = Precaution.objects.get(id=id)
+            p = self.all_precautions_from_db.get(id=id)
             p.status = Precaution.DISABLED_AUTO
             p.save()
             return True
@@ -220,8 +224,8 @@ class UpdateCheck():
         "chybi": array of missing items }
 
         """
-        for item in self.scrapping_results:
-            self.add_if_not_exists(name=item["name"], link=item["link"])
+        for res in self.scrapping_results:
+            self.add_if_not_exists(name=res["name"], link=res["link"])
         return
 
     def add_if_not_exists(self, name, link):
@@ -240,7 +244,7 @@ class UpdateCheck():
         # ---- case 1 - matching both ----
 
         global item
-        res = Precaution.objects.filter(
+        res = self.all_precautions_from_db.filter(
             external_contents__url_external__exact=link).filter(
             full_name__exact=name).all()
 
@@ -283,9 +287,10 @@ class UpdateCheck():
 
         # ---- case 2 - matching one of {name, link} ----
 
-        matching_link = Precaution.objects.filter(
+        matching_link = self.all_precautions_from_db.filter(
             external_contents__url_external__exact=link)
-        matching_name = Precaution.objects.filter(full_name__exact=name)
+        matching_name = self.all_precautions_from_db.filter(
+            full_name__exact=name)
         intersection = matching_link & matching_name
 
         matching_name_only = intersection.difference(matching_name)
@@ -330,8 +335,7 @@ class UpdateCheck():
             )
 
             short_name = (
-                name
-                    .replace("Krajské ", "K")
+                name.replace("Krajské ", "K")
                     .replace("hygienické stanice", "HS")
                     .replace(" se sídlem", "")
                     .replace("s účinností ", "")
@@ -343,22 +347,22 @@ class UpdateCheck():
                 full_name=name,
                 short_name=short_name,
                 status=Precaution.ENABLED_AUTO,
-                created_date=datetime.datetime.now()
+                created_date=datetime.datetime.now().replace(tzinfo=utc)
             )
             p.save()
 
             type = ExternalContent.GENERAL
-            if ("pdf" in link or "PDF" in link):
+            if "pdf" in link or "PDF" in link:
                 type = ExternalContent.PDF
 
             e = ExternalContent(
-                date_inserted=datetime.datetime.now(),
+                date_inserted=datetime.datetime.now().replace(tzinfo=utc),
                 content_type=type,
                 preview=False,
                 url_external=link
             )
             logger.log(
-                "Přidat (id {}) nazev: {}, link: {} , novylink {}".format(
+                "Přidat (id {}) nazev: {}, novylink {}".format(
                     p.id, name, link))
 
             e.save()

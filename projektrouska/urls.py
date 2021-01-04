@@ -57,7 +57,7 @@ urlpatterns = [
     path("api/update_stats", get_update_stats, name="update_stats"),
     path("api/all_update_stats", get_all_update_stats, name="update_stats"),
      path("admin/kontrola-zadaneho/", kontrola_zadaneho, name="admin_kontrola_zadaneho"),
-     path("admin/grafiky/", graphs, name="admin_kontrola_zadaneho"),
+                  path("admin/graphs/", graphs, name="admin_graf"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = custom_page_not_found_view

@@ -1,10 +1,10 @@
 {% extends 'sites/parts/header.html' %}
 
-{% block title %}Potřebujuroušku.cz - Informace o COVID nařízeních na jednom místě{% endblock %}
-
+{% block title %}Potřebujuroušku.cz - Informace o COVID nařízeních: Celostátní opatření{% endblock %}
 {% block content %}
+    {% load static %}
 {% load my_filters %}
-{% load static %}
+
 <!-- Main jumbotron for a primary marketing message or call to action -->
 <div class="main">
 	<div class="tight">
@@ -35,7 +35,6 @@
 
 		<div class="card-columns" id="info-tab">
 			<div class="card">
-				<!--<img class="card-img-top" src="{% static './city.jpg' %} " alt="Card image cap">-->
 				<div class="card-body">
 					<h5 class="card-title text-center">Zadejte <b>název obce, města, okresu, či kraje</b></h5>
 					<p class="card-text text-center">
@@ -43,7 +42,6 @@
 				</div>
 			</div>
         <div class="card">
-            <!--<img class="card-img-top" src="{% static './city.jpg' %} " alt="Card image cap">-->
             <div class="card-body">
                 <h5 class="card-title text-center">Potřebujuroušku.cz v novém kabátě</h5>
                 <p class="card-text text-center">Snažíme se stránky vylepšovat, aby se Vám lépe používaly. Nově jsme přidali například infokartu, či vylepšili vyhledávání. Budeme rádi, když nám dáte vědět, jak se Vám změny líbí. <a href="mailto:admin@potrebujurousku.cz?subject=[Info] Redesign potrebujurousku.cz&body=Dobrý den, Píšu ohledně nového vzhledu potrebujurousku.cz. Líbí se mi... ">Napište nám!</a> </p>
@@ -53,10 +51,12 @@
         <div class="card" >
             <div class="card-body">
 
-                {% if zastarala_data.zastarala_data == True %}
+                {% if last_check.is_outdated == True %}
                     <h5 class="card-title text-center">Došlo k chybě kontroly aktualizací</h5>
 
-                    <p class="card-text text-center">Poslední kontrola úspěšně proběhla <span class="badge badge-info">{{ kontrola.DATE_UPDATED }}</span>, což je před <span class="badge badge-danger">{{ zastarala_data.posledni_uspesna_kontrola_timespan }} </span></p>
+                    <p class="card-text text-center">Poslední last_check úspěšně proběhla <span
+                            class="badge badge-info">{{ last_check.last_check_datetime }}</span>, což je před <span
+                            class="badge badge-danger">{{ last_check.last_check_timespan_str }} </span></p>
                     <br>
                     <p class="card-text text-center">Z nějakého důvodu aktualizační skript nevrátil už nějakou dobu žádná data.
                         Může za tím být cokoli od toho, že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví provedli až tak rozsáhlé změny, že to náš aktualizační skript nerozdýchal až po problémy s naší databází. Nutně to ještě nemusí znamenat, že data na stránkách nejsou aktuální - jenom a pouze to v tuto chvíli nedokážeme ověřit.</p>
@@ -64,14 +64,19 @@
                 {% else %}
 
 
-                    {% if kontrola.CELK_ZMEN == 0 %}
+                    {% if  last_check.total_changes == 0 %}
                         <h5 class="card-title text-center">Data jsou aktuální!</h5>
-                        <p class="card-text text-center">{{ kontrola.poznamka }} I tak vás ale může zajímat, jakým způsobem tato data získáváme. Nemáme co tajit, mrkněte na stránku <a href="/aktualnost/">Aktuálnost</a></p>
+                        <p class="card-text text-center">{{ last_check.poznamka }} I tak vás ale může zajímat, jakým
+                            způsobem tato data získáváme. Nemáme co tajit, mrkněte na stránku <a href="/aktualnost/">Aktuálnost</a>
+                        </p>
                     {% else %}
-                    <h5 class="card-title text-center">Do systému jsme ještě nestihli zadat {{  kontrola.CELK_ZMEN }}
-                        změn{{ kontrola.CELK_ZMEN|cz_pluralize:"u,y," }}. Usilovně na tom pracujeme.
+                        <h5 class="card-title text-center">Do systému jsme ještě nestihli
+                            zadat {{ last_check.total_changes }}
+                            změn{{ last_check.total_changes|cz_pluralize:"u,y," }}. Usilovně na tom pracujeme.
                     </h5>
-                    <p class="card-text text-center">{{ kontrola.poznamka}} <br>Bližší informace ohledně chybějících nařízení i způsobu, jak data zpracováváme a získáváme naleznete na stránce <a href="/aktualnost/">Aktuálnost</a></p>
+                        <p class="card-text text-center">{{ last_check.comment }} <br>Bližší informace ohledně
+                            chybějících nařízení i způsobu, jak data zpracováváme a získáváme naleznete na stránce <a
+                                    href="/aktualnost/">Aktuálnost</a></p>
                     {% endif %}
                 {% endif %}
 
@@ -82,11 +87,17 @@
 
                     <h5 class="card-title text-center">Infokarta</h5>
                     <ul class="list-group list-group-flush text-center">
-                        <li class="list-group-item">Potvrzených <b>{{ potvrzene_pripady_celkem }}</b>, <br>včera <b>+{{  potvrzene_pripady_vcerejsi_den }}</b>, dnes <b>+{{ potvrzene_pripady_dnesni_den }}</b></li>
-                        <li class="list-group-item">Aktivních: <b>{{ aktivni_pripady }}</b></li>
-                        <li class="list-group-item">Testů včera: <b>{{ provedene_testy_vcerejsi_den }}</b> (z toho {{ pozitivnich_procenta_vcera }}%</b> pozitivních)</li>
-                        <li class="list-group-item">Hospitalizovaných: <b>{{ aktualne_hospitalizovani }}</b></li>
-                        <li class="list-group-item">Vyléčení: <b>{{ vyleceni }}</b><br>Umrtí: <b>{{ umrti }}</b></li>
+                        <li class="list-group-item">Potvrzených <b>{{ infokarta.potvrzene_pripady_celkem }}</b>, <br>včera
+                            <b>+{{ infokarta.potvrzene_pripady_vcerejsi_den }}</b>, dnes
+                            <b>+{{ infokarta.potvrzene_pripady_dnesni_den }}</b></li>
+                        <li class="list-group-item">Aktivních: <b>{{ infokarta.aktivni_pripady }}</b></li>
+                        <li class="list-group-item">Testů včera: <b>{{ infokarta.provedene_testy_vcerejsi_den }}</b> (z
+                            toho <b>{{ infokarta.pozitivnich_procenta_vcera }}%</b> pozitivních)
+                        </li>
+                        <li class="list-group-item">Hospitalizovaných: <b>{{ infokarta.aktualne_hospitalizovani }}</b>
+                        </li>
+                        <li class="list-group-item">Vyléčení: <b>{{ infokarta.vyleceni }}</b><br>Umrtí:
+                            <b>{{ infokarta.umrti }}</b></li>
                     </ul>
                     <div class="card-footer">
                         <small class="text-muted">Aktualizováno {{ posledni_update_dat }}, <a href="https://onemocneni-aktualne.mzcr.cz/covid-19">Zdroj</a></small>

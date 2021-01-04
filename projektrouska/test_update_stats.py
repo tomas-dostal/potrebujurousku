@@ -4,11 +4,11 @@ import unittest
 from django.core.serializers.json import DjangoJSONEncoder
 
 from projektrouska.functions import return_as_array
-from .update_stats import get_stats
+from projektrouska.api.update_stats import get_stats
 from django.db import connection
 
 from django.test import TestCase
-from projektrouska.aktualnost.updatecheck import UpdateCheck
+from projektrouska.updatecheck import UpdateCheck
 from projektrouska.models import *
 
 update_controller = UpdateCheck()

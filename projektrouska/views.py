@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 import requests
 from django.db import connection
 from django.shortcuts import render
 
-from projektrouska.aktualnost.updatecheck import UpdateCheck
+from projektrouska.updatecheck import UpdateCheck
 from projektrouska.functions import (
     return_as_dict,
     return_as_array,
@@ -12,7 +12,6 @@ from projektrouska.functions import (
     format_num,
     display_by_cath,
 )
-from projektrouska.models import UpdateLogs
 from projektrouska.settings import DEV
 from projektrouska.sqls import (
     last_check,
@@ -26,11 +25,6 @@ from projektrouska.sqls import (
 from projektrouska.models import *
 
 import pytz
-
-from django.views.generic import ListView
-from projektrouska.models import City, State, Region, District, Nuts4
-
-import json
 
 update_controller = UpdateCheck()
 
@@ -56,14 +50,7 @@ class SearchView(ListView):
 # /aktualnost/
 # TODO: Work in progress
 def aktualnost(request):
-    global update_controller
-    last_db_check = UpdateLogs.objects.latest('date_updated').date_updated
-
-    now = datetime.datetime.now().replace(tzinfo=pytz.UTC)
-    if (now - last_db_check) < timedelta(minutes=2):
-        print("Aktualnost kontrolovana pred mene nez 2 minutami")
-    else:
-        update_controller.run()
+    update_controller.run()
 
     up_to_date = update_controller.up_to_date
     to_be_modified = update_controller.to_be_modified
@@ -72,7 +59,7 @@ def aktualnost(request):
     to_be_reviewed = update_controller.to_be_reviewed
     to_be_added = update_controller.to_be_added
 
-    missing = up_to_date + to_be_modified + to_be_changed_link + to_be_reviewed
+    missing = to_be_modified + to_be_changed_link + to_be_reviewed + to_be_added
 
     total = len(update_controller.all)
     total_changes = len(missing)
@@ -81,43 +68,12 @@ def aktualnost(request):
         up_to_date_percents = int(100 - (total_changes / total / 100))
     except Exception:
         up_to_date_percents = 100
-    if DEV:
-        try:
-            print("SMAZALI")
-            for i in to_be_removed:
-                print(
-                    "SMAZALI ID={}, nazev {}".format(
-                        i["ID_OPATRENI"], i["NAZEV_OPATRENI"]
-                    )
-                )
-
-            print("Zmena odkazu")
-            for i in to_be_changed_link:
-                print(
-                    "ZMENA ID={}, nazev {}\nStary {}\nNovy: {}".format(
-                        i["ID_OPATRENI"],
-                        i["NAZEV_OPATRENI"],
-                        i["STARY_ODKAZ"],
-                        i["ZDROJ"],
-                    )
-                )
-            print("CHYBI")
-            for i in to_be_added:
-                print(
-                    "CHYBI ID {} nazev {} \nodkaz: {}".format(
-                        i["ID_OPATRENI"],
-                        i["NAZEV_OPATRENI"],
-                        i["ZDROJ"]))
-
-        except Exception:
-            pass
 
     if len(missing) != 0:
         stat = "Data jsou z {}% kompletní a aktuální. \n"
     elif total == 0:
         stat = "Aktuálnost jsme nebyli schopni ověřit"
         print("ALERT neaktuální data")
-
     elif len(missing) == 0:
         stat = "Všechna data jsou aktuální!"
 
@@ -135,8 +91,8 @@ def aktualnost(request):
         date_updated=datetime.datetime.now().replace(tzinfo=pytz.utc),
         comment=stat,
         up_to_date_percents=up_to_date_percents,
-        missing_count=len(to_be_added),
-        missing_json=to_be_added,
+        missing_count=len(to_be_added + to_be_reviewed),
+        missing_json=to_be_added + to_be_reviewed,
         change_link_count=len(to_be_changed_link),
         change_link_json=to_be_changed_link,
         outdated_count=len(to_be_removed),
@@ -149,7 +105,7 @@ def aktualnost(request):
         "sites/aktualnost.html",
         {
             "procenta": up_to_date_percents,
-            "pridat": to_be_added,
+            "pridat": to_be_reviewed,
             "celkem": total,
             "ubrat": to_be_removed,
             "stejne": up_to_date,
@@ -212,13 +168,12 @@ def opatreni(request):
         },
     )
 
-
 # /celostatni-opatreni
 def opatreni_celoplosne(request):
     t = opatreni_stat()
     return render(
         request,
-        "sites/celostatni_opatreni_Test.html",
+        "sites/celostatni_opatreni.html",
         {
             "query_results": t,
             "last_check": last_check(),
@@ -247,9 +202,8 @@ def home(request):
         result = r.json()["data"]
 
         result = result[0]
-        data_modified = datetime.fromisoformat(r.json()["modified"])
     except Exception:
-        print("MZDR API inforkarta: Něco se pokazilo")
+        print("MZCR API inforkarta: Něco se pokazilo")
 
     """
         "datum": "2020-09-23",
@@ -268,38 +222,38 @@ def home(request):
     testu_vcera = int(result["provedene_testy_vcerejsi_den"])
     pozitivnich = round(vcera / (testu_vcera / 100), 2)
 
+    infokarta = {
+        "provedene_testy_celkem": format_num(result["provedene_testy_celkem"]),
+        "potvrzene_pripady_celkem": format_num(result["potvrzene_pripady_celkem"]),
+        "aktivni_pripady": format_num(result["aktivni_pripady"]),
+        "vyleceni": format_num(result["vyleceni"]),
+        "umrti": format_num(result["umrti"]),
+        "aktualne_hospitalizovani": format_num(result["aktualne_hospitalizovani"]),
+        "provedene_testy_vcerejsi_den": format_num(
+            result["provedene_testy_vcerejsi_den"]
+        ),
+        "pozitivnich_procenta_vcera": pozitivnich,
+        "potvrzene_pripady_vcerejsi_den": format_num(
+            result["potvrzene_pripady_vcerejsi_den"]
+        ),
+        "potvrzene_pripady_dnesni_den": format_num(
+            result["potvrzene_pripady_dnesni_den"]
+        ),
+        "posledni_update_dat": datetime.datetime.fromisoformat(
+            r.json()["modified"]).strftime("%d.%m.%Y %H:%M"),
+
+    }
+
     return render(
         request,
         "sites/home.html",
         {
-            "kontrola": last_check(),
-            "datum": result["datum"],
-            "provedene_testy_celkem": format_num(result["provedene_testy_celkem"]),
-            "potvrzene_pripady_celkem": format_num(result["potvrzene_pripady_celkem"]),
-            "aktivni_pripady": format_num(result["aktivni_pripady"]),
-            "vyleceni": format_num(result["vyleceni"]),
-            "umrti": format_num(result["umrti"]),
-            "aktualne_hospitalizovani": format_num(result["aktualne_hospitalizovani"]),
-            "provedene_testy_vcerejsi_den": format_num(
-                result["provedene_testy_vcerejsi_den"]
-            ),
-            "pozitivnich_procenta_vcera": pozitivnich,
-            "potvrzene_pripady_vcerejsi_den": format_num(
-                result["potvrzene_pripady_vcerejsi_den"]
-            ),
-            "potvrzene_pripady_dnesni_den": format_num(
-                result["potvrzene_pripady_dnesni_den"]
-            ),
-            "posledni_update_dat": data_modified.strftime("%d.%m.%Y %H:%M"),
+            "infokarta": infokarta,
             "last_check": last_check(),
             "last_modified": last_modified_date(),
         },
     )
 
-
-# /statistiky - INACTIVE
-# def stats(request):
-#     return render(request, "sites/statistiky.html")
 
 # admin/kontrola-zadaneho/
 def kontrola_zadaneho(request):
@@ -310,6 +264,7 @@ def kontrola_zadaneho(request):
         id_opatreni = 100
 
     pocet_prirazenych_mist = 0
+
     with connection.cursor() as cursor:
 
         cursor.execute(
