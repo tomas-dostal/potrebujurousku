@@ -5,17 +5,15 @@ import requests
 from django.db import connection
 from django.shortcuts import render
 
-from projektrouska.aktualnost.kontrola import Update_check
-# from projektrouska.functions import *
+from projektrouska.aktualnost.updatecheck import UpdateCheck
 from projektrouska.functions import (
     return_as_dict,
     return_as_array,
     calcmd5,
     format_num,
-    # strfdelta,
     display_by_cath,
 )
-from projektrouska.models import UpdateLogs, State
+from projektrouska.models import UpdateLogs
 from projektrouska.settings import DEV
 from projektrouska.sqls import (
     last_check,
@@ -26,40 +24,72 @@ from projektrouska.sqls import (
     opatreni_okres,
     opatreni_om,
 )
+from projektrouska.models import *
+
+import pytz
+
+from django.views.generic import ListView
+from projektrouska.models import City, State, Region, District, Nuts4
+
+import json
+
+update_controller = UpdateCheck()
+
+"""
+class SearchView(ListView):
+
+    paginate_by = 20
+    count = 0
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = self.count or 0
+        context['count'] = self.request.GET.get('q')
+
+        states = State.objects.filter(name__istartswith=query_string)
+        regions = Region.objects.filter(name__istartswith=query_string)
+        districts = District.objects.filter(name__istartswith=query_string)
+        nuts4 = Nuts4.objects.filter(name__istartswith=query_string)
+        cities = City.objects.filter(name__istartswith=query_string)
 
 update_controller = Update_check()
 
 # /aktualnost/
 # TODO: Work in progress
 def aktualnost(request):
-    info_last = {}
-    dict2 = {}
+
     global update_controller
-
-    last_check = UpdateLogs.objects.latest('date_updated').date_updated
-
-    if (datetime.now() - last_check.date_updated) < timedelta(minutes=2):
+    last_db_check = UpdateLogs.objects.latest('date_updated').date_updated
+    if (datetime.datetime.now().replace(tzinfo=pytz.UTC) - last_db_check) < timedelta(minutes=2):
         print("Aktualnost kontrolovana pred mene nez 2 minutami")
-        if (update_controller.db_localcopy == None):
-            update_controller.run()
     else:
         update_controller.run()
 
-    aktualni = update_controller.up_to_date
-    smazali_je = update_controller.to_be_removed
-    zmena_odkazu = update_controller.to_be_changed_link
-    chybi = update_controller.to_be_added + update_controller.to_be_modified + update_controller.to_be_reviewed
+    missing = update_controller.to_be_added
+    change_link = update_controller.to_be_changed_link
+    to_review = update_controller.to_be_reviewed
+    to_removed = None  # TODO
 
-    celkem = len(update_controller.all)
-    celkem_upravit = int(len(chybi) + len(smazali_je) + len(zmena_odkazu))
+    up_to_date = update_controller.up_to_date
+
+    to_be_modified = update_controller.to_be_modified
+    to_be_removed = update_controller.to_be_removed
+    to_be_changed_link = update_controller.to_be_changed_link
+    to_be_reviewed = update_controller.to_be_reviewed
+    to_be_added = update_controller.to_be_added
+
+    missing = up_to_date + to_be_modified + to_be_changed_link + to_be_reviewed
+
+    total = len(update_controller.all)
+    total_changes = len(missing)
+
     try:
-        procenta = int(100 - (celkem_upravit / (celkem / 100)))
+        up_to_date_percents = int(100 - (total_changes / total / 100))
     except Exception:
-        procenta = 100
+        up_to_date_percents = 100
     if DEV:
         try:
             print("SMAZALI")
-            for i in smazali_je:
+            for i in to_be_removed:
                 print(
                     "SMAZALI ID={}, nazev {}".format(
                         i["ID_OPATRENI"], i["NAZEV_OPATRENI"]
@@ -67,7 +97,7 @@ def aktualnost(request):
                 )
 
             print("Zmena odkazu")
-            for i in zmena_odkazu:
+            for i in to_be_changed_link:
                 print(
                     "ZMENA ID={}, nazev {}\nStary {}\nNovy: {}".format(
                         i["ID_OPATRENI"],
@@ -77,81 +107,61 @@ def aktualnost(request):
                     )
                 )
             print("CHYBI")
-            for i in chybi:
-                print("CHYBI ID {} nazev {} \nodkaz: {}".format(i["ID_OPATRENI"], i["NAZEV_OPATRENI"], i["ZDROJ"]))
+            for i in to_be_added:
+                print(
+                    "CHYBI ID {} nazev {} \nodkaz: {}".format(
+                        i["ID_OPATRENI"],
+                        i["NAZEV_OPATRENI"],
+                        i["ZDROJ"]))
+
 
         except Exception:
-            print(
-                "Nezkontroloval jsem spravne parametry vypisu a uz se mi to nechce opravovat"
-            )
+            pass;
 
-    if len(chybi) > 0 or len(zmena_odkazu) > 0 or len(smazali_je) > 0:
-        stat = "Data jsou z {}% kompletní a aktuální. \nCelkem máme v databázi {} záznamů, {} je třeba odstranit, u {} došlo ke změně odkazu a {} chybí a je třeba přidat. ".format(
-            procenta, celkem,
-            len(smazali_je),
-            len(zmena_odkazu),
-            len(chybi),
-        )
-        print("ALERT ne všechny data jsou aktuální")
-    elif celkem == 0:
-        stat = "Aktuálnost jsme nebyli schopni ověřit. Může to být způsobeno neustálými změnami na webu ministerstva zdravotnictví. Pokusíme se pro to udělat co nejvíce. "
+    if len(missing) != 0:
+        stat = "Data jsou z {}% kompletní a aktuální. \n"
+    elif len(total) == 0:
+        stat = "Aktuálnost jsme nebyli schopni ověřit"
         print("ALERT neaktuální data")
-    elif len(smazali_je) == 0 and len(zmena_odkazu) == 0 and len(chybi) == 0:
+
+    elif len(missing) == 0:
         stat = "Všechna data jsou aktuální!"
 
     str_for_checksum = (
-            "" + str(aktualni) + str(smazali_je) + str(zmena_odkazu) + str(chybi) + stat
-    )
+            "" +
+            str(up_to_date) +
+            str(to_be_modified) +
+            str(to_be_removed) +
+            str(to_be_changed_link) +
+            str(to_be_reviewed) +
+            str(to_be_added))
 
-    # m = md5("./projektrouska/aktualnost/v_databazi.txt")
-    with connection.cursor() as cursor:
-        # query_results = cursor.fetchall()
-        # desc = cursor.description
-
-        # todo: migrate to ORM
-        cursor.execute(
-            """insert into INFO (checksum,  date_updated, poznamka, 
-            AKTUALNOST, CHYBI_POCET, CHYBI_POLE, ZMENA_LINK_POCET, 
-            ZMENA_LINK_POLE, ODSTRANIT_POCET, ODSTRANIT_POLE , CELK_ZMEN) values   (
-            :checksum,
-            trunc(sysdate, 'MI'), 
-            :pozn, 
-            :akt, 
-            :chybi_pocet, 
-            :chybi_pole, 
-            :zmena_link_pocet,
-            :zmena_link_pole, 
-            :odstranit_pocet, 
-            :odstranit_pole, 
-            :celk_zmen)
-            """,
-            {
-                "pozn": stat,
-                "checksum": calcmd5(str_for_checksum),
-                "akt": procenta,
-                "chybi_pocet": len(chybi),
-                "chybi_pole": c,
-                "zmena_link_pocet": len(zmena_odkazu),
-                "zmena_link_pole": z,
-                "odstranit_pocet": len(smazali_je),
-                "odstranit_pole": s,
-                "celk_zmen": int(celkem_upravit),
-            },
-        )
+    UpdateLogs(
+        checksum=calcmd5(str_for_checksum),
+        date_updated=datetime.datetime.now().replace(tzinfo=pytz.utc),
+        comment=stat,
+        up_to_date_percents=up_to_date_percents,
+        missing_count=len(to_be_added),
+        missing_json=to_be_added,
+        change_link_count=len(change_link),
+        change_link_json=change_link,
+        outdated_count=len(to_be_removed),
+        outdated_json=to_be_removed,
+        total_changes=total_changes
+    ).save()
 
     return render(
         request,
         "sites/aktualnost.html",
         {
-            "procenta": procenta,
-            "pridat": chybi,
-            "celkem": celkem,
-            "ubrat": smazali_je,
-            "stejne": aktualni,
-            "zmena": zmena_odkazu,
+            "procenta": up_to_date_percents,
+            "pridat": to_be_added,
+            "celkem": total,
+            "ubrat": to_be_removed,
+            "stejne": up_to_date,
+            "zmena": change_link,
             "statistika": stat,
-            "cas": datetime.now(),
-            "celk_mame": celkem,
+            "celk_mame": total_changes,
             "last_check": last_check(),
             "last_modified": last_modified_date(),
         },
