@@ -14,20 +14,30 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Poslední kontrola úspěšně proběhla <span
-                            class="badge badge-info">{{ last_check.last_check_datetime }}</span>, což je před <span
-                            class="badge badge-danger">{{ last_check.last_check_timespan_str }} </span>
-                        <br>
-                        <br>
+                        {% if last_check.data %}
+                            Poslední kontrola úspěšně proběhla <span
+                                class="badge badge-info">{{ last_check.last_check_datetime }}</span>, což je před <span
+                                class="badge badge-danger">{{ last_check.last_check_timespan_str }} </span>
+                            <br>
+                            <br>
 
-                        <h5>Co se stalo?</h5>
-                        <p>Z nějakého důvodu neprobíhá kontrola aktualizací podle plánu. Může za tím být cokoli od toho,
-                            že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví (zase)
-                            provedli až tak rozsáhlé změny, že už to náš kód "nerozdýchal" až po problémy s naší
-                            databází.</p>
-                        <br>
 
-                        <p>Možná o chybě ještě nevíme, pomozte nám ji co nejdříve opravit tím, že ji nahlásíte! Děkujeme.</p>
+                            <h5>Co se stalo?</h5>
+                            <p>Z nějakého důvodu neprobíhá kontrola aktualizací podle plánu. Může za tím být cokoli od
+                                toho,
+                                že vypadlo připojení k internetu přes možnost, že na ministerstvu zdravotnictví (zase)
+                                provedli až tak rozsáhlé změny, že už to náš kód "nerozdýchal" až po problémy s naší
+                                databází.</p>
+                            <br>
+
+                            <p>Možná o chybě ještě nevíme, pomozte nám ji co nejdříve opravit tím, že ji nahlásíte!
+                                Děkujeme.</p>
+
+                        {% else %}
+                            <p>Doposud neproběhla žádná kontrola aktuálnosti.</p>
+                        {% endif %}
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
