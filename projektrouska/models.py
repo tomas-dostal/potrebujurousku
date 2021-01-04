@@ -212,13 +212,12 @@ class District(models.Model):
     code = models.CharField(max_length=50, null=True)
 
     # Foreign keys
-    nuts4 = models.ForeignKey('Nuts4', on_delete=models.CASCADE)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'district'
-        unique_together = (('id', 'nuts4', 'region', 'state'),)
+        unique_together = (('id', 'region', 'state'),)
 
     def __str__(self):
         return self.name
@@ -230,6 +229,7 @@ class District(models.Model):
         return Region.objects.filter(district__id=self.id).all()[0]
 
     def place_as_dict(self):
+
         my_region = self.get_parent()
         my_state = my_region.get_parent()
         return {
@@ -258,6 +258,7 @@ class Nuts4(models.Model):
     # Foreign keys
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
     state = models.ForeignKey(State, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'nuts4'
