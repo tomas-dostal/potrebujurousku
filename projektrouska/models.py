@@ -150,6 +150,20 @@ class State(models.Model):
     def __str__(self):
         return self.name
 
+    def place_as_dict(self):
+        return {
+            "city_id": None,
+            "city_name": None,
+            "nuts4_id": None,
+            "nuts4_name": None,
+            "district_id": None,
+            "district_name": None,
+            "region_id": None,
+            "region_name": None,
+            "state_id": self.id,
+            "state_name": self.name
+        }
+
 
 # Kraj
 class Region(models.Model):
@@ -172,6 +186,24 @@ class Region(models.Model):
     def belongs_to(self, target: State) -> bool:
         return self.state == target
 
+    def get_parent(self):
+        return State.objects.filter(region__id=self.id).all()[0]
+
+    def place_as_dict(self):
+        my_state = self.get_parent()
+        return {
+            "city_id": None,
+            "city_name": None,
+            "nuts4_id": None,
+            "nuts4_name": None,
+            "district_id": None,
+            "district_name": None,
+            "region_id": self.id,
+            "region_name": self.name,
+            "state_id": my_state.id,
+            "state_name": my_state.name
+        }
+
 
 # okres
 class District(models.Model):
@@ -193,6 +225,25 @@ class District(models.Model):
 
     def belongs_to(self, target: State) -> bool:
         return self.region.belongs_to(State)
+
+    def get_parent(self):
+        return Region.objects.filter(district__id=self.id).all()[0]
+
+    def place_as_dict(self):
+        my_region = self.get_parent()
+        my_state = my_region.get_parent()
+        return {
+            "city_id": None,
+            "city_name": None,
+            "nuts4_id": None,
+            "nuts4_name": None,
+            "district_id": self.id,
+            "district_name": self.name,
+            "region_id": my_region.id,
+            "region_name": my_region.name,
+            "state_id": my_state.id,
+            "state_name": my_state.name
+        }
 
 
 # nuts4, something like a part of Region that contains Districts
@@ -218,6 +269,26 @@ class Nuts4(models.Model):
     def belongs_to(self, target: District) -> bool:
         return target in self.district_set.all()
 
+    def get_parent(self):
+        return District.objects.filter(nuts4__id=self.id).all()[0]
+
+    def place_as_dict(self):
+        my_district = self.get_parent()
+        my_region = my_district.get_parent()
+        my_state = my_region.get_parent()
+        return {
+            "city_id": None,
+            "city_name": None,
+            "nuts4_id": self.id,
+            "nuts4_name": self.name,
+            "district_id": my_district.id,
+            "district_name": my_district.name,
+            "region_id": my_region.id,
+            "region_name": my_region.name,
+            "state_id": my_state.id,
+            "state_name": my_state.name
+        }
+
 
 # obecmesto
 class City(models.Model):
@@ -240,6 +311,27 @@ class City(models.Model):
 
     def belongs_to(self, target: Nuts4) -> bool:
         return target == self.nuts4
+
+    def get_parent(self):
+        return Nuts4.objects.filter(city__id=self.id).all()[0]
+
+    def place_as_dict(self):
+        my_nuts = self.get_parent()
+        my_district = my_nuts.get_parent()
+        my_region = my_district.get_parent()
+        my_state = my_region.get_parent()
+        return {
+            "city_id": self.id,
+            "city_name": self.name,
+            "nuts4_id": my_nuts.id,
+            "nuts4_name": my_nuts.name,
+            "district_id": my_district.id,
+            "district_name": my_district.name,
+            "region_id": my_region.id,
+            "region_name": my_region.name,
+            "state_id": my_state.id,
+            "state_name": my_state.name
+        }
 
 
 # stores data from Update check
