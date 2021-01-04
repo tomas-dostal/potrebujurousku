@@ -19,19 +19,22 @@ def last_check():
     """
    Automaticky co cca 5 min probíhá kontrola aktuálnosti.
 
-    :return: {
-                "data": {key: value ... as one line from db
-                "is_outdated": True pokud poslední úspěšná kontrola proběhla před méně jak 60 minutami,
-                "last_check_datetime": datetime poslední úspěné kontroly
-                "last_check_timespan": delta od poslední úspěné kontroly
-                "last_check_timespan_str": delta od poslední úspěné kontroly (string)
-            }
+    :return:
+    {
+        "data": {key: value ... as one line from db
+        "is_outdated": True pokud poslední úspěšná kontrola proběhla
+                       před méně jak 60 minutami,
+        "last_check_datetime": datetime poslední úspěné kontroly
+        "last_check_timespan": delta od poslední úspěné kontroly
+        "last_check_timespan_str":  delta od poslední úspěné kontroly (string)
+    }
     """
 
     """ data columns
-     dict_keys(['id', 'checksum', 'date_updated', 'comment', 'up_to_date_percents',
-                            'missing_count', 'missing_json', 'change_link_count',
-                            'change_link_json', 'outdated_count', 'outdated_json', 'total_changes'])
+     dict_keys(['id', 'checksum', 'date_updated', 'comment',
+          'up_to_date_percents', 'missing_count', 'missing_json',
+          'change_link_count','change_link_json', 'outdated_count',
+          'outdated_json', 'total_changes'])
     """
     if UpdateLogs.objects.values().count() > 0:
         data = UpdateLogs.objects.values().latest('date_updated')
@@ -57,7 +60,7 @@ def last_check():
 
 def last_modified_date():
     """
-    :return: Datum a čas nejnovější změny z některé z tabulek {POLOZKA, OPATRENI}
+    :return: Latest modification date of one of {precaution, part}
     """
     lst = [Precaution.objects.latest('modified_date').modified_date,
            Parts.objects.latest('modified_date').modified_date]
@@ -66,14 +69,11 @@ def last_modified_date():
 
 def opatreni_stat(id=1):
     """
-    Vybere všechny OPATRENI navázané na stát (OP_STAT),
-        které:
-            + mají OPATRENI.PLATNOST > 0
-            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
-                (zobrazují se na :zobrazit_dopredu dní dopředu))
+    Return all active parts ordered by category
 
-    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
+    @:param id: select all (active only) precautions,parts from State id = id
 
+    @:return [{category1: [parts1]}]
     """
     """
 
@@ -91,105 +91,26 @@ def opatreni_stat(id=1):
 
     for c in Category.objects.order_by("priority").all():
         parts = c.parts_set.filter(
-            precaution__valid_from__lte=datetime.datetime.now().replace(tzinfo=utc),
+            precaution__valid_from__lte=datetime.datetime.now().replace(
+                tzinfo=utc),
             # precaution__valid_to__gte=datetime.datetime.now(),
             # uncomment to have right matching data displayed
             precaution__status__gt=0,
             precaution__state__id=1).all()
+
+        # TODO use select related
         parts = parts.prefetch_related(
             "precaution_set",
             "external_contents__parts_set",
             "category")
         res.append({"category": c, "data": parts})
+
     return res
 
 
 def opatreni_nuts(id_nuts):
-    """
-    Vybere všechny OPATRENI navázané na obce s rozšířenou působností  (OP_NUTS) / okres (OP_OKRES) / kraj (OP_KRAJ) / stát (OP_STAT),
-        které:
-            + mají OPATRENI.PLATNOST = 1
-            + a zároveň mají blížící se začátek platnosti (OPATRENI.PLATNOST_OD
-                (zobrazují se na :zobrazit_dopredu dní dopředu))
-
-    Výsledek spojí s tabulkou POLOZKA a tabulkou KATEGORIE
-
-
-    :type id_nuts: ID obce s rozšířenou působností z tabulky NUTS3.ID_NUTS
-    """
-    qu = """select * from
-           (
-               select * from (
-               -- Vybere všechny OPATRENI navázané územní platností na NUTS3 (OP_NUTS)
-               select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni,nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from (
-                      select *
-                      from (
-                               select *
-                               from (
-                                        select *
-                                        from (
-                                                 select *
-                                                 from (
-                                                          select ID_NUTS as NUTS3_ID_NUTS, NAZEV_NUTS, KRAJ_ID_KRAJ as ID_KRAJ
-                                                          from nuts3
-                                                          where id_nuts = :id_nuts
-                                                      )
-                                                          join OKRES using (NUTS3_ID_NUTS)
-                                             )
-                                                 join kraj using (ID_KRAJ)
-                                    )
-                           )join op_nuts using(nuts3_id_nuts)
-               )join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-               union
-    
-               -- Vybere všechny OPATRENI navázané územní platností na OKRES (OP_OKRES)
-               select  null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do, platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO   from
-               (
-                   select * from
-                   (
-                       select * from (
-                           select * from
-                           (
-                              select id_nuts, nazev_nuts, kod_nuts, kraj_id_kraj as id_kraj from nuts3 where id_nuts=:id_nuts
-    
-                           ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
-                       ) join kraj using(ID_KRAJ)
-                   )
-                   join OP_OKRES on OP_OKRES.OKRES_ID_OKRES=ID_OKRES)
-               join opatreni on opatreni_id_opatreni=opatreni.id_opatreni where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-               union
-               -- Vybere všechny OPATRENI navázané územní platností na KRAJ (OP_KRAJ)
-               select null as nazev_obecmesto, nazev_nuts, nazev_okres,  nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from
-               (
-                   select * from
-                   (
-                       select * from
-                       (
-                           select * from
-                           (
-                              select KRAJ_ID_KRAJ as id_kraj, id_nuts, NAZEV_NUTS, kod_nuts from nuts3 where id_nuts=:id_nuts
-    
-                           ) join OKRES on ID_NUTS=OKRES.NUTS3_ID_NUTS
-                       ) join op_kraj on op_kraj.kraj_id_kraj=id_kraj
-                   ) join opatreni on opatreni_id_opatreni=opatreni.id_opatreni  where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-               ) join kraj using(id_kraj)
-               -- Vybere všechny celostátní OPATRENI (OP_STAT)
-               union
-               select null as nazev_obecmesto, null as nazev_nuts, null as nazev_okres, null as nazev_kraj, id_opatreni, nazev_opatreni, nazev_zkr, zdroj,   ROZSAH,  platnost_od , platnost_do , platnost_autooprava, zdroj_autooprava, nazev_autooprava, CASE WHEN ((PLATNOST_DO) <= (trunc(sysdate) + :zobrazit_dopredu)) OR (PLATNOST_DO  <= (PLATNOST_OD + :zobrazit_dopredu)) THEN 1 ELSE 0 END AS MAM_ZOBRAZOVAT_DO from (
-               select * from OP_STAT join OPATRENI using(id_opatreni) where  (trunc(sysdate) < PLATNOST_DO or PLATNOST_DO is null) and  trunc(sysdate)  >= PLATNOST_OD - :zobrazit_dopredu and je_platne=1
-                   )
-    
-           ) join polozka on opatreni_id_opatreni = id_opatreni
-       ) join kategorie on kategorie.id_kategorie=kategorie_id_kategorie order by PRIORITA_ZOBRAZENI asc, PLATNOST_OD desc, NAZEV asc, TYP desc"""
-
-    misto_qu = """select null as nazev_obecmesto, nazev_nuts, nazev_okres, nazev_kraj from (
-                 select * from (
-                              select ID_NUTS, NAZEV_NUTS, KRAJ_ID_KRAJ as id_kraj from nuts3 where ID_NUTS=:id_nuts
-                     )join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
-                   ) join kraj using(id_kraj);"""
-
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_nuts": id_nuts, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(qu, {"id_nuts": id_nuts, "zobrazit_dopredu": HORIZONT})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_nuts": id_nuts})
@@ -239,7 +160,7 @@ def opatreni_kraj(id_kraj):
               select * from kraj  where id_kraj=:id_k) """
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_k": id_kraj, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(qu, {"id_k": id_kraj, "zobrazit_dopredu": HORIZONT})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_k": id_kraj})
@@ -304,7 +225,7 @@ def opatreni_okres(id_okres):
                               );"""
 
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_okr": id_okres, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(qu, {"id_okr": id_okres, "zobrazit_dopredu": HORIZONT})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_okr": id_okres})
@@ -517,7 +438,8 @@ def opatreni_om(id_obecmesto):
                    )join OKRES on OKRES.NUTS3_ID_NUTS = ID_NUTS
                  ) join kraj on kraj.id_kraj=nuts3_kraj_id_kraj;"""
     with connection.cursor() as cursor:
-        cursor.execute(qu, {"id_ob": id_obecmesto, "zobrazit_dopredu": DNI_DOPREDU})
+        cursor.execute(qu, {"id_ob": id_obecmesto,
+                            "zobrazit_dopredu": HORIZONT})
         array = return_as_array(cursor.fetchall(), cursor.description)
 
         cursor.execute(misto_qu, {"id_ob": id_obecmesto})
