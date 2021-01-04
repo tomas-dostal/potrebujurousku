@@ -1164,3 +1164,125 @@ VALUES (216, null,
         'Ochranné opatření – lety ze Spojeného království Velké Británie a Severního Irska s účinností od 1. 1. 2021 do odvolání',
         'Ochranné opatření – lety ze Spojeného království Velké Británie a Severního Irska od 1. 1. 2021 do odvolání',
         null, null, 1, -1, '2021-01-04 02:40:15.868788', '2021-01-04 02:40:15.868831');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (217, null,
+        'Ochranné opatření – lety ze Spojeného království Velké Británie a Severního Irska s účinností od 23. 12. 2020 od 12 hodin ',
+        'Ochranné opatření – lety ze Spojeného království Velké Británie a Severního Irska od 23. 12. 2020 od 12 hodin ',
+        null, null, 1, -1, '2021-01-04 02:49:04.393836', '2021-01-04 02:49:04.393955');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (218, null,
+        'Mimořádné opatření – nakládání s infekčními odpady ze zdravotnických zařízení s účinností od 24. 12. 2020 ',
+        'Mimořádné opatření – nakládání s infekčními odpady ze zdravotnických zařízení od 24. 12. 2020 ', null, null, 1,
+        -1, '2021-01-04 02:49:40.884406', '2021-01-04 02:49:40.884456');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (219, null,
+        'Krizové opatření o omezení pracovní doby orgánů veřejné moci a správních orgánů č. 1379 od 27. prosince 2020 do 10. ledna 2021',
+        'Krizové opatření o omezení pracovní doby orgánů veřejné moci a správních orgánů č. 1379 od 27. prosince 2020 do 10. ledna 2021',
+        null, null, 1, -1, '2021-01-04 02:50:10.598509', '2021-01-04 02:50:10.598558');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (220, null,
+        'Krizové opatření o určení pověřených škol k zajištění péče o děti vybraných pracovníků ve věku 3 až 10 let č. 1378 od 4. do 10. ledna 2021',
+        'Krizové opatření o určení pověřených škol k zajištění péče o děti vybraných pracovníků ve věku 3 až 10 let č. 1378 od 4. do 10. ledna 2021',
+        null, null, 1, -1, '2021-01-04 02:53:49.661376', '2021-01-04 02:53:49.716637');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (221, null,
+        'Krizové opatření o provozu škol a školských zařízení č. 1377 od 27. prosince 2020 do 10. ledna 2021',
+        'Krizové opatření o provozu škol a školských zařízení č. 1377 od 27. prosince 2020 do 10. ledna 2021', null,
+        null, 1, -1, '2021-01-04 02:53:49.793219', '2021-01-04 02:53:49.838973');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (222, null,
+        'Krizové opatření o omezení maloobchodního prodeje a služeb č. 1376 od 27. prosince 2020 do 10. ledna 2021',
+        'Krizové opatření o omezení maloobchodního prodeje a služeb č. 1376 od 27. prosince 2020 do 10. ledna 2021',
+        null, null, 1, -1, '2021-01-04 02:53:49.916456', '2021-01-04 02:53:49.967913');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (223, null, 'Krizové opatření o omezení volného pohybu osob č. 1375 od 27. prosince 2020 do 10. ledna 2021',
+        'Krizové opatření o omezení volného pohybu osob č. 1375 od 27. prosince 2020 do 10. ledna 2021', null, null, 1,
+        -1, '2021-01-04 02:53:50.065408', '2021-01-04 02:53:50.108205');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (224, null, 'Prodloužení krizových opatření č. 1374 od 24. do 26. prosince 2020',
+        'Prodloužení krizových opatření č. 1374 od 24. do 26. prosince 2020', null, null, 1, -1,
+        '2021-01-04 02:53:50.185913', '2021-01-04 02:53:50.240273');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (225, null, 'Prodloužení nouzového stavu v souvislosti s epidemií viru SARS CoV-2 č. 1373 do 22. ledna 2021',
+        'Prodloužení nouzového stavu v souvislosti s epidemií viru SARS CoV 2 č. 1373 do 22. ledna 2021', null, null, 1,
+        -1, '2021-01-04 02:53:50.334484', '2021-01-04 02:53:50.386573');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (226, null,
+        'Krizové opatření o pravidlech pro vycházky uživatelů domovů pro seniory a domovů se zvláštním režimem mimo objekt nebo areál zařízení č. 1370 od 22. prosince 2020',
+        'Krizové opatření o pravidlech pro vycházky uživatelů domovů pro seniory a domovů se zvláštním režimem mimo objekt nebo areál zařízení č. 1370 od 22. prosince 2020',
+        null, null, 1, -1, '2021-01-04 02:53:50.462179', '2021-01-04 02:53:50.522560');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (227, null,
+        'Změna krizových opatření o omezení maloobchodu a služeb a omezení volného pohybu osob od 18. prosince č. 1341',
+        'Změna krizových opatření o omezení maloobchodu a služeb a omezení volného pohybu osob od 18. prosince č. 1341',
+        null, null, 1, -1, '2021-01-04 02:53:50.596047', '2021-01-04 02:53:50.641613');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (228, null, 'Krizové opatření č. 1336 o zrušení pracovní povinnosti studentů od 16. prosince 2020',
+        'Krizové opatření č. 1336 o zrušení pracovní povinnosti studentů od 16. prosince 2020', null, null, 1, -1,
+        '2021-01-04 02:53:50.718395', '2021-01-04 02:53:50.764562');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (229, null, 'Krizové opatření č. 1334 o omezení volného pohybu osob od 18. do 23. prosince 2020',
+        'Krizové opatření č. 1334 o omezení volného pohybu osob od 18. do 23. prosince 2020', null, null, 1, -1,
+        '2021-01-04 02:53:50.840030', '2021-01-04 02:53:50.886991');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (230, null,
+        'Krizové opatření č. 1332 o omezení provozu maloobchodního prodeje a služeb od 18. do 23. prosince 2020',
+        'Krizové opatření č. 1332 o omezení provozu maloobchodního prodeje a služeb od 18. do 23. prosince 2020', null,
+        null, 1, -1, '2021-01-04 02:53:50.961445', '2021-01-04 02:53:51.008143');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (231, null, 'Matice opatření protiepidemického systému (PES) pro lyžařské areály',
+        'Matice opatření protiepidemického systému (PES) pro lyžařské areály', null, null, 1, -1,
+        '2021-01-04 02:53:51.701410', '2021-01-04 02:53:51.747049');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (232, null, 'Mimořádné opatření – povinnost hlásit výsledky z POC AG do ISIN s účinností od 1. 1. 2021',
+        'Mimořádné opatření – povinnost hlásit výsledky z POC AG do ISIN od 1. 1. 2021', null, null, 1, -1,
+        '2021-01-04 02:53:51.822226', '2021-01-04 02:53:51.876933');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (233, null, 'Mimořádné-opatření-povinnost-hlásit-očkování-do-ISIN-s-účinností-od-27.-12.-2020',
+        'Mimořádné opatření povinnost hlásit očkování do ISIN s účinností od 27. 12. 2020', null, null, 1, -1,
+        '2021-01-04 02:53:51.950935', '2021-01-04 02:53:52.000513');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (234, null,
+        'Mimořádné opatření – nařízení poskytovatelům akutní lůžkové péče a následné lůžkové péče s účinností od 22. 12. 2020',
+        'Mimořádné opatření – nařízení poskytovatelům akutní lůžkové péče a následné lůžkové péče od 22. 12. 2020',
+        null, null, 1, -1, '2021-01-04 02:53:52.079212', '2021-01-04 02:53:52.149030');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (235, null,
+        'Ochranné-opatření-omezení-překročení-státní-hranice-ČR-s-účinností-od-20.-12.-2020-od-15.30-hodin-do-odvolání',
+        'Ochranné opatření omezení překročení státní hranice ČR s účinností od 20. 12. 2020 od 15.30 hodin do odvolání',
+        null, null, 1, -1, '2021-01-04 02:53:52.223074', '2021-01-04 02:53:52.276202');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (236, null,
+        'Sdělení Ministerstva zdravotnictví, kterým se vydává seznam zemí nebo jejich částí s nízkým rizikem nákazy onemocnění covid-19 s účinností od 21. 12. 2020',
+        'Sdělení Ministerstva zdravotnictví, kterým se vydává seznam zemí nebo jejich částí s nízkým rizikem nákazy onemocnění covid 19 od 21. 12. 2020',
+        null, null, 1, -1, '2021-01-04 02:53:52.352784', '2021-01-04 02:53:52.399145');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (237, null, 'Mimoradne-opatreni-antigenni-testovani-obyvatel-s-ucinnosti-od-16-12-2020-do-15-1-2021',
+        'Mimoradne opatreni antigenni testovani obyvatel s ucinnosti od 16 12 2020 do 15 1 2021', null, null, 1, -1,
+        '2021-01-04 02:53:52.474929', '2021-01-04 02:53:52.531689');
+INSERT INTO public.precaution (id, code_identificator, full_name, short_name, valid_from, valid_to, status, priority,
+                               created_date, modified_date)
+VALUES (238, null, 'Mimořádné opatření – omezení provozoven a provozů služeb s účinností od 1. 7. 2020 do odvolání ',
+        'Mimořádné opatření – omezení provozoven a provozů služeb od 1. 7. 2020 do odvolání ', null, null, 1, -1,
+        '2021-01-04 02:53:53.995952', '2021-01-04 02:53:54.048082');

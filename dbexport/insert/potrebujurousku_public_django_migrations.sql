@@ -42,3 +42,5 @@ INSERT INTO public.django_migrations (id, app, name, applied)
 VALUES (21, 'projektrouska', '0003_auto_20210104_0313', '2021-01-04 02:41:55.148628');
 INSERT INTO public.django_migrations (id, app, name, applied)
 VALUES (22, 'projektrouska', '0004_auto_20210104_0341', '2021-01-04 02:41:55.177896');
+INSERT INTO public.django_migrations (id, app, name, applied)
+VALUES (23, 'projektrouska', '0005_auto_20210104_2014', '2021-01-04 19:14:32.067575');

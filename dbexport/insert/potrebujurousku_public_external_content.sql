@@ -210,3 +210,98 @@ INSERT INTO public.external_content (id, date_inserted, date_modified, content_t
 INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail, url_external, url_local_copy, content_hash) VALUES (189, '2020-12-14 00:00:00.000000', null, 'URL', false, null, 'https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Mimoradne-opatreni-narizeni-poskytovatelum-akutni-luzkove-pece-a-nasledne-luzkove-pece-s-ucinnosti-od-24-11-2020.pdf', null, null);
 INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail, url_external, url_local_copy, content_hash) VALUES (190, '2020-12-14 00:00:00.000000', null, 'URL', false, null, 'https://koronavirus.mzcr.cz/wp-content/uploads/2020/11/Sd%C4%9Blen%C3%AD-Ministerstva-zdravotnictv%C3%AD-kter%C3%BDm-se-vyd%C3%A1v%C3%A1-seznam-zem%C3%AD-nebo-jejich-%C4%8D%C3%A1st%C3%AD-s-n%C3%ADzk%C', null, null);
 INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail, url_external, url_local_copy, content_hash) VALUES (162, '2020-12-14 00:00:00.000000', null, 'PDF', true, null, 'https://share.uzis.cz/s/kjNgm5c2QGLCBJE/download', null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (215, '2021-01-04 02:53:49.686432', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-ur%C4%8Den%C3%AD-pov%C4%9B%C5%99en%C3%BDch-%C5%A1kol-k-zaji%C5%A1t%C4%9Bn%C3%AD-p%C3%A9%C4%8De-o-d%C4%9Bti-vybran%C3%BDch-pracovn%C3%ADk%C5%AF-ve-v%C4%9Bku-3-a%C5%BE-10-let-%C4%8D.-1378-od-4.-do-10.-ledna-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (216, '2021-01-04 02:53:49.810827', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-provozu-%C5%A1kol-a-%C5%A1kolsk%C3%BDch-za%C5%99%C3%ADzen%C3%AD-%C4%8D.-1377-od-27.-prosince-2020-do-10.-ledna-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (217, '2021-01-04 02:53:49.938270', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-omezen%C3%AD-maloobchodn%C3%ADho-prodeje-a-slu%C5%BEeb-%C4%8D.-1376-od-27.-prosince-2020-do-10.-ledna-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (218, '2021-01-04 02:53:50.082286', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-omezen%C3%AD-voln%C3%A9ho-pohybu-osob-%C4%8D.-1375-od-27.-prosince-2020-do-10.-ledna-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (219, '2021-01-04 02:53:50.204329', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Prodlou%C5%BEen%C3%AD-krizov%C3%BDch-opat%C5%99en%C3%AD-%C4%8D.-1374-od-24.-do-26.-prosince-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (220, '2021-01-04 02:53:50.357353', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Prodlou%C5%BEen%C3%AD-nouzov%C3%A9ho-stavu-v-souvislosti-s-epidemi%C3%AD-viru-SARS-CoV-2-%C4%8D.-1373-do-22.-ledna-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (221, '2021-01-04 02:53:50.492554', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-pravidlech-pro-vych%C3%A1zky-u%C5%BEivatel%C5%AF-domov%C5%AF-pro-seniory-a-domov%C5%AF-se-zvl%C3%A1%C5%A1tn%C3%ADm-re%C5%BEimem-mimo-objekt-nebo-are%C3%A1l-za%C5%99%C3%ADzen%C3%AD-%C4%8D.-1370-od-22.-12.-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (222, '2021-01-04 02:53:50.611395', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Zm%C4%9Bna-krizov%C3%BDch-opat%C5%99en%C3%AD-o-omezen%C3%AD-maloobchodu-a-slu%C5%BEeb-a-omezen%C3%AD-voln%C3%A9ho-pohybu-osob-od-18.-prosince-%C4%8D.-1341.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (223, '2021-01-04 02:53:50.735624', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-zru%C5%A1en%C3%AD-pracovn%C3%AD-povinnosti-student%C5%AF-%C4%8D.-1336-od-16.-prosince-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (224, '2021-01-04 02:53:50.858057', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-o-omezen%C3%AD-voln%C3%A9ho-pohybu-osob-%C4%8D.-1334-od-18.-do-23.-prosince-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (225, '2021-01-04 02:53:50.979678', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Krizov%C3%A9-opat%C5%99en%C3%AD-omezen%C3%AD-provozu-maloobchodn%C3%ADho-prodeje-a-slu%C5%BEeb-%C4%8D.-1332-od-18.-do-23.-prosince-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (226, '2021-01-04 02:53:51.719690', null, 'URL', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Matice_opatreni_PES_druheho_stupne_skiarealy_final_17122020.jpg',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (227, '2021-01-04 02:53:51.848332', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Mimo%C5%99%C3%A1dn%C3%A9-opat%C5%99en%C3%AD-povinnost-hl%C3%A1sit-v%C3%BDsledky-z-POC-AG-do-ISIN-s-%C3%BA%C4%8Dinnost%C3%AD-od-1.-1.-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (228, '2021-01-04 02:53:51.969300', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Mimo%C5%99%C3%A1dn%C3%A9-opat%C5%99en%C3%AD-povinnost-hl%C3%A1sit-o%C4%8Dkov%C3%A1n%C3%AD-do-ISIN-s-%C3%BA%C4%8Dinnost%C3%AD-od-27.-12.-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (229, '2021-01-04 02:53:52.105481', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Mimo%C5%99%C3%A1dn%C3%A9-opat%C5%99en%C3%AD-%E2%80%93-na%C5%99%C3%ADzen%C3%AD-poskytovatel%C5%AFm-akutn%C3%AD-l%C5%AF%C5%BEkov%C3%A9-p%C3%A9%C4%8De-a-n%C3%A1sledn%C3%A9-l%C5%AF%C5%BEkov%C3%A9-p%C3%A9%C4%8De-s-%C3%BA%C4%8Dinnost%C3%AD-od-22.-12.-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (230, '2021-01-04 02:53:52.247757', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Ochrann%C3%A9-opat%C5%99en%C3%AD-omezen%C3%AD-p%C5%99ekro%C4%8Den%C3%AD-st%C3%A1tn%C3%AD-hranice-%C4%8CR-s-%C3%BA%C4%8Dinnost%C3%AD-od-20.-12.-2020-od-15.30-hodin-do-odvol%C3%A1n%C3%AD.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (231, '2021-01-04 02:53:52.370584', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Sd%C4%9Blen%C3%AD-Ministerstva-zdravotnictv%C3%AD-kter%C3%BDm-se-vyd%C3%A1v%C3%A1-seznam-zem%C3%AD-nebo-jejich-%C4%8D%C3%A1st%C3%AD-s-n%C3%ADzk%C3%BDm-rizikem-n%C3%A1kazy-onemocn%C4%9Bn%C3%AD-covid-19-s-%C3%BA%C4%8Dinnost%C3%AD-od-21.-12.-2020.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (232, '2021-01-04 02:53:52.498262', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/12/Mimoradne-opatreni-antigenni-testovani-obyvatel-s-ucinnosti-od-16-12-2020-do-15-1-2021.pdf',
+        null, null);
+INSERT INTO public.external_content (id, date_inserted, date_modified, content_type, preview, img_thumbnail,
+                                     url_external, url_local_copy, content_hash)
+VALUES (233, '2021-01-04 02:53:54.021113', null, 'PDF', false, null,
+        'https://koronavirus.mzcr.cz/wp-content/uploads/2020/06/Mimo%C5%99%C3%A1dn%C3%A9-opat%C5%99en%C3%AD-%E2%80%93-omezen%C3%AD-provozoven-a-provoz%C5%AF-slu%C5%BEeb-s-%C3%BA%C4%8Dinnost%C3%AD-od-1.-7.-2020-do-odvol%C3%A1n%C3%AD.pdf',
+        null, null);
