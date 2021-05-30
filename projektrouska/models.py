@@ -258,4 +258,3 @@ class Polozka(models.Model):
         managed = False
         db_table = 'polozka'
         unique_together = (('id_polozka', 'kategorie_id_kategorie', 'opatreni_id_opatreni'),)
-"""
