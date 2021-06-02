@@ -11,14 +11,14 @@ def find_place_by_name(request):
     if (len(query_string) < 2):
         return
 
-    states = State.objects.filter(name__istartswith=query_string)
+    states = State.objects.filter(name__istartswith=query_string)[:10]
 
-    regions = Region.objects.filter(name__istartswith=query_string)
-    districts = District.objects.filter(name__istartswith=query_string)
-    nuts4 = Nuts4.objects.filter(name__istartswith=query_string)
-    cities = City.objects.filter(name__istartswith=query_string)
-
+    regions = Region.objects.filter(name__istartswith=query_string)[:10]
+    districts = District.objects.filter(name__istartswith=query_string)[:10]
+    nuts4 = Nuts4.objects.filter(name__istartswith=query_string)[:10]
+    cities = City.objects.filter(name__istartswith=query_string)[:10]
     merged = list(states) + list(regions) + list(districts) + list(nuts4) + list(cities)
+    merged = merged[:10]
 
     json_str = json.dumps([place.place_as_dict() for place in merged])
 
