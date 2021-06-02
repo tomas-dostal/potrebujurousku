@@ -48,23 +48,21 @@ V souboru [secret.py.example](./projektrouska/secret.py.example) je example konf
 
 ## Naplnění databáze
 
-Data jsou k dispozici v [insertscript](https://github.com/tomas-dostal/potrebujurousku/blob/master/dbexport/) formátu.
+Data jsou k dispozici v [insertscript](dbexport/) formátu.
 
 Přes Datagrip (po přidání databáze) lze v následujícím pořadí naimportovat pomocí 
 ``` Databáze > postgres@localhost > databases > potrebujurousku > schemas > public > tables```
-pravé tlačítko > ```RUN SQL script``` > vyber cestu k SQL insertscriptům a vkládej v následujícím pořadí: 
+pravé tlačítko > ```RUN SQL script``` > vyber cestu k SQL insertscriptům. 
 
-1) state
-2) region
-3) nuts4
-4) district
-5) city
+``` 
+// disable integrity checks
+SET session_replication_role = 'replica';
 
-1) precaution
-2) part
-3) ostatní
+// enable integrity checks after import is done 
+SET session_replication_role = 'origin';
 
-Asi by to šlo i elegantněji, ale ... TODO
+``` 
+na pořadí pak nezáleží. 
 
 Popis jednotlivých entit (v češtině, databáze před migrací do django.models - myšlenka zůstala stejná, jen se to jinak jmenuje) naleznete 
 [zde](./dev_FAQ.md#entity)
