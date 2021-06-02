@@ -123,7 +123,7 @@ card {
 }
 
 @media (min-width: 34em) {
-    .card-columns {
+    .my-card-columns {
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
@@ -131,7 +131,7 @@ card {
 }
 
 @media (min-width: 48em) {
-    .card-columns {
+    .my-card-columns {
         -webkit-column-count: 3;
         -moz-column-count: 3;
         column-count: 3;
@@ -139,7 +139,7 @@ card {
 }
 
 @media (min-width: 62em) {
-    .card-columns {
+    .my-card-columns {
         -webkit-column-count: 4;
         -moz-column-count: 4;
         column-count: 4;
@@ -147,7 +147,7 @@ card {
 }
 
 @media (min-width: 75em) {
-    .card-columns {
+    .my-card-columns {
         -webkit-column-count: 5;
         -moz-column-count: 5;
         column-count: 5;
