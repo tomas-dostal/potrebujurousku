@@ -3,7 +3,7 @@ beautifulsoup4
 requests
 asgiref==3.2.10
 cx-Oracle==8.0.0
-Django==3.1
+Django==3.1.8
 pytz==2020.1
 sqlparse==0.3.1
 django_extensions
