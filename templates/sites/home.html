@@ -26,7 +26,7 @@
 			<div class="d-flex align-items-center justify-content-center" id="spinner" style="visibility: hidden"><span class="spinner-border spinner-border-sm" ></span> Načítání..</div>
 		</div>
 		<div class="wide">
-			<div  class="card-columns" id="dropdown-menu">
+            <div class="my-card-columns card-columns" id="dropdown-menu">
 			</div>
 		</div>
         <br>
@@ -41,13 +41,6 @@
 					<p>  pro vyhledání přehledných  informací o covid nařízeních ve zvoleném místě. Kliknutím na kartu zvolíte místo.</p>
 				</div>
 			</div>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-center">Potřebujuroušku.cz v novém kabátě</h5>
-                <p class="card-text text-center">Snažíme se stránky vylepšovat, aby se Vám lépe používaly. Nově jsme přidali například infokartu, či vylepšili vyhledávání. Budeme rádi, když nám dáte vědět, jak se Vám změny líbí. <a href="mailto:admin@potrebujurousku.cz?subject=[Info] Redesign potrebujurousku.cz&body=Dobrý den, Píšu ohledně nového vzhledu potrebujurousku.cz. Líbí se mi... ">Napište nám!</a> </p>
-            </div>
-
-        </div>
         <div class="card" >
             <div class="card-body">
 
@@ -100,7 +93,8 @@
                             <b>{{ infokarta.umrti }}</b></li>
                     </ul>
                     <div class="card-footer">
-                        <small class="text-muted">Aktualizováno {{ posledni_update_dat }}, <a href="https://onemocneni-aktualne.mzcr.cz/covid-19">Zdroj</a></small>
+                        <small class="text-muted">Aktualizováno {{ infokarta.posledni_update_dat }}, <a
+                                href="https://onemocneni-aktualne.mzcr.cz/covid-19">Zdroj</a></small>
                     </div>
                 </div>
 			</div>
