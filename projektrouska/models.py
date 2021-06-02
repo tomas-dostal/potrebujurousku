@@ -2,7 +2,6 @@ import datetime
 from django.db import models
 from pytz import utc
 
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150, blank=True, null=True)
 

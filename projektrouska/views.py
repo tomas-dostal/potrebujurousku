@@ -135,6 +135,8 @@ def opatreni(request):
     location = None
     res = None
 
+    return render(request, "sites/wip_template.html")
+    """
     # stat
     if id_obecmesto == "" and nuts3_id == "" and kraj_id == "" and okres_id == "":
         kraj_id = str(1)
@@ -156,6 +158,7 @@ def opatreni(request):
 
     by_cath = res[0]
     location = res[1]
+    
     return render(
         request,
         "sites/opatreni.html",
@@ -167,11 +170,15 @@ def opatreni(request):
             "last_modified": last_modified_date(),
         },
     )
+    """
+    return render(request, "sites/wip_template.html")
+
 
 # /celostatni-opatreni
 def opatreni_celoplosne(request):
-    t = opatreni_stat()
-    return render(
+    # t = opatreni_stat()
+    return render(request, "sites/wip_template.html")
+    """return render(
         request,
         "sites/celostatni_opatreni.html",
         {
@@ -180,6 +187,7 @@ def opatreni_celoplosne(request):
             "last_modified": last_modified_date(),
         },
     )
+    """
 
 
 # /o-projektu/
@@ -263,106 +271,7 @@ def kontrola_zadaneho(request):
     except ValueError:
         id_opatreni = 100
 
-    pocet_prirazenych_mist = 0
-
-    with connection.cursor() as cursor:
-
-        cursor.execute(
-            """select distinct ID_OPATRENI, 1 as ID_STAT, 'Česká Republika' as NAZEV_STAT  from(
-                            select * from OPATRENI where ID_OPATRENI = :id_op
-                            )  join OP_STAT using (ID_OPATRENI);""", {
-                "id_op": id_opatreni}, )
-        platnost_cr = return_as_array(cursor.fetchall(), cursor.description)
-        pocet_prirazenych_mist += len(platnost_cr)
-
-        cursor.execute(
-            """ select distinct ID_OPATRENI, ID_KRAJ, NAZEV_KRAJ from (
-                              select * from(
-                                select * from OPATRENI where ID_OPATRENI = :id_op
-                                )  join OP_KRAJ on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join KRAJ on KRAJ_ID_KRAJ=ID_KRAJ order by ID_KRAJ;""",
-            {"id_op": id_opatreni},
-        )
-
-        platnost_kraj = return_as_array(cursor.fetchall(), cursor.description)
-        pocet_prirazenych_mist += len(platnost_kraj)
-
-        cursor.execute(
-            """select distinct ID_OPATRENI, ID_OKRES, NAZEV_OKRES  from (
-                              select * from(
-                                select * from OPATRENI where ID_OPATRENI  = :id_op
-                                )  join OP_OKRES on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join OKRES on OKRES_ID_OKRES=ID_OKRES order by ID_OKRES;""",
-            {"id_op": id_opatreni},
-        )
-
-        platnost_okres = return_as_array(cursor.fetchall(), cursor.description)
-        pocet_prirazenych_mist += len(platnost_okres)
-
-        cursor.execute(
-            """  select distinct ID_OPATRENI, ID_NUTS, NAZEV_NUTS  from (
-                              select * from(
-                                select * from OPATRENI where ID_OPATRENI = :id_op
-                                )  join OP_NUTS on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join NUTS3 on NUTS3_ID_NUTS=ID_NUTS order by ID_NUTS;""",
-            {"id_op": id_opatreni},
-        )
-        platnost_nuts = return_as_array(cursor.fetchall(), cursor.description)
-        pocet_prirazenych_mist += len(platnost_nuts)
-
-        cursor.execute(
-            """  select distinct ID_OPATRENI, ID_OBECMESTO, NAZEV_OBECMESTO  from (
-                              select * from(
-                                select * from OPATRENI where ID_OPATRENI =  :id_op
-                                )  join OP_OM on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join OBECMESTO on OBECMESTO_ID_OBECMESTO=ID_OBECMESTO
-                            order by ID_OBECMESTO;""",
-            {"id_op": id_opatreni},
-        )
-        platnost_om = return_as_array(cursor.fetchall(), cursor.description)
-        pocet_prirazenych_mist += len(platnost_om)
-
-        cursor.execute(
-            """select * from(
-                                select * from (
-                                    select *  from opatreni where  ID_OPATRENI = :id_op
-                                ) join POLOZKA on OPATRENI_ID_OPATRENI = ID_OPATRENI
-                            ) join KATEGORIE on KATEGORIE_ID_KATEGORIE = ID_KATEGORIE
-                        order by ID_KATEGORIE;""",
-            {"id_op": id_opatreni},
-        )
-        polozky_opatreni = return_as_array(
-            cursor.fetchall(), cursor.description)
-
-        cursor.execute(
-            """select *  from opatreni where  ID_OPATRENI = :id_op;""",
-            {"id_op": id_opatreni},
-        )
-        opatreni = return_as_dict(cursor.fetchone(), cursor.description)
-
-        by_cath = display_by_cath(polozky_opatreni)
-        pocet_polozek = len(polozky_opatreni)
-
-        return render(
-            request,
-            "sites/kontrola_zadavani_par1.html",
-            {
-                "query_results": by_cath,
-                "posledni_databaze": last_modified_date(),
-                "now": datetime.now(),
-                "last_check": last_check(),
-                "last_modified": last_modified_date(),
-                "platnost_cr": platnost_cr,
-                "platnost_kraj": platnost_kraj,
-                "platnost_okres": platnost_okres,
-                "platnost_nuts": platnost_nuts,
-                "platnost_om": platnost_om,
-                "pocet_polozek": pocet_polozek,
-                "pocet_prirazenych_mist": pocet_prirazenych_mist,
-                "opatreni_info": opatreni,
-                "args": args,
-            },
-        )
+    return render(request, "sites/wip_template.html")
 
 
 def graphs(request):

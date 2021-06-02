@@ -96,13 +96,13 @@ def opatreni_stat(id=1):
                 tzinfo=utc),
             # precaution__valid_to__gte=datetime.datetime.now(),
             # uncomment to have right matching data displayed
-            precaution__status__gt=0,
+            # precaution__status__gt=0,
             precaution__state__id=1).all()
 
         # TODO use select related
         parts = parts.prefetch_related(
             "precaution_set",
-            "external_contents__parts_set",
+            "external_contents__part_set",
             "category")
         res.append({"category": c, "data": parts})
 
