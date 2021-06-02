@@ -144,8 +144,6 @@ def opatreni_kraj(id_kraj):
                  # valid_to__gte=datetime.datetime.now(),
                  status__gt=0)
 
-    
-
     with connection.cursor() as cursor:
         cursor.execute(qu, {"id_k": id_kraj, "zobrazit_dopredu": HORIZONT})
         array = return_as_array(cursor.fetchall(), cursor.description)

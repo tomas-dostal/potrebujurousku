@@ -1,3 +1,9 @@
+## Pár slov o projektu (Report)
+Jak všechno vzniklo, proč to vůbec vzniklo a co by bylo pěkné dodělat. Toto, ale i pár pěkných grafíků s návštěvností.
+- [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/tomas-dostal/potrebujurousku_streamlit/main/report.py)
+- [Github repo reportu](https://github.com/tomas-dostal/potrebujurousku_streamlit)
+- [Report (PDF)](https://github.com/tomas-dostal/potrebujurousku_streamlit/blob/main/potrebujurousku_report.pdf)
+
 # Jak rozjet projekt pro lokální vývoj
 
 ## Stáhni kód
