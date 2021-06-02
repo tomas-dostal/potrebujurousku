@@ -44,7 +44,7 @@ from projektrouska.view.errors import (
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path("", views.opatreni_celoplosne, name="home"),
+                  path("", views.home, name="home"),
     path("home/", views.home, name="home"),
     path("o-projektu/", views.about, name="about"),
     path("FAQ/", views.about, name="about"),
