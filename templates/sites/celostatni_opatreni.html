@@ -2,49 +2,49 @@
 
 {% block title %}Potřebujuroušku.cz - Informace o COVID nařízeních: Celostátní opatření{% endblock %}
 {% block content %}
-{% load static %}
+    {% load static %}
 
-<div class="wide d-flex justify-content-center unselectable">
+    <div class="wide d-flex justify-content-center unselectable">
 
-  <div class="row">
-       <h2 class="display-3  text-center"><i class="fas fa-map"></i> Celostátní opatření</h2>
+        <div class="row">
+            <h1 class="display-3  text-center"><i class="fas fa-map"></i> Celostátní opatření</h1>
+        </div>
     </div>
-</div>
-<div class="wide   text-center d-flex justify-content-center unselectable ">
-  <div class="row">
-        {% block legenda %}
-            {% include 'sites/parts/legenda.html' %}
-        {% endblock %}
-      </div>
-</div>
+    <div class="wide   text-center d-flex justify-content-center unselectable ">
+        <div class="row">
+            {% block legenda %}
+                {% include 'sites/parts/legenda.html' %}
+            {% endblock %}
+        </div>
+    </div>
 
-<div class="jumbotron">
-	<div class="container">
-		<div class="row-fluid">
-			{%block opatreni %}
-			{% include 'sites/parts/varovani.html' %}
-			{% endblock %}
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row-fluid">
+                {% block opatreni %}
+                    {% include 'sites/parts/varovani.html' %}
+                {% endblock %}
 
-            <p class="text-center">Pro zobrazení detailu, odkazu, platnosti, či výjimek klikněte/tapněte na název opatření. <br>Zobrazuji i nařízení, které nabydou platnosti během následujících 7 dní.</p>
-            <br>
-            <hr style="height:2px;border:none;color:#eee;background-color:#eee;" />
+                <p class="text-center">Pro zobrazení detailu, odkazu, platnosti, či výjimek klikněte/tapněte na název
+                    opatření. <br>Zobrazuji i nařízení, které nabydou platnosti během následujících 7 dní.</p>
+                <br>
+                <hr style="height:2px;border:none;color:#eee;background-color:#eee;"/>
 
-
-            {%block blocks %}
-			{% include 'sites/parts/opatreni_bloky.html' %}
-			{% endblock %}
-			<br>
-			<br>
-			{%block disclaimer %}
-			{% include 'sites/parts/upozorneni.html' %}
-			{% endblock %}
-			<br>
-			<br>
-			<br>
-		</div>
-	</div>
-</div>
+                {% block blockfsdfs %}
+                    {% include 'sites/parts/blocks.html' %}
+                {% endblock %}
+                <br>
+                <br>
+                {% block disclaimer %}
+                    {% include 'sites/parts/upozorneni.html' %}
+                {% endblock %}
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-{%block foot %}
-{% include 'sites/parts/footer.html' %}
+{% block foot %}
+    {% include 'sites/parts/footer.html' %}
 {% endblock %}

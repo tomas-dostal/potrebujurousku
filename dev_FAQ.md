@@ -12,11 +12,14 @@ Obvykle je to jednou za pár dní, pokud to hoří, tak rychleji.
 V případě potřeby piš na [admin@potrebujurousku.cz](mailto:admin@potrebujurousku.cz), nebo na discord
 
 ## Databáze? 
-V současnosti máme jen jednu ostrou databázi. Pracuj tedy s velkou opatrností, máš-li k databázi přístup přímo.
 
-Data z databáze jsou příležitostně umisťována do [dbexport](/dbexport) ve formátu JSON, CSV. Nestačí? [napiš!](mailto:admin@potrebujurousku.cz)
+Máme databázi produkční, na kterou dáváme přístup jen vyvoleným. Pro vývoj je velmi doporučování využít lokální databáze. 
+Návod na zprovoznění PostgreSQL databáze včetně naplnění daty nalezneš [zde](lokalni_databaze.md).
 
-## Návrh DB, tabulky a jejich obsah a propojení
+## Entity
+Návrh DB, tabulky a jejich obsah a propojení
+
+> Pozor! Došlo k přejmenování mnohých entit spolu s migrací do django.models. Myšlenka zůstává, názvy se změnily
 
 ### Opatření 
 Hlavní jednotkou je OPATRENI. Většinou reflektuje jeden řádek v tabulce OPATRENI jedno vydané nařízení vlády, opatření KHS, či opatření MZDR.
@@ -99,6 +102,6 @@ Nedostatky tohoto návrhu:
 Tady jsou vlastně jenom krákté výpisy z kontrol aktuálnosti 
 
 
-## Vkládání dat
-S nejlepším vědomím a svědomím vlož data do db, commitni a zkontroluj vložené. 
-Jestli je nějaké opatření "dobře zadné" (nebo pro takovou kontrolu) slouží [Kontrola zadaného](https://potrebujurousku.cz/admin/kontrola-zadaneho/)
+## Vkládání dat do produkční databáze
+S nejlepším vědomím a svědomím vlož data do db (máš-li přístup), commitni a zkontroluj vložené. 
+Jestli je nějaké opatření "dobře zadné" (nebo pro takovou kontrolu) slouží [kontrola zadaného](https://potrebujurousku.cz/admin/kontrola-zadaneho/)

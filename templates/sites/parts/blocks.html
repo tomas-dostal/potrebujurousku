@@ -1,0 +1,249 @@
+{% block info_obsah %}
+    <div class="alert alert-info">
+        Aby bylo vůbec ještě co zobrazit, tak jsou vypnuté filtry
+        #precaution__valid_to__gte=datetime.datetime.now()
+    </div>
+{% endblock %}
+
+{% for result in query_results %}
+
+    {% if result.data %}
+        <br>
+        <br>
+        <h3><i class="{{ result.category.fa_icon }} fa-1x"></i> {{ result.category.name }}</h3>
+        <hr>
+        <div class="card-columns">
+    {% endif %}
+
+{% for part in result.data %}
+
+    {% for precaution in part.precaution_set.all %}
+        {% if forloop.first %}
+            <!-- #################    neni aktivni   #################   -->
+            {% if not precaution.is_active %}
+                {% if  part.type == "doporuceni"  or  part.type == "info"  or  part.type == "narizeni" %}
+                    <button type="button" class="btn card text-white bg-secondary  btn-secondary dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% elif part.type == "narizeninouzovy" %}
+                    <button type="button" class="btn card text-white bg-secondary  btn-dark dropdown-toggle"
+                            data-toggle="modal"
+                            data-target="#popup-{{ part.id }}">
+                    {% if part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% else %}
+                    <button type="button" class="btn card text-white bg-secondary   btn-secondary dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% endif %}
+
+
+
+                <!-- #################    JE AKTIVNI   #################   -->
+
+
+            {% else %}
+                {% if part.type == "narizeni" %}
+                    <button type="button" class="btn btn-danger  card text-white bg-danger   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% elif part.type == "info" %}
+                    <button type="button" class="btn btn-info  card text-white bg-info   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% elif part.type == "doporuceni" %}
+                    <button type="button" class="btn btn-warning  card text-white bg-warning   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>
+                    {% endif %}<br>
+                {% elif part.type == "narizeninouzovy" %}
+                    <button type="button" class="btn btn-dark  card text-white bg-dark  dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>{% endif %}<br>
+                {% else %}
+                    <button type="button" class="btn btn-light  card text-white bg-light   dropdown-toggle"
+                            data-toggle="modal" data-target="#popup-{{ part.id }}">
+                    {% if  part.get_thumbnail_if_exists %}
+                        <img class="card-img-top" src="{{ part.get_thumbnail_if_exists }}" alt="Náhledový obrázek">
+                    {% else %}
+                        <i class="{{ part.icon }} fa-2x"></i>{% endif %}<br>
+                {% endif %}
+
+
+
+            {% endif %}
+        {% load tz %}
+        {% if precaution.status <= 0 or not precaution.is_active %}
+            <bold><s>{{ part.name }}</s></bold>
+        {% else %}
+            <bold>{{ part.name }}</bold>
+        {% endif %}
+        {% if precaution.valid_from < now %}
+            <br><span class="badge badge-warning"> od {{ precaution.valid_from }}</span>
+        {% endif %}
+        {% if   precaution.valid_to != None %}
+            <span class="badge badge-light"> končí {{ precaution.valid_to }}</span>
+        {% endif %}
+
+        </button>
+
+
+
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="popup-{{ part.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered {{ part.modal_size }}" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                {% if precaution.status == 1 and  precaution.valid_from >= now and precaution.valid_to <= now %}
+                    <h5 class="modal-title" id="exampleModalLongTitle">{{ part.name }}
+                    </h5><span class="badge badge-success badge-right">Aktivní</span>
+                {% elif precaution.status == 0 %}
+                    <h5 class="modal-title" id="exampleModalLongTitle"><s>{{ part.name }}</s></h5>
+                    <span class="badge badge-danger badge-right">Nahrazeno, zpracováváme změny</span>
+                {% elif precaution.status == -2 %}
+                    <h5 class="modal-title" id="exampleModalLongTitle"><s>{{ part.name }}</s></h5>
+                    <span class="badge badge-danger badge-right">Údržba</span>
+                {% else %}
+                    <h5 class="modal-title" id="exampleModalLongTitle"><s>{{ part.name }}</s></h5>
+                    <span class="badge badge-dark badge-right">Neaktivní</span>
+                {% endif %}
+                <button type="button" class="close" data-dismiss="modal" aria-label="X">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endfor %}
+<!-- Modal body-->
+
+<div class="modal-body">
+
+    <!-- <hr> -->
+    {% if  part.type == "narizeni" %}
+        <span class="badge badge-danger">Nařízení</span>
+    {% elif  part.type == "doporuceni" %}
+        <span class="badge badge-warning">Doporučení</span>
+    {% elif  part.type  == "info" %}
+        <span class="badge badge-info">Informace</span>
+    {% elif  part.type  == "narizeninouzovy" %}
+        <span class="badge badge-dark">Nouzový stav nařízení</span>
+    {% endif %}
+
+    <span class="badge badge-primary">{{ result.category.name }}</span>
+    <br>
+
+
+    {% for precaution in part.precaution_set.all %}
+        {% if  precaution.status < 1 or precaution.valid_from < now or precaution.valid_to > now %}
+            <bold><s>{{ part.name }} fuck it</s></bold>
+                            {% else %}
+            <bold>{{ part.name }}</bold>
+                            {% endif %}
+    {% endfor %}
+    <hr>
+
+
+    {% for precaution in part.precaution_set.all %}
+
+        <i class="fa fa-calendar-alt"></i>
+
+
+        {% if precaution.valid_from > now %}
+            <span class="badge badge-light">Od {{ precaution.valid_from }}</span>
+        {% else %}
+            <span class="badge badge-light">Od {{ precaution.valid_from }}</span>
+                            {% endif %}
+        {% if precaution.valid_to %}
+            <span class="badge badge-light"> do {{ precaution.valid_to }}</span>
+        {% else %}
+            <span class="badge badge-light">do odvolání</span>
+                            {% endif %}
+
+    {% endfor %}
+    |
+    <i class="fa fa-map-marker-alt"></i>
+    {% for precaution in part.precaution_set.all %}
+        {% for place in precaution.get_locations_where_valid %}
+            <span class="badge badge-secondary">{{ place.name }}</span>
+        {% endfor %}
+    {% endfor %}
+
+
+    <hr>
+    <p>{% autoescape off %}
+        {{ part.content }}
+    {% endautoescape %}
+    </p>
+    {% if  part.exception != None %}
+        <h5>Výjimky</h5>
+        {% autoescape off %}
+            {{ part.exceptions }}
+        {% endautoescape %}
+    {% endif %}
+    <br>
+    <h5>Externí zdroje: </h5>
+
+    {% for src in part.external_contents.all %}
+
+        <a href="{{ src.url_external }}">{{ src.url_external }}</a>
+        <span class="badge badge-info">vloženo {{ src.date_inserted }}</span>
+        {% if   src.date_modified %}
+            <span class="badge badge-info">upraveno {{ src.date_modified }}</span>
+                            {% endif %}
+
+    {% endfor %}
+    {% for precaution in part.precaution_set.all %}
+
+        {% for src in precaution.external_contents.all %}
+
+            <a href="{{ src.url_external }}">{{ src.url_external }}</a>
+            <span class="badge badge-info">vloženo {{ src.date_inserted }}</span>
+            {% if   src.date_modified %}
+                <span class="badge badge-info">upraveno {{ src.date_modified }}</span>
+            {% endif %}
+
+        {% endfor %}
+    {% endfor %}
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+</div>
+</div>
+</div>
+</div>
+
+
+    <br>
+{% endfor %}
+</div>
+{% empty %}
+    Sorry, no categories to view.
+{% endfor %}
